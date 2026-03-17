@@ -1,0 +1,97 @@
+Type: Package
+Package: scMMR
+Title: Single-Cell Multi-Task Model in R
+Version: 0.1.0
+Authors@R:
+    person("Yuhao", "Ouyang", , "ouyang@example.com", role = c("aut", "cre"))
+Description: A comprehensive toolkit for single-cell RNA-seq analysis powered
+    by PyTorch multi-task deep neural networks. Provides joint cell type
+    classification and embedding regression, bulk RNA-seq deconvolution with
+    cell type proportion estimation, and gene importance attribution via
+    Integrated Gradients. Includes pathway enrichment analysis (GSEA, SCPA),
+    perturbation ranking with distribution-distance metrics (Wasserstein, MMD),
+    pseudotime trajectory analysis, cellular potency prediction (CytoTRACE 2),
+    quality control (doublet detection), and a rich visualization suite.
+    Supports Seurat objects, h5ad, and matrix inputs with optional GPU (CUDA)
+    acceleration.
+Depends:
+    R (>= 4.0.0)
+Imports:
+    reticulate (>= 1.24),
+    Matrix,
+    methods,
+    parallel,
+    ggplot2,
+    dplyr,
+    rlang
+Suggests:
+    Seurat (>= 4.1.0),
+    SeuratObject,
+    rhdf5,
+    ComplexHeatmap,
+    scales,
+    RColorBrewer,
+    colorspace,
+    FNN,
+    MASS,
+    ggbeeswarm,
+    AUCell,
+    UCell,
+    clusterProfiler,
+    enrichplot,
+    msigdbr,
+    tidyr,
+    purrr,
+    SCPA,
+    CytoTRACE2,
+    pbapply,
+    DoubletFinder,
+    sceasy,
+    celda,
+    SingleCellExperiment,
+    harmony,
+    stringr,
+    cluster,
+    mgcv,
+    ggnewscale,
+    ggpubr,
+    patchwork,
+    ggrastr,
+    metap,
+    ggrepel,
+    factoextra,
+    scales,
+    geomtextpath,
+    igraph,
+    ggforce,
+    ggwordcloud,
+    circlize,
+    ggsankey
+SystemRequirements: Python (>= 3.8), torch (CPU or CUDA), anndata,
+    scanpy, numpy, pandas, scipy
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Collate:
+    'zzz.R'
+    'python_env.R'
+    'utils.R'
+    'DNN_train.R'
+    'DNN_predict.R'
+    'DNN_deconv_train.R'
+    'DNN_deconv_predict.R'
+    'plot.R'
+    'rank.R'
+    'evaluate.R'
+    'compute_module_score.R'
+    'pathway_analysis.R'
+    'gsea_enrich.R'
+    'cytotrace.R'
+    'palette.R'
+    'dynamic_plot.R'
+    'dynamic_gsea.R'
+    'qc.R'
+    'standard_pipeline.R'
+    'de.R'
+    'data.R'

@@ -1,0 +1,22 @@
+# R package build artifacts
+*.tar.gz
+*.Rcheck/
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Plot artifacts
+Rplots.pdf
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+*Zone.Identifier
+
+# Claude
+CLAUDE.md
