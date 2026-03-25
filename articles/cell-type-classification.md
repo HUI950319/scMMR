@@ -1,0 +1,180 @@
+# Cell Type Classification
+
+## Overview
+
+scMMR’s core functionality is a multi-task deep neural network that
+jointly learns **cell type classification** and **UMAP embedding
+regression** from a shared ResNet backbone. This article covers the full
+workflow from training to interpretability.
+
+## Architecture
+
+    Input (binarized expression: X > 0)
+      |
+    InputBlock: BatchNorm -> Dropout(0.25) -> Linear(n_genes -> 512) -> SELU
+      |
+    ResNetBlock x4: Dropout(0.1) -> Linear(512 -> 512) -> SELU + skip connection
+      |
+    SharedEmbedding (512-dim)
+      |--- ClassificationHead -> Linear(512->256) -> SELU -> Linear(256->K)
+      |--- RegressionHead -> Linear(512->256) -> SELU -> Linear(256->D)
+
+Key features: - **GradNorm** for multi-task loss balancing - **Label
+smoothing** regularization - **OOD detection** via confidence
+threshold - **Integrated Gradients** for gene importance
+
+## Training
+
+### Prepare Reference Data
+
+The training function accepts either an h5ad file path or a Seurat
+object:
+
+``` r
+library(scMMR)
+use_scMMR_python(condaenv = "/path/to/conda/env")
+
+# From Seurat object
+train_result <- DNN_train(
+  input       = seurat_ref,
+  label_col   = "cell_type",
+  umap_cols   = c("umap_1", "umap_2"),
+  n_top_genes = 3000,
+  batch_key   = "batch",
+  num_epochs  = 50,
+  device      = "cuda"
+)
+```
+
+### Key Training Parameters
+
+| Parameter       | Default | Description                     |
+|-----------------|---------|---------------------------------|
+| `n_top_genes`   | 3000    | Number of highly variable genes |
+| `batch_key`     | NULL    | Batch column for HVG selection  |
+| `num_epochs`    | 50      | Training epochs                 |
+| `learning_rate` | 1e-3    | Initial learning rate           |
+| `hidden_size`   | 512     | Hidden layer width              |
+| `ood_threshold` | 0.5     | OOD detection confidence cutoff |
+| `device`        | “cpu”   | “cpu” or “cuda”                 |
+
+### Training Output
+
+``` r
+# Trained model artifacts
+train_result$model_dir    # Path to saved model.pt + var_genes.json
+train_result$history      # Training curves (loss, accuracy, RMSE per epoch)
+train_result$best_val_acc # Best validation accuracy
+```
+
+## Prediction
+
+``` r
+result <- DNN_predict(
+  input         = seurat_query,
+  model_dir     = train_result$model_dir,
+  explain       = TRUE,
+  top_k_global  = 30,
+  top_k_class   = 20,
+  pathway_gmt   = system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
+                               package = "scMMR"),
+  return_embedding = TRUE,
+  device        = "cpu"
+)
+```
+
+### Prediction Output
+
+| Component                 | Type       | Description                        |
+|---------------------------|------------|------------------------------------|
+| `result$predictions`      | data.frame | cell_type_pred, confidence, is_ood |
+| `result$shared_embedding` | matrix     | 512-dim embedding (n_cells x 512)  |
+| `result$imp_global`       | data.frame | Top genes by global importance     |
+| `result$imp_per_class`    | list       | Per-class gene importance          |
+| `result$pathway_scores`   | data.frame | Per-cell pathway activity scores   |
+
+## Merge Predictions into Seurat
+
+``` r
+library(Seurat)
+
+# Add predictions
+seu <- AddMetaData(seu, result$predictions)
+
+# Add embedding as a new reduction
+emb <- result$shared_embedding
+rownames(emb) <- colnames(seu)
+seu[["dnn"]] <- CreateDimReducObject(emb, key = "DNN_")
+```
+
+## Visualizations
+
+### UMAP Projection (PlotMAP)
+
+Overlay query predictions on a reference UMAP:
+
+``` r
+ref_umap <- qs::qread(system.file("extdata", "ref_umap.qs", package = "scMMR"))
+
+PlotMAP(
+  ref       = ref_umap,
+  query_meta = seu@meta.data,
+  color_by  = "cell_type_pred",
+  ref_emb   = c("umap_1", "umap_2"),
+  query_emb = c("umap_pred_1", "umap_pred_2")
+)
+```
+
+### Cell Type Composition (PlotAlluvia / PlotSankey)
+
+``` r
+# Stacked area + bar chart
+PlotAlluvia(seu, by = "group", fill = "cell_type_pred")
+
+# Sankey flow diagram
+PlotSankey(seu, by = "group", fill = "cell_type_pred")
+```
+
+### Gene Importance (PlotImportance)
+
+``` r
+# Global gene importance (top 30 genes)
+PlotImportance(result$imp_global, top_k = 30, display = "lollipop")
+
+# Per-group importance
+PlotImportance(result$imp_per_class, top_k = 15, display = "bar")
+```
+
+### Annotation Summary (PlotAnnotation)
+
+``` r
+PlotAnnotation(
+  seu,
+  which = c("cell_type_pred", "group", "confidence"),
+  palette = "Set2"
+)
+```
+
+## OOD Detection
+
+Out-of-distribution cells are flagged when prediction confidence falls
+below the threshold:
+
+``` r
+table(seu$is_ood)
+# FALSE  TRUE
+# 4800    200
+
+# Filter high-confidence predictions
+seu_hc <- subset(seu, is_ood == FALSE)
+```
+
+## Tips
+
+- Use `device = "cuda"` for GPU acceleration (10-50x faster on large
+  datasets)
+- Set `batch_key` during training if your reference has batch effects
+- For cross-dataset prediction, the model automatically intersects gene
+  lists
+- Increase `n_top_genes` (e.g., 5000) for higher resolution at the cost
+  of speed

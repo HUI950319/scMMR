@@ -1,7 +1,15 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://hui950319.github.io/scMMR/404.html</loc></url>
-<url><loc>https://hui950319.github.io/scMMR/CLAUDE.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/LICENSE-text.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/cell-type-classification.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/deconvolution.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/differential-expression.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/getting-started.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/index.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/module-scoring.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/pathway-analysis.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/perturbation-ranking.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/articles/visualization-gallery.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/authors.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/index.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/ComputeAmbientRNA.html</loc></url>

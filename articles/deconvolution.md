@@ -1,0 +1,151 @@
+# Bulk RNA-seq Deconvolution
+
+## Overview
+
+scMMR provides DNN-based bulk RNA-seq deconvolution that estimates cell
+type proportions from bulk expression profiles. The model is trained on
+pseudo-bulk samples generated from scRNA-seq reference data using
+Dirichlet sampling.
+
+## Architecture
+
+    Input (log1p-CPM, continuous)
+      |
+    InputBlock -> ResNetBlock x4 -> SharedEmbedding (512-dim)
+      |
+    TaskHead -> Linear(512->256) -> SELU -> Linear(256->K) -> Softmax
+      |
+    Proportions (sum = 1)
+
+Key difference from classification DNN: - **Input**: Continuous log-CPM
+(not binarized) - **Output**: Cell type proportion vector
+(softmax-normalized) - **Training data**: Dirichlet-sampled pseudo-bulk
+mixtures
+
+## Step 1: Train on scRNA-seq Reference
+
+``` r
+library(scMMR)
+use_scMMR_python(condaenv = "/path/to/conda/env")
+
+# Using Seurat object as reference
+train_result <- DNN_deconv_train(
+  input              = seurat_ref,
+  label_col          = "cell_type",
+  n_pseudobulk       = 5000,
+  n_cells_per_sample = 500,
+  n_top_genes        = 3000,
+  loss_function      = "mse",
+  num_epochs         = 100,
+  device             = "cuda"
+)
+```
+
+### Training Parameters
+
+| Parameter            | Default | Description                               |
+|----------------------|---------|-------------------------------------------|
+| `n_pseudobulk`       | 5000    | Number of pseudo-bulk samples to generate |
+| `n_cells_per_sample` | 500     | Cells per pseudo-bulk sample              |
+| `n_top_genes`        | 3000    | Highly variable genes for training        |
+| `loss_function`      | “mse”   | Loss: “mse” or “kl”                       |
+| `recon_weight`       | 0.0     | Weight for reconstruction auxiliary loss  |
+| `num_epochs`         | 100     | Training epochs                           |
+| `device`             | “cpu”   | “cpu” or “cuda”                           |
+
+### Training Output
+
+``` r
+train_result$model_dir   # Path to model.pt + var_genes.json + cell_types.json
+train_result$history      # Training/validation loss curves
+train_result$cell_types   # Character vector of cell types
+```
+
+## Step 2: Predict Cell Type Proportions
+
+### Standard Prediction
+
+``` r
+# From bulk expression matrix (genes x samples)
+proportions <- DNN_deconv_predict(
+  input     = bulk_matrix,
+  model_dir = train_result$model_dir,
+  device    = "cpu"
+)
+
+head(proportions)
+#>         acinar   alpha    beta   delta  ductal endothelial
+#> Sample1  0.12   0.35    0.28   0.08    0.10       0.03
+#> Sample2  0.08   0.42    0.20   0.05    0.15       0.04
+```
+
+### Adaptive Deconvolution
+
+Adaptive mode iteratively refines predictions by extracting
+cell-type-specific gene expression profiles (GEP):
+
+``` r
+result <- DNN_deconv_predict(
+  input         = bulk_matrix,
+  model_dir     = train_result$model_dir,
+  adaptive      = TRUE,
+  adaptive_mode = "overall",
+  adaptive_max_iter = 100,
+  device        = "cpu"
+)
+
+result$proportions  # Refined proportions
+result$sigmatrix    # Estimated cell-type-specific GEP matrix
+```
+
+### Supported Input Formats
+
+| Format                   | Example                                   |
+|--------------------------|-------------------------------------------|
+| Matrix (genes x samples) | `DNN_deconv_predict(input = mat)`         |
+| CSV file path            | `DNN_deconv_predict(input = "bulk.csv")`  |
+| h5ad file path           | `DNN_deconv_predict(input = "bulk.h5ad")` |
+| Seurat object            | `DNN_deconv_predict(input = seurat_bulk)` |
+
+## Step 3: Evaluate Results
+
+### Correlation with Ground Truth
+
+``` r
+# If true proportions are known (e.g., from pseudo-bulk testing)
+cor_results <- sapply(colnames(proportions), function(ct) {
+  cor(proportions[[ct]], true_proportions[[ct]], method = "pearson")
+})
+
+# Per-cell-type RMSE
+rmse_results <- sapply(colnames(proportions), function(ct) {
+  sqrt(mean((proportions[[ct]] - true_proportions[[ct]])^2))
+})
+```
+
+### Visualization
+
+``` r
+library(ggplot2)
+
+# Scatter: predicted vs true proportions
+ggplot(merged_df, aes(x = true, y = predicted)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  facet_wrap(~ cell_type, scales = "free") +
+  labs(x = "True Proportion", y = "Predicted Proportion")
+
+# Stacked bar chart
+ggplot(prop_long, aes(x = sample, y = proportion, fill = cell_type)) +
+  geom_col() +
+  scale_fill_manual(values = palette_colors(cell_types)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Tips
+
+- Use raw counts or CPM as input (not log-transformed) – the model
+  applies `log1p(CPM)` internally
+- Increase `n_pseudobulk` for better training (5000-10000 recommended)
+- Use `loss_function = "kl"` if proportions are very skewed
+- Adaptive mode is slower but more accurate for heterogeneous samples

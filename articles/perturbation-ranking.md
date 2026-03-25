@@ -1,0 +1,180 @@
+# Perturbation Ranking & Differential Abundance
+
+## Overview
+
+scMMR provides two complementary approaches for ranking cell types by
+their response to perturbation (e.g., treatment vs control):
+
+1.  **RankPerturbation** – Measures distribution distances in embedding
+    space (how much each cell type “moves”)
+2.  **RankPercent** – Tests differential abundance using
+    neighborhood-based permutation (whether cell type proportions
+    change)
+
+## Cell Composition Visualization
+
+Before diving into statistical tests, visualize the overall composition:
+
+### O/E Ratio Heatmap (PlotRoe)
+
+The Observed/Expected (O/E) ratio reveals group-specific enrichment of
+each cell type. Values \> 1 indicate enrichment, \< 1 indicates
+depletion.
+
+``` r
+# Basic O/E heatmap
+PlotRoe(seu, by = "group", fill = "cell_type")
+
+# With significance stars (chi-squared test)
+PlotRoe(seu, by = "group", fill = "cell_type",
+        show.pvalue = TRUE, p.method = "chisq")
+
+# With grade symbols (+++ / ++ / + / +/- / -)
+PlotRoe(seu, by = "group", fill = "cell_type",
+        display = "symbol")
+
+# Both value and symbol
+PlotRoe(seu, by = "group", fill = "cell_type",
+        display = "both", show.pvalue = TRUE)
+
+# Return data for custom analysis
+roe_data <- PlotRoe(seu, by = "group", fill = "cell_type",
+                     show.pvalue = TRUE, return.data = TRUE)
+roe_data$oe_matrix    # O/E ratio matrix
+roe_data$pval_matrix  # P-value matrix
+```
+
+### Alluvial / Sankey Diagrams
+
+``` r
+# Stacked area chart showing composition across groups
+PlotAlluvia(seu, by = "group", fill = "cell_type")
+
+# Sankey flow diagram
+PlotSankey(seu, by = "group", fill = "cell_type",
+           show.pct = TRUE, show.label = TRUE)
+```
+
+## RankPerturbation: Distribution Distance
+
+RankPerturbation measures how much each cell type’s embedding
+distribution shifts between conditions using five distance metrics:
+
+| Metric               | Description                             | Best for                   |
+|----------------------|-----------------------------------------|----------------------------|
+| `wasserstein`        | Earth mover’s distance (1D projections) | General use                |
+| `sliced_wasserstein` | Multi-dimensional Wasserstein           | High-dim embeddings        |
+| `mmd`                | Maximum Mean Discrepancy (RBF kernel)   | Non-linear shifts          |
+| `energy`             | Energy distance (non-parametric)        | Heavy-tailed distributions |
+| `auc`                | Classifier-based AUC (LDA)              | Separability measure       |
+
+### Basic Usage
+
+``` r
+# Run perturbation ranking
+perturb <- RankPerturbation(
+  embedding    = result$shared_embedding,  # n_cells x 512
+  cell_meta    = seu@meta.data,
+  celltype_col = "cell_type",
+  conditions   = list(
+    treatment = "group == 'Treatment'",
+    control   = "group == 'Control'"
+  ),
+  method       = "mean",
+  alpha        = 0.1,
+  n_perm       = 1000,
+  seed         = 42
+)
+```
+
+### Output
+
+``` r
+head(perturb$results)
+#>   cell_type   score   p_value  p_adjust  rank
+#> 1 T_cell      0.85    0.001    0.008     1
+#> 2 Macrophage  0.72    0.003    0.015     2
+#> 3 Fibroblast  0.45    0.045    0.120     3
+```
+
+### Visualize Rankings
+
+``` r
+# Lollipop chart (default)
+PlotPerturbation(perturb, top_k = 10, display = "lollipop")
+
+# Bar chart with significance stars
+PlotPerturbation(perturb, top_k = 15, display = "bar",
+                  sig_threshold = 0.05)
+```
+
+## RankPercent: Differential Abundance
+
+RankPercent performs neighborhood-based differential abundance testing,
+similar to miloR. It constructs KNN/SNN graphs and tests whether cell
+type proportions differ between conditions.
+
+### Basic Usage
+
+``` r
+da <- RankPercent(
+  embedding          = result$shared_embedding,
+  cell_meta          = seu@meta.data,
+  celltype_col       = "cell_type",
+  conditions         = list(
+    treatment = "group == 'Treatment'",
+    control   = "group == 'Control'"
+  ),
+  neighborhood_method = "knn",
+  k_neighborhoods     = 30,
+  n_perm              = 1000,
+  fdr_threshold       = 0.1
+)
+```
+
+### Output
+
+``` r
+head(da$results)
+#>   cell_type   logFC    p_value  p_adjust  sig
+#> 1 T_cell      1.25     0.001    0.008     TRUE
+#> 2 Macrophage  -0.85    0.012    0.048     TRUE
+#> 3 B_cell      0.32     0.234    0.468     FALSE
+```
+
+### Visualize Differential Abundance
+
+``` r
+# Beeswarm plot (miloR style)
+PlotPercent(da, fdr_threshold = 0.1)
+
+# With boxplot overlay
+PlotPercent(da, fdr_threshold = 0.05, show_boxplot = TRUE)
+```
+
+## Combining Both Approaches
+
+Use both methods together for a comprehensive view:
+
+``` r
+# 1. Which cell types change their internal state? (RankPerturbation)
+perturb <- RankPerturbation(embedding, cell_meta, ...)
+
+# 2. Which cell types change their abundance? (RankPercent)
+da <- RankPercent(embedding, cell_meta, ...)
+
+# 3. Overlay composition (PlotRoe)
+PlotRoe(seu, by = "group", fill = "cell_type",
+        show.pvalue = TRUE, display = "both")
+```
+
+## Tips
+
+- RankPerturbation detects **state changes** (gene expression shifts
+  within a cell type), while RankPercent detects **abundance changes**
+  (proportion shifts)
+- Use DNN embedding (512-dim) rather than PCA for more sensitive
+  detection
+- Set `n_perm >= 1000` for reliable p-values
+- Use `alpha = 0.1` (default) to add noise for robust distance
+  estimation
