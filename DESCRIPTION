@@ -1,7 +1,7 @@
 Type: Package
 Package: scMMR
 Title: Single-Cell Multi-Task Model in R
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person("Yuhao", "Ouyang", , "ouyang@example.com", role = c("aut", "cre"))
 Description: A comprehensive toolkit for single-cell RNA-seq analysis powered
