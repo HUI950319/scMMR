@@ -6,7 +6,7 @@
 #   1. Load test data and trained model
 #   2. Run DNN_predict() for cell type prediction
 #   3. Merge predictions into Seurat object
-#   4. Visualize with PlotAlluvia, PlotGroupPreference, PlotMAP
+#   4. Visualize with PlotAlluvia, PlotRoe, PlotMAP
 #
 # Requirements:
 #   - scMMR installed
@@ -80,14 +80,15 @@ p1 <- PlotAlluvia(
 print(p1)
 # ggsave("alluvia_plot.pdf", p1, width = 8, height = 6)
 
-# ── 5. PlotGroupPreference: O/E ratio heatmap ──────────────────────────────
+# ── 5. PlotRoe: O/E ratio heatmap ──────────────────────────────────────────
 # Highlights which cell types are enriched (O/E > 1) in each group
-p2 <- PlotGroupPreference(
-  cellmeta      = q1@meta.data,
-  group.by      = "group",
-  preference.on = "cell_type_pred",
-  palette = "Blues",
-  column_names_rot = 45
+p2 <- PlotRoe(
+  cellmeta = q1,
+  by       = "group",
+  fill     = "cell_type_pred",
+  palette  = "Blues",
+  column_names_rot = 45,
+  show.pvalue = TRUE
 )
 print(p2)
 # pdf("group_preference.pdf", width = 6, height = 8); print(p2); dev.off()
