@@ -20,3 +20,6 @@ Thumbs.db
 
 # Claude
 CLAUDE.md
+
+# pkgdown site (built locally, deployed via gh-pages)
+docs/

@@ -1,0 +1,118 @@
+url: https://hui950319.github.io/scMMR/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  structure:
+    left: [intro, reference, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/HUI950319/scMMR
+      aria-label: GitHub
+
+reference:
+  - title: Python Environment
+    desc: Set up and manage the Python environment required by scMMR.
+    contents:
+      - use_scMMR_python
+      - install_scMMR_python
+
+  - title: Multi-Task DNN Training & Prediction
+    desc: Train and predict with PyTorch multi-task deep neural networks for joint cell type classification and embedding regression.
+    contents:
+      - DNN_train
+      - DNN_predict
+
+  - title: Deconvolution
+    desc: Train deconvolution models from scRNA-seq references and estimate cell type proportions in bulk RNA-seq.
+    contents:
+      - DNN_deconv_train
+      - DNN_deconv_predict
+
+  - title: Gene Set Scoring
+    desc: Compute per-cell gene set activity scores using multiple methods.
+    contents:
+      - ComputeModuleScore
+      - read_gmt
+      - parse_gene_sets
+
+  - title: Pathway Analysis
+    desc: Run GSEA or SCPA pathway enrichment analysis across cell types.
+    contents:
+      - RunPathwayAnalysis
+      - RunGsea
+      - RunGseaEnrich
+      - CrossEnrichOverlap
+
+  - title: Differential Expression
+    desc: Differential expression analysis between conditions.
+    contents:
+      - RunDE
+      - RunCorrelation
+
+  - title: Ranking & Perturbation
+    desc: Rank genes, pathways, and regulons by perturbation strength or differential abundance.
+    contents:
+      - RankPerturbation
+      - RankPercent
+      - FindRegulonDrivers
+
+  - title: Trajectory & Potency
+    desc: Pseudotime trajectory and cellular potency inference.
+    contents:
+      - RunCytoTRACE2
+      - RunTraceGene
+      - RunTraceGSEA
+
+  - title: Embedding Evaluation
+    desc: Evaluate DNN embedding quality vs PCA.
+    contents:
+      - EvaluateEmbedding
+
+  - title: Quality Control
+    desc: Doublet detection and ambient RNA estimation.
+    contents:
+      - ComputeDoublets
+      - ComputeAmbientRNA
+
+  - title: Standard Pipeline
+    desc: End-to-end analysis pipeline.
+    contents:
+      - StandardPipeline
+
+  - title: Visualization
+    desc: Publication-ready plots for single-cell analysis results.
+    contents:
+      - PlotRoe
+      - PlotSankey
+      - PlotAlluvia
+      - PlotAnnotation
+      - PlotScatter
+      - PlotCorrelation
+      - PlotPropCorrelation
+      - PlotRankScatter
+      - PlotImportance
+      - PlotMAP
+      - PlotPercent
+      - PlotPerturbation
+      - PlotDE
+      - PlotGsea
+      - PlotPathwayBubble
+      - PlotDynamicFeatures
+      - PlotEmbeddingEval
+      - PlotCytoTRACE2
+
+  - title: Color Palettes
+    desc: Built-in color palettes for consistent styling.
+    contents:
+      - palette_colors
+      - show_palettes
+
+  - title: Data
+    desc: Built-in datasets.
+    contents:
+      - ribo.genes
