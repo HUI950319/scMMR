@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
     steps:
       - uses: actions/checkout@v4
 
@@ -26,8 +25,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("pkgdown", "knitr", "rmarkdown", "ggplot2",
-                             "dplyr", "rlang", "reticulate", "Matrix"))
+          install.packages(c("pkgdown", "knitr", "rmarkdown"))
+          install.packages(c("reticulate", "Matrix", "ggplot2", "dplyr", "rlang"))
+          install.packages(".", repos = NULL, type = "source",
+                           INSTALL_opts = "--no-test-load")
         shell: Rscript {0}
 
       - name: Build site
