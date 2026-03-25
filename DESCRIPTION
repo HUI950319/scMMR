@@ -71,6 +71,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Config/Needs/website: pkgdown
 SystemRequirements: Python (>= 3.8), torch (CPU or CUDA), anndata,
     scanpy, numpy, pandas, scipy
 License: MIT + file LICENSE
