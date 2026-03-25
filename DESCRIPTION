@@ -3,7 +3,7 @@ Package: scMMR
 Title: Single-Cell Multi-Task Model in R
 Version: 0.2.0
 Authors@R:
-    person("Yuhao", "Ouyang", , "ouyang@example.com", role = c("aut", "cre"))
+    person("Yanghui", "Ou", , "ouyanghui950319@gmail.com", role = c("aut", "cre"))
 Description: A comprehensive toolkit for single-cell RNA-seq analysis powered
     by PyTorch multi-task deep neural networks. Provides joint cell type
     classification and embedding regression, bulk RNA-seq deconvolution with
