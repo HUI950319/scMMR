@@ -1,0 +1,183 @@
+---
+title: "Gene Set Module Scoring"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Gene Set Module Scoring}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  eval = FALSE,
+  fig.width = 8, fig.height = 5
+)
+```
+
+## Overview
+
+`ComputeModuleScore()` computes per-cell gene set activity scores using three
+methods: **AUCell**, **Seurat AddModuleScore**, and **UCell**. It is an S3
+generic that works with both raw matrices and Seurat objects.
+
+## Supported Input Formats
+
+Gene sets can be provided in three formats:
+
+### 1. Named List
+
+```{r}
+gene_sets <- list(
+  "Hallmark_TNFA"   = c("JUNB", "CXCL2", "ATF3", "NFKBIA", "TNFAIP3"),
+  "Hallmark_HYPOXIA" = c("VEGFA", "SLC2A1", "ALDOA", "ENO1", "LDHA")
+)
+```
+
+### 2. Data Frame (term-gene pairs)
+
+```{r}
+gene_sets_df <- data.frame(
+  term = c(rep("TNFA_SIGNALING", 5), rep("HYPOXIA", 5)),
+  gene = c("JUNB", "CXCL2", "ATF3", "NFKBIA", "TNFAIP3",
+           "VEGFA", "SLC2A1", "ALDOA", "ENO1", "LDHA")
+)
+```
+
+### 3. GMT File Path
+
+```{r}
+gmt_path <- system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
+                         package = "scMMR")
+```
+
+## Scoring Methods
+
+### AUCell (Default)
+
+Area Under the recovery Curve -- ranks genes by expression and computes
+the AUC of gene set members in the top-ranked genes:
+
+```{r}
+scores <- ComputeModuleScore(
+  object    = expression_matrix,  # genes x cells
+  gene.sets = gene_sets,
+  method    = "AUCell"
+)
+# Returns: pathways x cells matrix
+```
+
+### Seurat AddModuleScore
+
+Computes the average expression of gene set genes minus the average of
+control gene sets:
+
+```{r}
+scores <- ComputeModuleScore(
+  object    = expression_matrix,
+  gene.sets = gene_sets,
+  method    = "Seurat",
+  nbin      = 24,
+  ctrl      = 100
+)
+```
+
+### UCell
+
+Mann-Whitney U statistic-based scoring, robust to library size differences:
+
+```{r}
+scores <- ComputeModuleScore(
+  object    = expression_matrix,
+  gene.sets = gene_sets,
+  method    = "UCell"
+)
+```
+
+## Using with Seurat Objects
+
+The Seurat method wraps the default and stores results directly:
+
+```{r}
+library(Seurat)
+
+# Store as a new assay (recommended for multi-pathway scoring)
+seu <- ComputeModuleScore(
+  object    = seu,
+  gene.sets = gmt_path,
+  method    = "AUCell",
+  store     = "assay",
+  assay.name = "Hallmark"
+)
+
+# Access scores
+seu[["Hallmark"]]@data[1:3, 1:5]
+
+# Store as metadata columns (simpler for a few pathways)
+seu <- ComputeModuleScore(
+  object    = seu,
+  gene.sets = gene_sets,
+  method    = "Seurat",
+  store     = "metadata",
+  prefix    = "Score_"
+)
+
+head(seu@meta.data[, grep("Score_", colnames(seu@meta.data))])
+```
+
+## Working with GMT Files
+
+### Read and Parse GMT
+
+```{r}
+# Read GMT file
+gs <- read_gmt(system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
+                            package = "scMMR"))
+length(gs)  # 50 Hallmark gene sets
+names(gs)[1:5]
+
+# Flexible parsing (auto-detects format)
+gs2 <- parse_gene_sets(gmt_path)                  # GMT file
+gs3 <- parse_gene_sets(gene_sets)                  # Named list (pass-through)
+gs4 <- parse_gene_sets(gene_sets_df)               # Data frame
+```
+
+### Filter by Gene Set Size
+
+```{r}
+# Keep only gene sets with 15-500 genes
+gs_filtered <- gs[sapply(gs, length) >= 15 & sapply(gs, length) <= 500]
+```
+
+## Bundled GMT Databases
+
+scMMR ships with 14 GMT files covering major pathway databases:
+
+| Database | Species | File | Gene Sets |
+|----------|---------|------|-----------|
+| MSigDB Hallmark | Human | `h.all.v2022.1.Hs.symbols.gmt` | 50 |
+| KEGG Legacy | Human | `c2.cp.kegg.v2022.1.Hs.symbols.gmt` | 186 |
+| Reactome | Human | `reactome.gmt` | 1,000+ |
+| GO Biological Process | Human | `GO_bp.gmt` | 7,000+ |
+| CollecTRI (regulons) | Human | `collectri.human.gmt` | 700+ |
+| PROGENy (signaling) | Human | `progeny.human.top100.gmt` | 14 |
+| Proliferation | Human | `proliferation.combined.gmt` | Custom |
+| Reactome | Mouse | `m_reactome.gmt` | 1,000+ |
+| GO Biological Process | Mouse | `m_GO_bp.gmt` | 7,000+ |
+
+## Comparison of Methods
+
+| Feature | AUCell | Seurat | UCell |
+|---------|--------|--------|-------|
+| Score range | [0, 1] | Unbounded | [0, 1] |
+| Speed | Moderate | Fast | Moderate |
+| Library size robust | Yes | Partial | Yes |
+| Best for | Regulatory activity | Quick exploration | Small gene sets |
+
+## Tips
+
+- Use `method = "AUCell"` for gene regulatory network scoring
+- Use `method = "Seurat"` for quick exploratory analysis
+- Use `method = "UCell"` when comparing across batches with different depths
+- Filter gene sets to 15-500 genes for meaningful scores
+- Use `store = "assay"` when scoring many pathways to keep metadata clean

@@ -1,0 +1,326 @@
+---
+title: "Visualization Gallery"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualization Gallery}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  eval = FALSE,
+  fig.width = 8, fig.height = 5
+)
+```
+
+## Overview
+
+scMMR includes 18+ publication-ready visualization functions. This gallery
+provides a quick reference for each function with usage examples.
+
+---
+
+## Composition & Flow
+
+### PlotRoe -- O/E Ratio Heatmap
+
+Observed/Expected ratio heatmap highlighting cell type enrichment per group.
+
+```{r}
+# Numeric values
+PlotRoe(seu, by = "group", fill = "cell_type")
+
+# Grade symbols (+++ / ++ / + / +/- / -)
+PlotRoe(seu, by = "group", fill = "cell_type", display = "symbol")
+
+# With significance stars
+PlotRoe(seu, by = "group", fill = "cell_type",
+        show.pvalue = TRUE, p.method = "chisq")
+
+# Both value + symbol
+PlotRoe(seu, by = "group", fill = "cell_type",
+        display = "both", show.pvalue = TRUE)
+```
+
+**Key parameters:** `by`, `fill`, `palette`, `display` ("value"/"symbol"/"both"),
+`show.pvalue`, `p.method` ("chisq"/"fisher"), `return.data`
+
+### PlotAlluvia -- Stacked Area + Bar Chart
+
+Cell type composition as stacked areas and bar charts across groups.
+
+```{r}
+PlotAlluvia(seu, by = "group", fill = "cell_type")
+
+# Customize
+PlotAlluvia(seu, by = "group", fill = "cell_type",
+            show.pct = TRUE, show.label = TRUE,
+            bar.width = 0.8, flow.alpha = 0.5)
+```
+
+**Key parameters:** `by`, `fill`, `colors`, `palette`, `flow.alpha`, `bar.width`,
+`show.label`, `show.pct`
+
+### PlotSankey -- Sankey Flow Diagram
+
+Alluvial-style Sankey diagram for cell transitions.
+
+```{r}
+PlotSankey(seu, by = "group", fill = "cell_type")
+
+PlotSankey(seu, by = "group", fill = "cell_type",
+           curve.type = "spline", show.pct = TRUE)
+```
+
+**Key parameters:** Same as PlotAlluvia plus `curve.type` ("linear"/"spline")
+
+---
+
+## Projection & Spatial
+
+### PlotMAP -- UMAP Projection
+
+Overlay query predictions on reference UMAP background.
+
+```{r}
+PlotMAP(
+  ref       = ref_umap_df,
+  query_meta = seu@meta.data,
+  color_by  = "cell_type_pred",
+  ref_emb   = c("umap_1", "umap_2"),
+  query_emb = c("umap_pred_1", "umap_pred_2")
+)
+```
+
+**Key parameters:** `ref`, `query_meta`, `ref_emb`, `query_emb`, `color_by`,
+`facet_by`, `colors`, `density.color`
+
+### PlotScatter -- General Scatter Plot
+
+Flexible scatter plot for embeddings or feature-feature comparisons.
+
+```{r}
+PlotScatter(seu, reduction = "umap", color.by = "cell_type")
+
+PlotScatter(seu, features = c("gene_A", "gene_B"),
+            group.by = "cell_type")
+```
+
+**Key parameters:** `reduction`, `features`, `group.by`, `split.by`,
+`color.by`, `colors`, `base_size`
+
+### PlotAnnotation -- Cell Annotation Heatmap
+
+Summary heatmap with automatic color coding for metadata columns.
+
+```{r}
+PlotAnnotation(seu, which = c("cell_type", "group", "confidence"))
+```
+
+**Key parameters:** `which`, `palette`, `row_order`, `col_order`, `base_size`
+
+---
+
+## Gene Importance & Ranking
+
+### PlotImportance -- Gene Importance Chart
+
+Lollipop or bar chart of gene importance from Integrated Gradients.
+
+```{r}
+# Global importance
+PlotImportance(result$imp_global, top_k = 30, display = "lollipop")
+
+# Per-class importance
+PlotImportance(result$imp_per_class, top_k = 15, display = "bar")
+```
+
+**Key parameters:** `top_k`, `display` ("lollipop"/"bar"), `palette`, `base_size`
+
+### PlotRankScatter -- Rank Scatter Plot
+
+Generic scatter for visualizing feature scores (gene importance, module scores,
+pathway NES).
+
+```{r}
+PlotRankScatter(scores_df, x_label = "Gene", y_label = "Importance",
+                highlight = top_genes, label.top_k = 10)
+```
+
+**Key parameters:** `x_label`, `y_label`, `show_line`, `highlight`,
+`label.top_k`, `colors`
+
+---
+
+## Perturbation & Abundance
+
+### PlotPerturbation -- Perturbation Score Chart
+
+Ranked chart of perturbation scores with significance markers.
+
+```{r}
+PlotPerturbation(perturb_result, top_k = 10, display = "lollipop")
+PlotPerturbation(perturb_result, display = "bar", sig_threshold = 0.05)
+```
+
+**Key parameters:** `top_k`, `display` ("lollipop"/"bar"), `sig_threshold`,
+`palette`, `base_size`
+
+### PlotPercent -- Differential Abundance Beeswarm
+
+miloR-style beeswarm plot of per-neighborhood logFC.
+
+```{r}
+PlotPercent(da_result, fdr_threshold = 0.1)
+PlotPercent(da_result, show_boxplot = TRUE, point_size = 1.5)
+```
+
+**Key parameters:** `fdr_threshold`, `colors`, `show_boxplot`, `base_size`,
+`point_size`
+
+---
+
+## Differential Expression
+
+### PlotDE -- DE Dot Plot / Volcano
+
+```{r}
+# Dot plot
+PlotDE(de_results, type = "dot", top_n = 8)
+
+# Volcano plot
+PlotDE(de_results, type = "volcano", logfc.cutoff = 1, label = TRUE)
+```
+
+**Key parameters:** `type` ("dot"/"volcano"), `top_n`, `top_by`, `logfc.cutoff`,
+`pval.cutoff`, `label`
+
+### PlotGsea -- GSEA Bubble Plot
+
+```{r}
+PlotGsea(gsea_results, top.n = 10)
+PlotGsea(gsea_results, facet_by = "sign", order_by = "NES")
+```
+
+**Key parameters:** `top.n`, `order_by`, `use.padj`, `facet_by`, `colors`
+
+---
+
+## Pathway & Enrichment
+
+### PlotPathwayBubble -- Pathway Enrichment Bubble
+
+```{r}
+PlotPathwayBubble(pathway_results, top.n = 10)
+
+PlotPathwayBubble(pathway_results, top.n = 15,
+                   size.by = "pvalue", facet.by.sign = TRUE)
+```
+
+**Key parameters:** `top.n`, `size.by`, `pvalue.cutoff`, `select.by`,
+`order.by`, `facet.by.sign`, `colors`
+
+---
+
+## Correlation
+
+### PlotCorrelation -- Correlation Scatter
+
+Volcano-style plot: -log10(p) vs correlation coefficient.
+
+```{r}
+PlotCorrelation(cor_results, p.cutoff = 0.05, cor.cutoff = 0.3,
+                label = TRUE, label.n = 10)
+```
+
+**Key parameters:** `use.padj`, `p.cutoff`, `cor.cutoff`, `label`, `label.n`
+
+### PlotPropCorrelation -- Proportion Correlation Heatmap
+
+```{r}
+PlotPropCorrelation(seu, emb.cols = paste0("DNN_", 1:10),
+                     prop.data = proportions, method = "spearman")
+```
+
+**Key parameters:** `emb.cols`, `prop.data`, `method`, `group.by`, `base_size`
+
+---
+
+## Trajectory & Potency
+
+### PlotCytoTRACE2 -- Cellular Potency Plot
+
+Violin + box + jitter plot of CytoTRACE2 scores grouped by cell type.
+
+```{r}
+PlotCytoTRACE2(seu, group.by = "cell_type",
+               score = "CytoTRACE2_Score", order = TRUE)
+```
+
+**Key parameters:** `group.by`, `score`, `order`, `colors`, `base_size`
+
+### PlotDynamicFeatures -- Feature Dynamics Along Pseudotime
+
+```{r}
+PlotDynamicFeatures(seu, features = c("gene_A", "gene_B"),
+                     pseudotime_col = "pseudotime",
+                     method = "loess")
+```
+
+**Key parameters:** `features`, `pseudotime_col`, `method` ("loess"/"gam"),
+`group.by`, `colors`
+
+---
+
+## Embedding Quality
+
+### PlotEmbeddingEval -- Embedding Evaluation Diagnostics
+
+Five-panel diagnostic plot for DNN embedding quality.
+
+```{r}
+eval_result <- EvaluateEmbedding(embedding, seurat_obj = seu)
+
+# All plots
+PlotEmbeddingEval(eval_result, which = "all")
+
+# Individual plots
+PlotEmbeddingEval(eval_result, which = "elbow")
+PlotEmbeddingEval(eval_result, which = "knn")
+PlotEmbeddingEval(eval_result, which = "silhouette")
+```
+
+**Key parameters:** `which` ("all"/"elbow"/"cumvar"/"knn"/"distcor"/"silhouette"),
+`base_size`
+
+---
+
+## Color Palettes
+
+### palette_colors -- Generate Color Vectors
+
+```{r}
+# Automatic palette for a character vector
+cols <- palette_colors(cell_types)
+
+# Specific palette
+cols <- palette_colors(n = 8, palette = "Set2")
+
+# Continuous palette
+cols <- palette_colors(n = 100, type = "continuous", palette = "RdYlBu")
+```
+
+### show_palettes -- Display Available Palettes
+
+```{r}
+# Show all discrete palettes
+show_palettes(type = "discrete")
+
+# Show specific palettes
+show_palettes(palette_names = c("Set2", "Paired", "lancet"))
+```
+
+**Available palettes:** All RColorBrewer palettes + ggsci palettes
+(lancet, nejm, jama, jco, d3, etc.) + custom scMMR palettes.

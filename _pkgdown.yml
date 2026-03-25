@@ -6,13 +6,35 @@ template:
 
 navbar:
   structure:
-    left: [intro, reference, news]
+    left: [intro, reference, articles, news]
     right: [search, github]
   components:
     github:
       icon: fa-github
       href: https://github.com/HUI950319/scMMR
       aria-label: GitHub
+
+articles:
+  - title: Getting Started
+    navbar: Getting Started
+    contents:
+      - getting-started
+  - title: Core Workflows
+    navbar: Core Workflows
+    contents:
+      - cell-type-classification
+      - deconvolution
+  - title: Downstream Analysis
+    navbar: Downstream Analysis
+    contents:
+      - module-scoring
+      - pathway-analysis
+      - perturbation-ranking
+      - differential-expression
+  - title: Reference
+    navbar: Reference
+    contents:
+      - visualization-gallery
 
 reference:
   - title: Python Environment

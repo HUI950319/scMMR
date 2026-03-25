@@ -67,7 +67,10 @@ Suggests:
     ggwordcloud,
     circlize,
     ggsankey,
-    ggalluvial
+    ggalluvial,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 SystemRequirements: Python (>= 3.8), torch (CPU or CUDA), anndata,
     scanpy, numpy, pandas, scipy
 License: MIT + file LICENSE
