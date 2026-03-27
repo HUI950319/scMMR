@@ -24,6 +24,22 @@ this representation, scMMR provides:
 - **Rich visualization suite** (alluvial, bubble, scatter, beeswarm,
   GSEA plots, and more)
 
+## Benchmark
+
+scMMR was benchmarked against 11 cell type annotation methods across 7
+datasets (4 public pancreas + 3 parathyroid datasets), evaluating
+annotation quality, cross-dataset generalization, scalability, and
+robustness.
+
+![Figure 3B: Benchmark](reference/figures/Figure3B.png)
+
+**Figure 3B.** Comprehensive benchmark of 12 cell type annotation
+methods. scMMR ranks 1st overall (scIB-style weighted score: 40%
+Annotation + 25% Generalization + 15% Scalability + 10% Robustness + 10%
+Usability). Scalability metrics are based on 100K cells with
+literature-validated estimates (Abdelaal 2019, Huang & Zhang 2021, scaLR
+2025).
+
 ## Architecture
 
     Binary Input (gene × cell)
