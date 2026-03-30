@@ -119,6 +119,11 @@ reference:
       - PlotRankScatter
       - PlotImportance
       - PlotMAP
+      - PlotMAP2
+      - DimPlot2
+      - FeaturePlot2
+      - FeaturePlot3
+      - ExpressionStatPlot2
       - PlotPercent
       - PlotPerturbation
       - PlotDE
@@ -127,6 +132,12 @@ reference:
       - PlotDynamicFeatures
       - PlotEmbeddingEval
       - PlotCytoTRACE2
+
+  - title: Rasterisation
+    desc: Rasterise ggplot2 layers for large datasets.
+    contents:
+      - rasterise_layer
+      - geom_point_rast
 
   - title: Color Palettes
     desc: Built-in color palettes for consistent styling.
@@ -138,3 +149,7 @@ reference:
     desc: Built-in datasets.
     contents:
       - ribo.genes
+
+  - title: internal
+    contents:
+      - makeContext.scmmr_raster
