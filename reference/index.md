@@ -132,6 +132,16 @@ Publication-ready plots for single-cell analysis results.
   : Importance Plot (Lollipop / Bar)
 - [`PlotMAP()`](https://hui950319.github.io/scMMR/reference/PlotMAP.md)
   : UMAP Projection Plot
+- [`PlotMAP2()`](https://hui950319.github.io/scMMR/reference/PlotMAP2.md)
+  : Single-Cell Atlas Projection Plot
+- [`DimPlot2()`](https://hui950319.github.io/scMMR/reference/DimPlot2.md)
+  : Enhanced 2D Dimensional Reduction Plot
+- [`FeaturePlot2()`](https://hui950319.github.io/scMMR/reference/FeaturePlot2.md)
+  : Feature Expression on 2-D Reduction Plot
+- [`FeaturePlot3()`](https://hui950319.github.io/scMMR/reference/FeaturePlot3.md)
+  : Expression distribution plots for Seurat objects
+- [`ExpressionStatPlot2()`](https://hui950319.github.io/scMMR/reference/ExpressionStatPlot2.md)
+  : Expression distribution plots (violin / box / bar / dot)
 - [`PlotPercent()`](https://hui950319.github.io/scMMR/reference/PlotPercent.md)
   : Differential Abundance Beeswarm Plot
 - [`PlotPerturbation()`](https://hui950319.github.io/scMMR/reference/PlotPerturbation.md)
@@ -148,6 +158,15 @@ Publication-ready plots for single-cell analysis results.
   : Plot Embedding Evaluation Results
 - [`PlotCytoTRACE2()`](https://hui950319.github.io/scMMR/reference/PlotCytoTRACE2.md)
   : CytoTRACE 2 Potency Plot
+
+## Rasterisation
+
+Rasterise ggplot2 layers for large datasets.
+
+- [`rasterise_layer()`](https://hui950319.github.io/scMMR/reference/rasterise_layer.md)
+  : Rasterise a ggplot2 layer
+- [`geom_point_rast()`](https://hui950319.github.io/scMMR/reference/geom_point_rast.md)
+  : Rasterised point geom
 
 ## Color Palettes
 

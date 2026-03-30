@@ -9,7 +9,7 @@ plot; query cells are plotted as black points with red density contours.
 ``` r
 PlotMAP(
   ref,
-  query_meta,
+  query,
   ref_emb = c("umap_1", "umap_2"),
   query_emb = c("umap_1_pred", "umap_2_pred"),
   color_by = "cell_type",
@@ -37,7 +37,7 @@ PlotMAP(
   - If a **Seurat** object: columns are extracted via
     `Seurat::FetchData(ref, vars = c(ref_emb, color_by))`.
 
-- query_meta:
+- query:
 
   A data.frame with query cell metadata, e.g. `q1@meta.data` after
   `AddMetaData(obj, pred$predictions)`. Must contain columns specified
@@ -60,8 +60,8 @@ PlotMAP(
 
 - facet_by:
 
-  Optional column name in `query_meta` for faceting (e.g. `"group"`).
-  `NULL` = no faceting.
+  Optional column name in `query` for faceting (e.g. `"group"`). `NULL`
+  = no faceting.
 
 - colors:
 
@@ -104,7 +104,7 @@ A ggplot object.
 if (FALSE) { # \dontrun{
 ref_data <- Seurat::FetchData(seu,
   vars = c("umap_1", "umap_2", "cell_type"))
-PlotMAP(ref = ref_data, query_meta = q1@meta.data,
+PlotMAP(ref = ref_data, query = q1@meta.data,
   facet_by = "group")
 } # }
 ```

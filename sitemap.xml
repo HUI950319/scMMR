@@ -21,7 +21,11 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/DNN_deconv_train.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/DNN_predict.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/DNN_train.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/DimPlot2.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/EvaluateEmbedding.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/ExpressionStatPlot2.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/FeaturePlot2.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/FeaturePlot3.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/FindRegulonDrivers.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotAlluvia.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotAnnotation.html</loc></url>
@@ -33,6 +37,7 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotGsea.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotImportance.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotMAP.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/PlotMAP2.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPathwayBubble.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPercent.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPerturbation.html</loc></url>
@@ -96,10 +101,13 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/dot-unnest_cols.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/dot-validate_embedding.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/dot-wasserstein_1d.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/geom_point_rast.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/index.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/install_scMMR_python.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/makeContext.scmmr_raster.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/palette_colors.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/parse_gene_sets.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/rasterise_layer.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/read_gmt.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/ribo.genes.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/show_palettes.html</loc></url>

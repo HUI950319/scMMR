@@ -13,6 +13,7 @@ RankPercent(
   cell_meta,
   cell_type_col = "cell_type_pred",
   condition_col = "group",
+  sample_col = NULL,
   conditions = NULL,
   k = 30L,
   prop_sample = 0.1,
@@ -41,6 +42,16 @@ RankPercent(
 - condition_col:
 
   Column name for condition/group labels (default `"group"`).
+
+- sample_col:
+
+  Optional column name for biological sample/replicate labels (e.g.
+  `"sample"`). When provided, an edgeR quasi-likelihood GLM
+  (`edgeR::glmQLFit`) is fitted on the sample-level count matrix across
+  all neighbourhoods jointly, with shared dispersion estimation — the
+  same statistical framework used by miloR's `testNhoods`. This produces
+  continuous, shrinkage-stabilised logFC values. Requires `edgeR`. When
+  `NULL` (default), the original proportion-based logFC is used.
 
 - conditions:
 
@@ -106,8 +117,16 @@ A named list:
 if (FALSE) { # \dontrun{
 pred <- DNN_predict(query, model_path, return_embedding = TRUE)
 q1 <- Seurat::AddMetaData(toy_test, pred$predictions)
+
+# Original mode (proportion-based logFC)
 da <- RankPercent(pred$shared_embedding, q1@meta.data,
                   conditions = c("PH", "SH"), k = 30)
+
+# Sample-aware mode (miloR-like continuous logFC)
+da <- RankPercent(pred$shared_embedding, q1@meta.data,
+                  sample_col = "sample",
+                  conditions = c("PH", "SH"), k = 30)
+
 q1 <- Seurat::AddMetaData(q1, da$cell_da_scores, col.name = "da_score")
 PlotPercent(da)
 } # }
