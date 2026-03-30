@@ -693,6 +693,15 @@ RankPerturbation <- function(embedding,
 #'   (default \code{"cell_type_pred"}).
 #' @param condition_col Column name for condition/group labels
 #'   (default \code{"group"}).
+#' @param sample_col Optional column name for biological sample/replicate
+#'   labels (e.g. \code{"sample"}). When provided, an edgeR
+#'   quasi-likelihood GLM (\code{edgeR::glmQLFit}) is fitted on the
+#'   sample-level count matrix across all neighbourhoods jointly,
+#'   with shared dispersion estimation — the same statistical framework
+#'   used by miloR's \code{testNhoods}. This produces continuous,
+#'   shrinkage-stabilised logFC values. Requires \code{edgeR}.
+#'   When \code{NULL} (default), the original proportion-based logFC
+#'   is used.
 #' @param conditions Optional character vector of length 2. If provided,
 #'   only these two conditions are tested. If \code{NULL} (default), all
 #'   conditions are used; Fisher's or chi-squared test is applied.
@@ -723,8 +732,16 @@ RankPerturbation <- function(embedding,
 #' \dontrun{
 #' pred <- DNN_predict(query, model_path, return_embedding = TRUE)
 #' q1 <- Seurat::AddMetaData(toy_test, pred$predictions)
+#'
+#' # Original mode (proportion-based logFC)
 #' da <- RankPercent(pred$shared_embedding, q1@@meta.data,
 #'                   conditions = c("PH", "SH"), k = 30)
+#'
+#' # Sample-aware mode (miloR-like continuous logFC)
+#' da <- RankPercent(pred$shared_embedding, q1@@meta.data,
+#'                   sample_col = "sample",
+#'                   conditions = c("PH", "SH"), k = 30)
+#'
 #' q1 <- Seurat::AddMetaData(q1, da$cell_da_scores, col.name = "da_score")
 #' PlotPercent(da)
 #' }
@@ -734,6 +751,7 @@ RankPercent <- function(embedding,
                         cell_meta,
                         cell_type_col  = "cell_type_pred",
                         condition_col  = "group",
+                        sample_col     = NULL,
                         conditions     = NULL,
                         k              = 30L,
                         prop_sample    = 0.1,
@@ -764,6 +782,19 @@ RankPercent <- function(embedding,
   ct_vec   <- as.character(meta[[cell_type_col]])
   n_cells  <- nrow(emb)
 
+  # -- Sample-level info (for edgeR quasi-likelihood GLM) ----------------------
+  use_sample_glm <- !is.null(sample_col)
+  if (use_sample_glm) {
+    if (!sample_col %in% colnames(meta))
+      stop(sprintf("sample_col '%s' not found in cell_meta.", sample_col))
+    if (!requireNamespace("edgeR", quietly = TRUE))
+      stop("Package 'edgeR' is required for sample-level GLM.\n",
+           "Install with: BiocManager::install('edgeR')")
+    sample_vec <- as.character(meta[[sample_col]])
+    if (verbose)
+      message("  sample_col provided: using edgeR glmQLFit for logFC")
+  }
+
   # -- Optional condition filter -----------------------------------------------
   if (!is.null(conditions)) {
     stopifnot(length(conditions) == 2)
@@ -771,12 +802,34 @@ RankPercent <- function(embedding,
     emb      <- emb[keep, , drop = FALSE]
     cond_vec <- cond_vec[keep]
     ct_vec   <- ct_vec[keep]
+    if (use_sample_glm) sample_vec <- sample_vec[keep]
     n_cells  <- nrow(emb)
   }
 
   cond_levels <- sort(unique(cond_vec))
   n_conds     <- length(cond_levels)
   total_per_cond <- table(cond_vec)[cond_levels]
+
+  # -- Sample-level lookup (pre-compute after filtering) -----------------------
+  if (use_sample_glm) {
+    sample_ids    <- sort(unique(sample_vec))
+    sample_totals <- table(sample_vec)[sample_ids]
+    sample_to_cond <- tapply(cond_vec, sample_vec, function(x) x[1])
+    sample_to_cond <- sample_to_cond[sample_ids]
+
+    # Verify: each sample belongs to exactly one condition
+    n_cond_per_sample <- tapply(cond_vec, sample_vec,
+                                function(x) length(unique(x)))
+    if (any(n_cond_per_sample > 1))
+      warning("Some samples map to multiple conditions. ",
+              "Check sample_col / condition_col assignment.")
+    if (verbose)
+      message(sprintf("  Samples: %d (%s)",
+                      length(sample_ids),
+                      paste(sprintf("%s=%d", names(table(sample_to_cond)),
+                                    as.integer(table(sample_to_cond))),
+                            collapse = ", ")))
+  }
 
   if (verbose)
     message(sprintf("  Building %d-NN graph on %d cells ...", k, n_cells))
@@ -793,8 +846,8 @@ RankPercent <- function(embedding,
     message(sprintf("  Sampled %d neighborhoods (prop = %.2f)",
                     n_sample, prop_sample))
 
-  # -- Test each neighborhood --------------------------------------------------
-  da_list <- vector("list", n_sample)
+  # -- Collect neighborhood info ------------------------------------------------
+  nhood_info <- vector("list", n_sample)
 
   for (i in seq_along(sample_idx)) {
     ci <- sample_idx[i]
@@ -805,88 +858,164 @@ RankPercent <- function(embedding,
 
     if (n_nh < min_cells) next
 
-    # Counts per condition
     counts <- table(factor(nhood_cond, levels = cond_levels))
-
-    # Majority cell type
     ct_tab <- sort(table(nhood_ct), decreasing = TRUE)
     majority_ct <- names(ct_tab)[1]
 
-    # -- Statistical test ------------------------------------------------------
-    pval <- 1
-    lfc  <- 0
-
-    if (n_conds == 2) {
-      # 2x2 test
-      c1 <- as.integer(counts[cond_levels[1]])
-      c2 <- as.integer(counts[cond_levels[2]])
-      t1 <- as.integer(total_per_cond[cond_levels[1]])
-      t2 <- as.integer(total_per_cond[cond_levels[2]])
-
-      # logFC with pseudocount
-      prop1 <- (c1 + 0.5) / (t1 + 1)
-      prop2 <- (c2 + 0.5) / (t2 + 1)
-      lfc   <- log2(prop2 / prop1)
-
-      if (test == "fisher") {
-        # Fisher's exact test: nhood vs rest-of-dataset
-        mat_2x2 <- matrix(c(c1, t1 - c1, c2, t2 - c2), nrow = 2)
-        ft <- tryCatch(
-          stats::fisher.test(mat_2x2),
-          error = function(e) list(p.value = 1)
-        )
-        pval <- ft$p.value
-      } else {
-        # NB-GLM
-        count_df <- data.frame(
-          count     = c(c1, c2),
-          condition = cond_levels,
-          total     = c(t1, t2)
-        )
-        fit <- tryCatch(
-          MASS::glm.nb(count ~ condition + offset(log(total)),
-                       data = count_df),
-          error = function(e) NULL
-        )
-        if (!is.null(fit)) {
-          sm <- summary(fit)
-          pval <- sm$coefficients[2, 4]
-        }
-      }
-    } else {
-      # >2 conditions: chi-squared
-      chisq <- tryCatch(
-        stats::chisq.test(as.integer(counts),
-                          p = total_per_cond / sum(total_per_cond)),
-        error = function(e) list(p.value = 1)
-      )
-      pval <- chisq$p.value
-      # logFC: max enrichment
-      props <- (as.numeric(counts) + 0.5) / (as.numeric(total_per_cond) + 1)
-      lfc <- log2(max(props) / min(props))
-    }
-
-    # -- Record ----------------------------------------------------------------
-    row <- data.frame(
-      nhood_idx         = ci,
-      nhood_cell_id     = rownames(emb)[ci],
-      n_cells           = n_nh,
-      logFC             = lfc,
-      p_value           = pval,
-      cell_type_majority = majority_ct,
-      stringsAsFactors  = FALSE
+    info <- list(
+      ci          = ci,
+      nhood_cells = nhood_cells,
+      n_nh        = n_nh,
+      counts      = counts,
+      majority_ct = majority_ct
     )
-    # Add count columns
-    for (cl in cond_levels) {
-      row[[paste0("n_", cl)]] <- as.integer(counts[cl])
+
+    # Collect sample-level counts for edgeR batch mode
+    if (use_sample_glm) {
+      nhood_samp <- sample_vec[nhood_cells]
+      info$counts_by_samp <- table(factor(nhood_samp, levels = sample_ids))
     }
-    da_list[[i]] <- row
+
+    nhood_info[[i]] <- info
+  }
+  nhood_info <- Filter(Negate(is.null), nhood_info)
+  n_valid <- length(nhood_info)
+
+  if (n_valid == 0)
+    stop("No neighborhoods passed the min_cells filter. ",
+         "Try lowering 'min_cells' or increasing 'k'.")
+
+  if (verbose)
+    message(sprintf("  Valid neighborhoods: %d / %d", n_valid, n_sample))
+
+  # -- Statistical testing -----------------------------------------------------
+  if (use_sample_glm && n_conds == 2) {
+    # ── edgeR quasi-likelihood batch mode (miloR-like) ────────────────────────
+    if (verbose) message("  Running edgeR glmQLFit across all neighborhoods ...")
+
+    # Build count matrix: n_nhoods x n_samples
+    count_mat <- do.call(rbind, lapply(nhood_info, function(x) {
+      as.integer(x$counts_by_samp)
+    }))
+    colnames(count_mat) <- sample_ids
+    rownames(count_mat) <- paste0("nhood_", seq_len(n_valid))
+
+
+    # Design matrix
+    cond_fac <- factor(sample_to_cond, levels = cond_levels)
+    design <- stats::model.matrix(~ cond_fac)
+
+    # Library sizes = total cells per sample
+    lib_sizes <- as.numeric(sample_totals[sample_ids])
+
+    edger_ok <- tryCatch({
+      y <- edgeR::DGEList(counts = count_mat, lib.size = lib_sizes)
+      y <- edgeR::estimateDisp(y, design)
+      fit <- edgeR::glmQLFit(y, design, robust = TRUE)
+      res <- edgeR::glmQLFTest(fit, coef = 2)
+      tt <- edgeR::topTags(res, n = Inf, sort.by = "none")$table
+      TRUE
+    }, error = function(e) {
+      if (verbose)
+        message(sprintf("  [WARN] edgeR failed: %s. Falling back to proportion logFC.",
+                        conditionMessage(e)))
+      FALSE
+    })
+
+    # Assemble da_results
+    da_list <- vector("list", n_valid)
+    for (i in seq_len(n_valid)) {
+      info <- nhood_info[[i]]
+      if (edger_ok) {
+        lfc  <- tt$logFC[i]
+        pval <- tt$PValue[i]
+      } else {
+        # Fallback: proportion logFC + Fisher
+        c1 <- as.integer(info$counts[cond_levels[1]])
+        c2 <- as.integer(info$counts[cond_levels[2]])
+        t1 <- as.integer(total_per_cond[cond_levels[1]])
+        t2 <- as.integer(total_per_cond[cond_levels[2]])
+        prop1 <- (c1 + 0.5) / (t1 + 1)
+        prop2 <- (c2 + 0.5) / (t2 + 1)
+        lfc   <- log2(prop2 / prop1)
+        mat_2x2 <- matrix(c(c1, t1 - c1, c2, t2 - c2), nrow = 2)
+        ft <- tryCatch(stats::fisher.test(mat_2x2),
+                        error = function(e) list(p.value = 1))
+        pval <- ft$p.value
+      }
+
+      row <- data.frame(
+        nhood_idx          = info$ci,
+        nhood_cell_id      = rownames(emb)[info$ci],
+        n_cells            = info$n_nh,
+        logFC              = lfc,
+        p_value            = pval,
+        cell_type_majority = info$majority_ct,
+        stringsAsFactors   = FALSE
+      )
+      for (cl in cond_levels)
+        row[[paste0("n_", cl)]] <- as.integer(info$counts[cl])
+      da_list[[i]] <- row
+    }
+
+  } else {
+    # ── Original per-neighborhood test (no sample_col) ────────────────────────
+    da_list <- vector("list", n_valid)
+    for (i in seq_len(n_valid)) {
+      info <- nhood_info[[i]]
+      pval <- 1
+      lfc  <- 0
+
+      if (n_conds == 2) {
+        c1 <- as.integer(info$counts[cond_levels[1]])
+        c2 <- as.integer(info$counts[cond_levels[2]])
+        t1 <- as.integer(total_per_cond[cond_levels[1]])
+        t2 <- as.integer(total_per_cond[cond_levels[2]])
+        prop1 <- (c1 + 0.5) / (t1 + 1)
+        prop2 <- (c2 + 0.5) / (t2 + 1)
+        lfc   <- log2(prop2 / prop1)
+
+        if (test == "fisher") {
+          mat_2x2 <- matrix(c(c1, t1 - c1, c2, t2 - c2), nrow = 2)
+          ft <- tryCatch(stats::fisher.test(mat_2x2),
+                          error = function(e) list(p.value = 1))
+          pval <- ft$p.value
+        } else {
+          count_df <- data.frame(count = c(c1, c2),
+                                 condition = cond_levels,
+                                 total = c(t1, t2))
+          fit <- tryCatch(MASS::glm.nb(count ~ condition + offset(log(total)),
+                                        data = count_df),
+                          error = function(e) NULL)
+          if (!is.null(fit)) pval <- summary(fit)$coefficients[2, 4]
+        }
+      } else {
+        chisq <- tryCatch(
+          stats::chisq.test(as.integer(info$counts),
+                            p = total_per_cond / sum(total_per_cond)),
+          error = function(e) list(p.value = 1))
+        pval <- chisq$p.value
+        props <- (as.numeric(info$counts) + 0.5) /
+                 (as.numeric(total_per_cond) + 1)
+        lfc <- log2(max(props) / min(props))
+      }
+
+      row <- data.frame(
+        nhood_idx          = info$ci,
+        nhood_cell_id      = rownames(emb)[info$ci],
+        n_cells            = info$n_nh,
+        logFC              = lfc,
+        p_value            = pval,
+        cell_type_majority = info$majority_ct,
+        stringsAsFactors   = FALSE
+      )
+      for (cl in cond_levels)
+        row[[paste0("n_", cl)]] <- as.integer(info$counts[cl])
+      da_list[[i]] <- row
+    }
   }
 
   da_results <- do.call(rbind, da_list)
-  if (is.null(da_results) || nrow(da_results) == 0)
-    stop("No neighborhoods passed the min_cells filter. ",
-         "Try lowering 'min_cells' or increasing 'k'.")
 
   # -- FDR correction ---------------------------------------------------------
   da_results$p_adj <- stats::p.adjust(da_results$p_value, method = "BH")
@@ -943,6 +1072,7 @@ RankPercent <- function(embedding,
     cell_type_summary = ct_summary,
     params = list(
       k = k, prop_sample = prop_sample, test = test,
+      sample_col = sample_col, sample_glm = use_sample_glm,
       min_cells = min_cells, fdr_threshold = fdr_threshold,
       conditions = if (!is.null(conditions)) conditions else cond_levels
     )

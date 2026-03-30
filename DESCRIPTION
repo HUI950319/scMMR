@@ -1,7 +1,7 @@
 Type: Package
 Package: scMMR
 Title: Single-Cell Multi-Task Model in R
-Version: 0.2.0
+Version: 0.3.0
 Authors@R:
     person("Hui", "Ouyang", , "ouyanghui950319@gmail.com", role = c("aut", "cre"))
 Description: A comprehensive toolkit for single-cell RNA-seq analysis powered
@@ -34,6 +34,7 @@ Suggests:
     colorspace,
     FNN,
     MASS,
+    edgeR,
     ggbeeswarm,
     AUCell,
     UCell,
@@ -68,6 +69,11 @@ Suggests:
     circlize,
     ggsankey,
     ggalluvial,
+    Cairo,
+    ragg,
+    png,
+    scattermore,
+    UtilsR,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
@@ -89,11 +95,17 @@ Collate:
     'DNN_deconv_train.R'
     'DNN_deconv_predict.R'
     'plot_utils.R'
+    'raster.R'
+    'DimPlot2.R'
     'PlotAlluvia.R'
     'PlotRankScatter.R'
     'PlotImportance.R'
     'PlotRoe.R'
     'PlotMAP.R'
+    'PlotMAP2.R'
+    'FeaturePlot2.R'
+    'ExpressionStatPlot2.R'
+    'FeaturePlot3.R'
     'PlotPerturbation.R'
     'PlotPercent.R'
     'PlotCorrelation.R'

@@ -102,9 +102,8 @@
 
 #' Find conserved markers across grouping variable levels
 #'
-#' Adapted from scop::FindConservedMarkers2. Splits cells by grouping.var,
-#' runs FindMarkers within each level, intersects significant genes, and
-#' combines p-values.
+#' Splits cells by grouping.var, runs FindMarkers within each level,
+#' intersects significant genes, and combines p-values.
 #'
 #' @keywords internal
 .find_conserved_markers <- function(object,
@@ -1332,7 +1331,7 @@ PlotDE <- function(x,
 }
 
 # --------------------------------------------------------------------------
-# Manhattan (scop-style)
+# Manhattan plot
 # --------------------------------------------------------------------------
 #' @keywords internal
 .plot_de_manhattan <- function(df, nlabel, features_label, point_size,
@@ -1465,7 +1464,7 @@ PlotDE <- function(x,
 }
 
 # --------------------------------------------------------------------------
-# Ring (scop-style)
+# Ring plot
 # --------------------------------------------------------------------------
 #' @keywords internal
 .plot_de_ring <- function(df, nlabel, features_label, point_size,

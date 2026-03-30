@@ -6,7 +6,7 @@
 \usage{
 PlotMAP(
   ref,
-  query_meta,
+  query,
   ref_emb = c("umap_1", "umap_2"),
   query_emb = c("umap_1_pred", "umap_2_pred"),
   color_by = "cell_type",
@@ -30,7 +30,7 @@ coordinates and cell-type labels.
     \code{Seurat::FetchData(ref, vars = c(ref_emb, color_by))}.
 }}
 
-\item{query_meta}{A data.frame with query cell metadata, e.g.
+\item{query}{A data.frame with query cell metadata, e.g.
 \code{q1@meta.data} after \code{AddMetaData(obj, pred$predictions)}.
 Must contain columns specified by \code{query_emb} (and optionally
 \code{facet_by}).}
@@ -44,7 +44,7 @@ query UMAP axes.  Default \code{c("umap_1_pred", "umap_2_pred")}.}
 \item{color_by}{Column name in \code{ref} used for colouring reference
 cells.  Default \code{"cell_type"}.}
 
-\item{facet_by}{Optional column name in \code{query_meta} for faceting
+\item{facet_by}{Optional column name in \code{query} for faceting
 (e.g. \code{"group"}).  \code{NULL} = no faceting.}
 
 \item{colors}{Optional named colour vector.  If \code{NULL}, default
@@ -76,7 +76,7 @@ query cells are plotted as black points with red density contours.
 \dontrun{
 ref_data <- Seurat::FetchData(seu,
   vars = c("umap_1", "umap_2", "cell_type"))
-PlotMAP(ref = ref_data, query_meta = q1@meta.data,
+PlotMAP(ref = ref_data, query = q1@meta.data,
   facet_by = "group")
 }
 
