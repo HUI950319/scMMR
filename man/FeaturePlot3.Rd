@@ -295,8 +295,7 @@ A ggplot2 / patchwork object (or list when \code{combine = FALSE}).
 \description{
 Generates violin, box, bar, dot, or column plots for one or more features
 (genes or metadata numeric columns) stratified by a grouping variable.
-Full feature parity with \code{scop::FeatureStatPlot} with optimised
-parameter names consistent with \code{DimPlot2} / \code{FeaturePlot2}.
+Parameter names are consistent with \code{DimPlot2} / \code{FeaturePlot2}.
 }
 \examples{
 \dontrun{

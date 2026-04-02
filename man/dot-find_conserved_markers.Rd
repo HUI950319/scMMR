@@ -31,8 +31,7 @@
 )
 }
 \description{
-Adapted from scop::FindConservedMarkers2. Splits cells by grouping.var,
-runs FindMarkers within each level, intersects significant genes, and
-combines p-values.
+Splits cells by grouping.var, runs FindMarkers within each level,
+intersects significant genes, and combines p-values.
 }
 \keyword{internal}

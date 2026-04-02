@@ -150,6 +150,11 @@
 #' @param exp_method Character, one of \code{"log1p"}, \code{"raw"}, or
 #'   \code{"zscore"}. Transformation applied to expression values before
 #'   plotting. Default \code{"log1p"}.
+#' @param stat_method Character. Method for computing the annotation
+#'   statistics displayed on each panel. \code{"fit"} (default) shows
+#'   the p-value and R-squared from the fitted curve. \code{"spearman"}
+#'   shows the Spearman correlation coefficient (rho) and FDR-adjusted
+#'   p-value, matching \code{\link{RunTraceGene}} output.
 #' @param lib_normalize Logical.
 #'   Whether to normalise by library size. Default \code{TRUE} when
 #'   \code{layer = "counts"}.
@@ -177,6 +182,11 @@
 #' @param nrow Integer. Number of rows in the facet layout.
 #' @param reverse Logical. Reverse the pseudotime axis. Default \code{FALSE}.
 #' @param flip Logical. Flip x and y axes. Default \code{FALSE}.
+#' @param raster Logical or \code{NULL}. Whether to rasterise scatter
+#'   points via \code{\link{rasterise_layer}}. When \code{NULL}
+#'   (default), rasterisation is enabled automatically if the number of
+#'   cells exceeds 100 000. Set \code{TRUE} / \code{FALSE} to override.
+#' @param raster.dpi Numeric. DPI for rasterised points. Default 300.
 #' @param seed Integer. Random seed. Default 11.
 #' @param ... Additional arguments passed to the fitting function
 #'   (\code{mgcv::gam}, \code{stats::loess}, or \code{stats::lm.fit}).
@@ -235,6 +245,7 @@ PlotDynamicFeatures <- function(
     bspline_knot  = 3,
     family        = NULL,
     exp_method    = c("log1p", "raw", "zscore"),
+    stat_method   = c("fit", "spearman"),
     lib_normalize = (layer == "counts"),
     add_point     = TRUE,
     add_line      = TRUE,
@@ -252,12 +263,22 @@ PlotDynamicFeatures <- function(
     nrow          = NULL,
     reverse       = FALSE,
     flip          = FALSE,
+    raster        = NULL,
+    raster.dpi    = 300,
     seed          = 11,
     ...) {
 
   set.seed(seed)
   fit_method <- match.arg(fit_method)
   exp_method <- match.arg(exp_method)
+  stat_method <- match.arg(stat_method)
+
+  # ---- Auto raster ----
+  n_cells <- ncol(srt)
+  raster <- raster %||% (n_cells > 1e5)
+  if (!is.numeric(raster.dpi) || length(raster.dpi) != 1) {
+    stop("'raster.dpi' must be a numeric scalar.", call. = FALSE)
+  }
 
   if (is.null(family)) family <- "gaussian"
 
@@ -383,11 +404,20 @@ PlotDynamicFeatures <- function(
 
       # collect statistics
       key <- paste(lin, feat, sep = "|")
-      stat_list[[key]] <- data.frame(
-        Feature = feat, Lineage = lin,
-        pvalue = fit_result$pvalue, R2 = fit_result$r_sq,
-        stringsAsFactors = FALSE
-      )
+      if (stat_method == "spearman") {
+        ct <- stats::cor.test(x_use, y_use, method = "spearman", exact = FALSE)
+        stat_list[[key]] <- data.frame(
+          Feature = feat, Lineage = lin,
+          pvalue = ct$p.value, R2 = fit_result$r_sq,
+          rho = unname(ct$estimate),
+          stringsAsFactors = FALSE)
+      } else {
+        stat_list[[key]] <- data.frame(
+          Feature = feat, Lineage = lin,
+          pvalue = fit_result$pvalue, R2 = fit_result$r_sq,
+          rho = NA_real_,
+          stringsAsFactors = FALSE)
+      }
 
       df_list[[key]] <- list(raw = raw_df, fit = curve_df)
     }
@@ -403,6 +433,11 @@ PlotDynamicFeatures <- function(
   rownames(raw_all) <- NULL
   rownames(fit_all) <- NULL
   rownames(stat_all) <- NULL
+
+  # adjust p-values when using spearman correlation
+  if (stat_method == "spearman") {
+    stat_all$pvalue <- stats::p.adjust(stat_all$pvalue, method = "fdr")
+  }
 
   # --- add group info ---
   if (!is.null(group.by)) {
@@ -492,7 +527,7 @@ PlotDynamicFeatures <- function(
   if (!is.null(group.by)) {
     # points colored by group
     if (isTRUE(add_point)) {
-      p <- p + ggplot2::geom_point(
+      .pt_layer1 <- ggplot2::geom_point(
         data = raw_all,
         ggplot2::aes(
           x     = .data$Pseudotime,
@@ -502,6 +537,7 @@ PlotDynamicFeatures <- function(
         size  = pt.size,
         alpha = 0.6
       )
+      p <- p + if (isTRUE(raster)) rasterise_layer(.pt_layer1, dpi = raster.dpi) else .pt_layer1
     }
     # rug colored by group (same color scale as points)
     if (isTRUE(add_rug)) {
@@ -526,7 +562,7 @@ PlotDynamicFeatures <- function(
   } else {
     # no group: grey points
     if (isTRUE(add_point)) {
-      p <- p + ggplot2::geom_point(
+      .pt_layer2 <- ggplot2::geom_point(
         data = raw_all,
         ggplot2::aes(
           x = .data$Pseudotime,
@@ -536,6 +572,7 @@ PlotDynamicFeatures <- function(
         alpha = 0.4,
         color = "grey60"
       )
+      p <- p + if (isTRUE(raster)) rasterise_layer(.pt_layer2, dpi = raster.dpi) else .pt_layer2
     }
     # rug without group color
     if (isTRUE(add_rug)) {
@@ -648,8 +685,14 @@ PlotDynamicFeatures <- function(
     } else {
       sprintf("P = %.4f", pv)
     }
-    r2_txt <- if (is.na(r2)) "R\u00b2 = NA" else sprintf("R\u00b2 = %.3f", r2)
-    paste0(pv_txt, "\n", r2_txt)
+    if (stat_method == "spearman") {
+      rho_val <- stat_all$rho[i]
+      rho_txt <- if (is.na(rho_val)) "r_s = NA" else sprintf("r_s = %.3f", rho_val)
+      paste0(pv_txt, "\n", rho_txt)
+    } else {
+      r2_txt <- if (is.na(r2)) "R\u00b2 = NA" else sprintf("R\u00b2 = %.3f", r2)
+      paste0(pv_txt, "\n", r2_txt)
+    }
   }, character(1))
 
   stat_all$Feature <- factor(stat_all$Feature, levels = features)
@@ -701,9 +744,13 @@ PlotDynamicFeatures <- function(
   # labels and theme
   p <- p +
     ggplot2::labs(x = "Pseudotime", y = y_label) +
-    ggplot2::theme_classic(base_size = 12) +
+    ggplot2::theme_bw(base_size = 12) +
     ggplot2::theme(
       strip.text = ggplot2::element_text(face = "bold"),
+      strip.background = ggplot2::element_rect(fill = "grey90", color = "black"),
+      panel.border = ggplot2::element_rect(color = "black", fill = NA, linewidth = 0.6),
+      panel.grid.major = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank(),
       legend.position = "right"
     )
 

@@ -2485,6 +2485,30 @@ PlotGsea <- function(gsea_result,
       }
     }
 
+    # Gene labels for multi-pathway mode
+    if (n_paths > 1 && length(features_label) > 0) {
+      df_gene <- gsdata[gsdata$position == 1 &
+                         gsdata$GeneName %in% features_label, ,
+                        drop = FALSE]
+      if (nrow(df_gene) > 0) {
+        if (!requireNamespace("ggrepel", quietly = TRUE))
+          stop("Package 'ggrepel' is required for gene labels.")
+        p1 <- p1 +
+          ggplot2::geom_point(
+            data = df_gene,
+            ggplot2::aes(y = runningScore),
+            color = "black", inherit.aes = TRUE
+          ) +
+          ggrepel::geom_text_repel(
+            data = df_gene,
+            ggplot2::aes(y = runningScore, label = GeneName),
+            min.segment.length = 0, max.overlaps = 50,
+            segment.colour = "grey40", size = label.size,
+            color = "black", bg.color = "white", bg.r = 0.1
+          )
+      }
+    }
+
     # --- Panel 2: Hit marks ---
     # Remap ymin/ymax for stacked hit marks per pathway
     i <- 0

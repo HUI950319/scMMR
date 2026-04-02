@@ -19,9 +19,20 @@
 #'   \code{padjust}/\code{AdjPValue}).  Column matching is
 #'   case-insensitive.  An optional grouping column (\code{group}/
 #'   \code{lineage}/\code{Lineage}) enables faceting.
+#' @param name.col Character.  Column name to use as the label/name
+#'   (e.g. gene or pathway names).  Default: \code{NULL} (auto-detect
+#'   from \code{gene}/\code{pathway}/\code{name}/\code{feature},
+#'   case-insensitive).
+#' @param score.col Character.  Column name to use as the score (y-axis).
+#'   Default: \code{NULL} (auto-detect from \code{score}/\code{rho}/
+#'   \code{NES}).
+#' @param p.col Character.  Column name to use as the p-value (x-axis).
+#'   Default: \code{NULL} (auto-detect from \code{padj}/\code{padjust}/
+#'   \code{pvalue}/\code{PValue}).  Overrides \code{use.padj} when set.
 #' @param use.padj Logical.  Use adjusted p-value (\code{padj} or
 #'   \code{padjust}) instead of raw \code{pvalue} for the x-axis and
-#'   significance threshold. Default: \code{TRUE}.
+#'   significance threshold.  Ignored when \code{p.col} is specified.
+#'   Default: \code{TRUE}.
 #' @param p.cutoff Numeric.  Significance threshold on the chosen p-value
 #'   column. Default: 0.05.
 #' @param cor.cutoff Numeric.  Minimum absolute correlation to be
@@ -29,15 +40,15 @@
 #' @param label Character or character vector controlling which genes to
 #'   label.
 #'   \itemize{
-#'     \item \code{"top"} (default) — label \code{topn} genes with largest
-#'       absolute correlation among significant hits.
+#'     \item \code{"top"} (default) — label \code{topn} positive and
+#'       \code{topn} negative genes among significant hits.
 #'     \item \code{"sig"} — label all significant genes.
 #'     \item \code{"all"} — label every point.
 #'     \item \code{"none"} — no labels.
 #'     \item A character vector of specific gene names.
 #'   }
-#' @param topn Integer.  Number of top genes to label when
-#'   \code{label = "top"}. Default: 10.
+#' @param topn Integer.  Number of top genes to label per direction
+#'   (positive and negative) when \code{label = "top"}. Default: 5.
 #' @param col.pos Character. Color for significant positive correlations.
 #'   Default: \code{"#E64B35"} (red).
 #' @param col.neg Character. Color for significant negative correlations.
@@ -45,82 +56,84 @@
 #' @param col.ns Character. Color for non-significant points.
 #'   Default: \code{"grey70"}.
 #' @param size.by Character. Variable to map to point size.
-#'   \itemize{
-#'     \item \code{"none"} (default) — all points use \code{point.size}.
-#'     \item \code{"cor"} — size mapped to absolute correlation value.
-#'     \item \code{"pvalue"} — size mapped to \eqn{-\log_{10}(p)}.
-#'   }
-#' @param point.size Numeric. Fixed point size when \code{size.by = "none"},
-#'   ignored otherwise. Default: 2.5.
+#'   Built-in shortcuts: \code{"none"} (default, fixed size),
+#'   \code{"cor"} (absolute correlation), \code{"pvalue"}
+#'   (\eqn{-\log_{10}(p)}). Or pass any column name in \code{data}.
+#' @param point.size Numeric. Fixed point size when \code{size.by = "none"}.
+#'   Default: 2.5.
 #' @param size.range Numeric vector of length 2. Range of point sizes when
 #'   \code{size.by} is not \code{"none"}. Default: \code{c(0.5, 5)}.
-#' @param point.alpha Numeric. Point transparency. Default: 0.7.
+#' @param alpha.by Character. Variable to map to point transparency.
+#'   Built-in shortcuts: \code{"none"} (default, fixed alpha),
+#'   \code{"cor"} (absolute correlation), \code{"pvalue"}
+#'   (\eqn{-\log_{10}(p)}). Or pass any column name in \code{data}.
+#' @param point.alpha Numeric. Fixed point transparency when
+#'   \code{alpha.by = "none"}. Default: 0.7.
+#' @param alpha.range Numeric vector of length 2. Range of alpha values
+#'   when \code{alpha.by} is not \code{"none"}. Default: \code{c(0.1, 1)}.
 #' @param label.size Numeric. Label text size. Default: 3.5.
 #' @param label.color Character. Label text color. Default: \code{"black"}.
-#' @param box.padding Numeric. Padding around label boxes (passed to
-#'   \code{ggrepel::geom_text_repel}). Default: 0.5.
-#' @param max.overlaps Integer. Maximum overlapping labels.
-#'   Default: 20.
-#' @param title Character. Plot title. Default: \code{NULL} (auto-generated
-#'   from the \code{target} attribute).
-#' @param xlab Character. X-axis label.  Default: auto.
-#' @param ylab Character. Y-axis label.  Default: \code{NULL} (auto:
-#'   \code{"Correlation"} or \code{"NES"} depending on input).
-#' @param ncol Integer.  Number of columns when a \code{group} column is
-#'   present and faceting is used. Default: 3.
+#' @param box.padding Numeric. Padding around label boxes. Default: 0.5.
+#' @param max.overlaps Integer. Maximum overlapping labels. Default: 20.
+#' @param title Character. Plot title. Default: \code{NULL} (auto).
+#' @param xlab Character. X-axis label. Default: auto.
+#' @param ylab Character. Y-axis label. Default: \code{NULL} (auto).
+#' @param ncol Integer. Number of facet columns. Default: 3.
 #'
 #' @return A \code{ggplot} object.
 #'
 #' @examples
 #' \dontrun{
-#' # --- RunCorrelation output ---
 #' res <- RunCorrelation(seu, target = "PTH")
-#' PlotCorrelation(res)
-#' PlotCorrelation(res, label = "top", topn = 15)
-#' PlotCorrelation(res, label = c("GCM2", "CASR", "VDR"))
+#' PlotCorrelation(res)                              # top 5 pos + 5 neg
+#' PlotCorrelation(res, topn = 10)                   # top 10 pos + 10 neg
+#' PlotCorrelation(res, label = c("GCM2", "CASR"))   # specific genes
 #'
-#' # Map point size to |correlation|
-#' PlotCorrelation(res, size.by = "cor")
+#' # Custom score and p-value columns
+#' PlotCorrelation(res, score.col = "prop_cor", p.col = "prop_padj")
 #'
-#' # Map point size to -log10(p)
-#' PlotCorrelation(res, size.by = "pvalue", size.range = c(1, 6))
+#' # Map size and alpha to custom columns
+#' PlotCorrelation(res, size.by = "prop_cor", alpha.by = "de_abs_logFC")
 #'
-#' # Per-group (RunCorrelation)
+#' # Per-group
 #' res <- RunCorrelation(seu, target = "PTH", group.by = "celltype")
-#' PlotCorrelation(res, size.by = "cor")
+#' PlotCorrelation(res, size.by = "cor", alpha.by = "cor")
 #'
-#' # --- RunTraceGene output (rho + padjust + lineage) ---
+#' # RunTraceGene output
 #' tg <- RunTraceGene(seu, lineages = c("Lineage1", "Lineage2"))
-#' PlotCorrelation(tg)                   # faceted by lineage
-#' PlotCorrelation(tg, size.by = "cor")  # size = |rho|
+#' PlotCorrelation(tg, size.by = "cor")
 #'
-#' # --- RunTraceGSEA output (Score/NES + AdjPValue + Lineage) ---
-#' gsea <- RunTraceGSEA(seu, lineages = c("Lineage1", "Lineage2"),
-#'                      gene.sets = gmt)
-#' PlotCorrelation(gsea)                 # ylab auto = "NES"
-#' PlotCorrelation(gsea, size.by = "pvalue")
+#' # RunTraceGSEA output
+#' gsea <- RunTraceGSEA(seu, lineages = c("Lineage1"), gene.sets = gmt)
+#' PlotCorrelation(gsea, size.by = "pvalue", alpha.by = "pvalue")
 #' }
 #'
 #' @seealso \code{\link{RunCorrelation}}, \code{\link{PlotRankScatter}},
 #'   \code{\link{PlotScatter}}
 #' @importFrom ggplot2 ggplot aes geom_point geom_hline geom_vline
-#'   scale_color_manual scale_size_continuous facet_wrap labs theme_bw
+#'   scale_color_manual scale_size_continuous scale_alpha_continuous
+#'   facet_wrap labs theme_bw
 #'   theme element_text element_blank guide_legend
 #' @importFrom rlang .data
 #' @export
 PlotCorrelation <- function(data,
+                            name.col     = NULL,
+                            score.col    = NULL,
+                            p.col        = NULL,
                             use.padj     = TRUE,
                             p.cutoff     = 0.05,
                             cor.cutoff   = 0,
                             label        = "top",
-                            topn         = 10L,
+                            topn         = 5L,
                             col.pos      = "#E64B35",
                             col.neg      = "#4DBBD5",
                             col.ns       = "grey70",
-                            size.by      = c("none", "cor", "pvalue"),
+                            size.by      = "none",
                             point.size   = 2.5,
                             size.range   = c(0.5, 5),
+                            alpha.by     = "none",
                             point.alpha  = 0.7,
+                            alpha.range  = c(0.1, 1),
                             label.size   = 3.5,
                             label.color  = "black",
                             box.padding  = 0.5,
@@ -146,30 +159,55 @@ PlotCorrelation <- function(data,
     NA_character_
   }
 
-  # Resolve name column: gene > pathway > name > feature
-  name_col <- .mc(c("gene", "pathway", "name", "feature"), colnames(data))
-  if (is.na(name_col)) {
-    stop("Need a name column ('gene' or 'pathway').", call. = FALSE)
-  }
-
-  # Resolve score column: score > rho > NES
-  score_col <- .mc(c("score", "rho", "NES"), colnames(data))
-  if (is.na(score_col)) {
-    stop("Need a score column ('score', 'rho', or 'NES').", call. = FALSE)
-  }
-
-  # Resolve p-value column: padj > padjust > AdjPValue > pvalue > PValue
-  if (isTRUE(use.padj)) {
-    p_col <- .mc(c("padj", "padjust", "AdjPValue"), colnames(data))
+  # Resolve name column: user-specified or auto-detect
+  if (!is.null(name.col)) {
+    if (!name.col %in% colnames(data)) {
+      stop(sprintf("name.col '%s' not found in data. Available: %s",
+                   name.col, paste(colnames(data), collapse = ", ")),
+           call. = FALSE)
+    }
+    name_col <- name.col
   } else {
-    p_col <- NA_character_
+    name_col <- .mc(c("gene", "pathway", "name", "feature"), colnames(data))
+    if (is.na(name_col)) {
+      stop("No name column auto-detected (gene/pathway/name/feature). ",
+           "Set name.col manually.", call. = FALSE)
+    }
   }
-  if (is.na(p_col)) {
-    p_col <- .mc(c("pvalue", "PValue"), colnames(data))
+
+  # Resolve score column: user-specified or auto-detect
+  if (!is.null(score.col)) {
+    if (!score.col %in% colnames(data)) {
+      stop(sprintf("score.col '%s' not found in data.", score.col), call. = FALSE)
+    }
+    s_col <- score.col
+  } else {
+    s_col <- .mc(c("score", "rho", "NES"), colnames(data))
+    if (is.na(s_col)) {
+      stop("Need a score column ('score', 'rho', or 'NES'), or set score.col.",
+           call. = FALSE)
+    }
   }
-  if (is.na(p_col)) {
-    stop("No p-value column found (pvalue/PValue/padj/padjust/AdjPValue).",
-         call. = FALSE)
+
+  # Resolve p-value column: user-specified or auto-detect
+  if (!is.null(p.col)) {
+    if (!p.col %in% colnames(data)) {
+      stop(sprintf("p.col '%s' not found in data.", p.col), call. = FALSE)
+    }
+    pv_col <- p.col
+  } else {
+    if (isTRUE(use.padj)) {
+      pv_col <- .mc(c("padj", "padjust", "AdjPValue"), colnames(data))
+    } else {
+      pv_col <- NA_character_
+    }
+    if (is.na(pv_col)) {
+      pv_col <- .mc(c("pvalue", "PValue"), colnames(data))
+    }
+    if (is.na(pv_col)) {
+      stop("No p-value column found (pvalue/PValue/padj/padjust/AdjPValue), or set p.col.",
+           call. = FALSE)
+    }
   }
 
   # Resolve group column: group > lineage > Lineage
@@ -178,10 +216,10 @@ PlotCorrelation <- function(data,
 
   # ── Derived columns ───────────────────────────────────────────────────────
   df <- data
-  df$gene  <- df[[name_col]]           # normalise to 'gene' for labels
-  df$score <- df[[score_col]]          # normalise to 'score'
-  if (has_group) df$group <- df[[group_col]]   # normalise to 'group'
-  df$.p     <- df[[p_col]]
+  df$gene  <- df[[name_col]]
+  df$score <- df[[s_col]]
+  if (has_group) df$group <- df[[group_col]]
+  df$.p     <- df[[pv_col]]
   df$.logp  <- -log10(pmax(df$.p, .Machine$double.xmin))
 
   df$.sig <- ifelse(
@@ -201,31 +239,32 @@ PlotCorrelation <- function(data,
     }
   }
   if (is.null(xlab)) {
-    is_adj <- tolower(p_col) %in% c("padj", "padjust", "adjpvalue")
+    is_adj <- tolower(pv_col) %in% c("padj", "padjust", "adjpvalue")
     xlab <- bquote(-log[10] ~ italic(.(ifelse(is_adj, "p.adj", "p"))))
   }
   if (is.null(ylab)) {
-    # Auto-detect GSEA output: NES column or Method == "GSEA"
-    is_gsea <- tolower(score_col) == "nes" ||
+    is_gsea <- tolower(s_col) == "nes" ||
       ("Method" %in% colnames(data) && any(data[["Method"]] == "GSEA"))
-    ylab <- if (is_gsea) "NES" else "Correlation"
+    ylab <- if (is_gsea) "Normalized Enrichment Score" else "Correlation"
   }
 
-  # ── Resolve label subset ──────────────────────────────────────────────────
+  # ── Resolve label subset (top N positive + top N negative) ────────────────
   sig_df <- df[df$.sig != "NS", , drop = FALSE]
 
   if (length(label) == 1 && label == "top") {
+    .pick_top_both <- function(sub, n) {
+      pos <- sub[sub$score > 0, , drop = FALSE]
+      neg <- sub[sub$score < 0, , drop = FALSE]
+      pos <- pos[order(-pos$score), ]
+      neg <- neg[order(neg$score), ]
+      rbind(head(pos, n), head(neg, n))
+    }
     if (has_group) {
-      # Per-group top N
       label_df <- do.call(rbind, lapply(
-        split(sig_df, sig_df$group), function(sub) {
-          sub <- sub[order(-abs(sub$score)), ]
-          head(sub, topn)
-        }
+        split(sig_df, sig_df$group), function(sub) .pick_top_both(sub, topn)
       ))
     } else {
-      sig_df <- sig_df[order(-abs(sig_df$score)), ]
-      label_df <- head(sig_df, topn)
+      label_df <- .pick_top_both(sig_df, topn)
     }
   } else if (length(label) == 1 && label == "sig") {
     label_df <- sig_df
@@ -234,59 +273,93 @@ PlotCorrelation <- function(data,
   } else if (length(label) == 1 && label == "none") {
     label_df <- df[0, ]
   } else {
-    # Specific gene names
     label_df <- df[df$gene %in% label, , drop = FALSE]
   }
 
-  # ── size.by ──────────────────────────────────────────────────────────────
-  size.by <- match.arg(size.by)
+  # ── Helper: resolve aesthetic variable ────────────────────────────────────
+  .resolve_aes <- function(by, df, aes_name) {
+    if (by == "none") return(list(var = NULL, lab = NULL))
+    if (by == "cor") {
+      df$.tmp <- abs(df$score)
+      return(list(var = ".tmp", lab = "|Correlation|"))
+    }
+    if (by == "pvalue") {
+      df$.tmp <- df$.logp
+      return(list(var = ".tmp", lab = bquote(-log[10] ~ italic(p))))
+    }
+    if (!by %in% colnames(df)) {
+      stop(sprintf("Column '%s' not found in data for %s mapping.", by, aes_name),
+           call. = FALSE)
+    }
+    list(var = by, lab = by)
+  }
 
-  if (size.by == "cor") {
-    df$.size_var <- abs(df$score)
-    size_lab     <- "|Correlation|"
-  } else if (size.by == "pvalue") {
-    df$.size_var <- df$.logp
-    size_lab     <- bquote(-log[10] ~ italic(p))
+  # ── size.by ──────────────────────────────────────────────────────────────
+  size_info <- .resolve_aes(size.by, df, "size.by")
+  if (!is.null(size_info$var)) {
+    if (size_info$var == ".tmp") {
+      if (size.by == "cor") df$.size_var <- abs(df$score)
+      else df$.size_var <- df$.logp
+      size_info$var <- ".size_var"
+    }
+    size_lab <- size_info$lab
+  }
+
+  # ── alpha.by ─────────────────────────────────────────────────────────────
+  alpha_info <- .resolve_aes(alpha.by, df, "alpha.by")
+  if (!is.null(alpha_info$var)) {
+    if (alpha_info$var == ".tmp") {
+      if (alpha.by == "cor") df$.alpha_var <- abs(df$score)
+      else df$.alpha_var <- df$.logp
+      alpha_info$var <- ".alpha_var"
+    }
+    alpha_lab <- alpha_info$lab
   }
 
   # ── Build plot ────────────────────────────────────────────────────────────
   sig_colors <- c("Positive" = col.pos, "Negative" = col.neg, "NS" = col.ns)
+  use_size  <- !is.null(size_info$var)
+  use_alpha <- !is.null(alpha_info$var)
 
-  if (size.by == "none") {
+  if (use_size && use_alpha) {
     p <- ggplot2::ggplot(df, ggplot2::aes(
-      x     = .data$.logp,
-      y     = .data$score,
-      color = .data$.sig
-    )) +
-      ggplot2::geom_point(size = point.size, alpha = point.alpha)
+      x = .data$.logp, y = .data$score, color = .data$.sig,
+      size = .data[[size_info$var]], alpha = .data[[alpha_info$var]]
+    )) + ggplot2::geom_point()
+  } else if (use_size) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(
+      x = .data$.logp, y = .data$score, color = .data$.sig,
+      size = .data[[size_info$var]]
+    )) + ggplot2::geom_point(alpha = point.alpha)
+  } else if (use_alpha) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(
+      x = .data$.logp, y = .data$score, color = .data$.sig,
+      alpha = .data[[alpha_info$var]]
+    )) + ggplot2::geom_point(size = point.size)
   } else {
     p <- ggplot2::ggplot(df, ggplot2::aes(
-      x     = .data$.logp,
-      y     = .data$score,
-      color = .data$.sig,
-      size  = .data$.size_var
-    )) +
-      ggplot2::geom_point(alpha = point.alpha) +
-      ggplot2::scale_size_continuous(
-        name  = size_lab,
-        range = size.range,
-        guide = ggplot2::guide_legend(
-          override.aes = list(alpha = 1, color = "grey30"),
-          order = 2
-        )
-      )
+      x = .data$.logp, y = .data$score, color = .data$.sig
+    )) + ggplot2::geom_point(size = point.size, alpha = point.alpha)
+  }
+
+  if (use_size) {
+    p <- p + ggplot2::scale_size_continuous(
+      name = size_lab, range = size.range,
+      guide = ggplot2::guide_legend(
+        override.aes = list(alpha = 1, color = "grey30"), order = 2))
+  }
+  if (use_alpha) {
+    p <- p + ggplot2::scale_alpha_continuous(
+      name = alpha_lab, range = alpha.range,
+      guide = ggplot2::guide_legend(
+        override.aes = list(size = 3, color = "grey30"), order = 3))
   }
 
   p <- p +
     ggplot2::scale_color_manual(
-      values = sig_colors,
-      name   = "Significance",
-      drop   = FALSE,
-      guide  = ggplot2::guide_legend(
-        override.aes = list(size = 3, alpha = 1),
-        order = 1
-      )
-    ) +
+      values = sig_colors, name = "Significance", drop = FALSE,
+      guide = ggplot2::guide_legend(
+        override.aes = list(size = 3, alpha = 1), order = 1)) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed",
                         color = "grey40", linewidth = 0.5) +
     ggplot2::geom_vline(xintercept = -log10(p.cutoff), linetype = "dashed",
@@ -297,23 +370,14 @@ PlotCorrelation <- function(data,
     if (!requireNamespace("ggrepel", quietly = TRUE)) {
       message("Install 'ggrepel' for non-overlapping labels.")
       p <- p + ggplot2::geom_text(
-        data    = label_df,
-        mapping = ggplot2::aes(label = .data$gene),
-        color   = label.color,
-        size    = label.size,
-        hjust   = -0.1, vjust = -0.5
-      )
+        data = label_df, mapping = ggplot2::aes(label = .data$gene),
+        color = label.color, size = label.size, hjust = -0.1, vjust = -0.5)
     } else {
       p <- p + ggrepel::geom_text_repel(
-        data         = label_df,
-        mapping      = ggplot2::aes(label = .data$gene),
-        color        = label.color,
-        size         = label.size,
-        box.padding  = box.padding,
-        max.overlaps = max.overlaps,
-        segment.color = "grey50",
-        show.legend  = FALSE
-      )
+        data = label_df, mapping = ggplot2::aes(label = .data$gene),
+        color = label.color, size = label.size,
+        box.padding = box.padding, max.overlaps = max.overlaps,
+        segment.color = "grey50", show.legend = FALSE)
     }
   }
 

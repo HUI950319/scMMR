@@ -17,6 +17,7 @@ PlotDynamicFeatures(
   bspline_knot = 3,
   family = NULL,
   exp_method = c("log1p", "raw", "zscore"),
+  stat_method = c("fit", "spearman"),
   lib_normalize = (layer == "counts"),
   add_point = TRUE,
   add_line = TRUE,
@@ -34,6 +35,8 @@ PlotDynamicFeatures(
   nrow = NULL,
   reverse = FALSE,
   flip = FALSE,
+  raster = NULL,
+  raster.dpi = 300,
   seed = 11,
   ...
 )
@@ -76,6 +79,12 @@ Default 3.}
 \item{exp_method}{Character, one of \code{"log1p"}, \code{"raw"}, or
 \code{"zscore"}. Transformation applied to expression values before
 plotting. Default \code{"log1p"}.}
+
+\item{stat_method}{Character. Method for computing the annotation
+statistics displayed on each panel. \code{"fit"} (default) shows
+the p-value and R-squared from the fitted curve. \code{"spearman"}
+shows the Spearman correlation coefficient (rho) and FDR-adjusted
+p-value, matching \code{\link{RunTraceGene}} output.}
 
 \item{lib_normalize}{Logical.
 Whether to normalise by library size. Default \code{TRUE} when
@@ -120,6 +129,13 @@ overlay them in a single panel per lineage. Default \code{FALSE}.}
 \item{reverse}{Logical. Reverse the pseudotime axis. Default \code{FALSE}.}
 
 \item{flip}{Logical. Flip x and y axes. Default \code{FALSE}.}
+
+\item{raster}{Logical or \code{NULL}. Whether to rasterise scatter
+points via \code{\link{rasterise_layer}}. When \code{NULL}
+(default), rasterisation is enabled automatically if the number of
+cells exceeds 100 000. Set \code{TRUE} / \code{FALSE} to override.}
+
+\item{raster.dpi}{Numeric. DPI for rasterised points. Default 300.}
 
 \item{seed}{Integer. Random seed. Default 11.}
 

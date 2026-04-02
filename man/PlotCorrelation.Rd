@@ -6,18 +6,23 @@
 \usage{
 PlotCorrelation(
   data,
+  name.col = NULL,
+  score.col = NULL,
+  p.col = NULL,
   use.padj = TRUE,
   p.cutoff = 0.05,
   cor.cutoff = 0,
   label = "top",
-  topn = 10L,
+  topn = 5L,
   col.pos = "#E64B35",
   col.neg = "#4DBBD5",
   col.ns = "grey70",
-  size.by = c("none", "cor", "pvalue"),
+  size.by = "none",
   point.size = 2.5,
   size.range = c(0.5, 5),
+  alpha.by = "none",
   point.alpha = 0.7,
+  alpha.range = c(0.1, 1),
   label.size = 3.5,
   label.color = "black",
   box.padding = 0.5,
@@ -38,9 +43,23 @@ and a p-value column (\code{pvalue}/\code{PValue}, \code{padj}/
 case-insensitive.  An optional grouping column (\code{group}/
 \code{lineage}/\code{Lineage}) enables faceting.}
 
+\item{name.col}{Character.  Column name to use as the label/name
+(e.g. gene or pathway names).  Default: \code{NULL} (auto-detect
+from \code{gene}/\code{pathway}/\code{name}/\code{feature},
+case-insensitive).}
+
+\item{score.col}{Character.  Column name to use as the score (y-axis).
+Default: \code{NULL} (auto-detect from \code{score}/\code{rho}/
+\code{NES}).}
+
+\item{p.col}{Character.  Column name to use as the p-value (x-axis).
+Default: \code{NULL} (auto-detect from \code{padj}/\code{padjust}/
+\code{pvalue}/\code{PValue}).  Overrides \code{use.padj} when set.}
+
 \item{use.padj}{Logical.  Use adjusted p-value (\code{padj} or
 \code{padjust}) instead of raw \code{pvalue} for the x-axis and
-significance threshold. Default: \code{TRUE}.}
+significance threshold.  Ignored when \code{p.col} is specified.
+Default: \code{TRUE}.}
 
 \item{p.cutoff}{Numeric.  Significance threshold on the chosen p-value
 column. Default: 0.05.}
@@ -51,16 +70,16 @@ considered significant. Default: 0 (any direction).}
 \item{label}{Character or character vector controlling which genes to
 label.
 \itemize{
-  \item \code{"top"} (default) — label \code{topn} genes with largest
-    absolute correlation among significant hits.
+  \item \code{"top"} (default) — label \code{topn} positive and
+    \code{topn} negative genes among significant hits.
   \item \code{"sig"} — label all significant genes.
   \item \code{"all"} — label every point.
   \item \code{"none"} — no labels.
   \item A character vector of specific gene names.
 }}
 
-\item{topn}{Integer.  Number of top genes to label when
-\code{label = "top"}. Default: 10.}
+\item{topn}{Integer.  Number of top genes to label per direction
+(positive and negative) when \code{label = "top"}. Default: 5.}
 
 \item{col.pos}{Character. Color for significant positive correlations.
 Default: \code{"#E64B35"} (red).}
@@ -72,40 +91,42 @@ Default: \code{"#4DBBD5"} (blue).}
 Default: \code{"grey70"}.}
 
 \item{size.by}{Character. Variable to map to point size.
-\itemize{
-  \item \code{"none"} (default) — all points use \code{point.size}.
-  \item \code{"cor"} — size mapped to absolute correlation value.
-  \item \code{"pvalue"} — size mapped to \eqn{-\log_{10}(p)}.
-}}
+Built-in shortcuts: \code{"none"} (default, fixed size),
+\code{"cor"} (absolute correlation), \code{"pvalue"}
+(\eqn{-\log_{10}(p)}). Or pass any column name in \code{data}.}
 
-\item{point.size}{Numeric. Fixed point size when \code{size.by = "none"},
-ignored otherwise. Default: 2.5.}
+\item{point.size}{Numeric. Fixed point size when \code{size.by = "none"}.
+Default: 2.5.}
 
 \item{size.range}{Numeric vector of length 2. Range of point sizes when
 \code{size.by} is not \code{"none"}. Default: \code{c(0.5, 5)}.}
 
-\item{point.alpha}{Numeric. Point transparency. Default: 0.7.}
+\item{alpha.by}{Character. Variable to map to point transparency.
+Built-in shortcuts: \code{"none"} (default, fixed alpha),
+\code{"cor"} (absolute correlation), \code{"pvalue"}
+(\eqn{-\log_{10}(p)}). Or pass any column name in \code{data}.}
+
+\item{point.alpha}{Numeric. Fixed point transparency when
+\code{alpha.by = "none"}. Default: 0.7.}
+
+\item{alpha.range}{Numeric vector of length 2. Range of alpha values
+when \code{alpha.by} is not \code{"none"}. Default: \code{c(0.1, 1)}.}
 
 \item{label.size}{Numeric. Label text size. Default: 3.5.}
 
 \item{label.color}{Character. Label text color. Default: \code{"black"}.}
 
-\item{box.padding}{Numeric. Padding around label boxes (passed to
-\code{ggrepel::geom_text_repel}). Default: 0.5.}
+\item{box.padding}{Numeric. Padding around label boxes. Default: 0.5.}
 
-\item{max.overlaps}{Integer. Maximum overlapping labels.
-Default: 20.}
+\item{max.overlaps}{Integer. Maximum overlapping labels. Default: 20.}
 
-\item{title}{Character. Plot title. Default: \code{NULL} (auto-generated
-from the \code{target} attribute).}
+\item{title}{Character. Plot title. Default: \code{NULL} (auto).}
 
-\item{xlab}{Character. X-axis label.  Default: auto.}
+\item{xlab}{Character. X-axis label. Default: auto.}
 
-\item{ylab}{Character. Y-axis label.  Default: \code{NULL} (auto:
-\code{"Correlation"} or \code{"NES"} depending on input).}
+\item{ylab}{Character. Y-axis label. Default: \code{NULL} (auto).}
 
-\item{ncol}{Integer.  Number of columns when a \code{group} column is
-present and faceting is used. Default: 3.}
+\item{ncol}{Integer. Number of facet columns. Default: 3.}
 }
 \value{
 A \code{ggplot} object.
@@ -120,32 +141,28 @@ with \code{ggrepel}.
 }
 \examples{
 \dontrun{
-# --- RunCorrelation output ---
 res <- RunCorrelation(seu, target = "PTH")
-PlotCorrelation(res)
-PlotCorrelation(res, label = "top", topn = 15)
-PlotCorrelation(res, label = c("GCM2", "CASR", "VDR"))
+PlotCorrelation(res)                              # top 5 pos + 5 neg
+PlotCorrelation(res, topn = 10)                   # top 10 pos + 10 neg
+PlotCorrelation(res, label = c("GCM2", "CASR"))   # specific genes
 
-# Map point size to |correlation|
-PlotCorrelation(res, size.by = "cor")
+# Custom score and p-value columns
+PlotCorrelation(res, score.col = "prop_cor", p.col = "prop_padj")
 
-# Map point size to -log10(p)
-PlotCorrelation(res, size.by = "pvalue", size.range = c(1, 6))
+# Map size and alpha to custom columns
+PlotCorrelation(res, size.by = "prop_cor", alpha.by = "de_abs_logFC")
 
-# Per-group (RunCorrelation)
+# Per-group
 res <- RunCorrelation(seu, target = "PTH", group.by = "celltype")
-PlotCorrelation(res, size.by = "cor")
+PlotCorrelation(res, size.by = "cor", alpha.by = "cor")
 
-# --- RunTraceGene output (rho + padjust + lineage) ---
+# RunTraceGene output
 tg <- RunTraceGene(seu, lineages = c("Lineage1", "Lineage2"))
-PlotCorrelation(tg)                   # faceted by lineage
-PlotCorrelation(tg, size.by = "cor")  # size = |rho|
+PlotCorrelation(tg, size.by = "cor")
 
-# --- RunTraceGSEA output (Score/NES + AdjPValue + Lineage) ---
-gsea <- RunTraceGSEA(seu, lineages = c("Lineage1", "Lineage2"),
-                     gene.sets = gmt)
-PlotCorrelation(gsea)                 # ylab auto = "NES"
-PlotCorrelation(gsea, size.by = "pvalue")
+# RunTraceGSEA output
+gsea <- RunTraceGSEA(seu, lineages = c("Lineage1"), gene.sets = gmt)
+PlotCorrelation(gsea, size.by = "pvalue", alpha.by = "pvalue")
 }
 
 }
