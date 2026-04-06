@@ -25,6 +25,8 @@ PlotScatter(
   smooth.size = 1,
   smooth.color = "#fdc086",
   show.se = TRUE,
+  se.fill = NULL,
+  se.alpha = 0.2,
   ncol = 3,
   palette = "Paired",
   palcolor = NULL,
@@ -33,6 +35,7 @@ PlotScatter(
   title = NULL,
   marginal = c("none", "density", "histogram", "boxplot", "violin", "densigram"),
   marginal.size = 5,
+  global.cor = FALSE,
   raster = NULL,
   raster.dpi = 300,
   ...
@@ -98,6 +101,14 @@ Ignored when \code{group.by} is set (line color follows group).}
 \item{show.se}{Logical. Show confidence interval around smooth line.
 Default: \code{TRUE}.}
 
+\item{se.fill}{Character. Fill color for the confidence interval ribbon
+when \code{group.by = NULL}. Default: \code{NULL} (follows
+\code{smooth.color}). When \code{group.by} is set, the fill follows
+group colors by default; set this to override with a fixed color.}
+
+\item{se.alpha}{Numeric. Transparency of the confidence interval ribbon
+(0--1). Default: \code{0.2}.}
+
 \item{ncol}{Integer. Number of columns for faceting when \code{split.by}
 is set. Default: 3.}
 
@@ -123,6 +134,12 @@ Ignored when \code{split.by} is used.}
 \item{marginal.size}{Numeric. Relative size of marginal plots compared
 to the main scatter panel. Default: 5 (i.e. the main panel is 5 times
 larger than the marginal).}
+
+\item{global.cor}{Logical. When \code{group.by} is set and
+\code{global.cor = TRUE}, show a single overall smooth line and
+correlation statistics (ignoring group), rather than per-group lines
+and statistics. The points are still colored by group. Default:
+\code{FALSE}.}
 
 \item{raster}{Logical. If \code{TRUE}, rasterize the point layer via
 \code{ggrastr::rasterise()} to reduce file size for large datasets.

@@ -81,6 +81,12 @@
 #'   Ignored when \code{group.by} is set (line color follows group).
 #' @param show.se Logical. Show confidence interval around smooth line.
 #'   Default: \code{TRUE}.
+#' @param se.fill Character. Fill color for the confidence interval ribbon
+#'   when \code{group.by = NULL}. Default: \code{NULL} (follows
+#'   \code{smooth.color}). When \code{group.by} is set, the fill follows
+#'   group colors by default; set this to override with a fixed color.
+#' @param se.alpha Numeric. Transparency of the confidence interval ribbon
+#'   (0--1). Default: \code{0.2}.
 #' @param ncol Integer. Number of columns for faceting when \code{split.by}
 #'   is set. Default: 3.
 #' @param palette Character. Color palette name passed to
@@ -99,6 +105,11 @@
 #' @param marginal.size Numeric. Relative size of marginal plots compared
 #'   to the main scatter panel. Default: 5 (i.e. the main panel is 5 times
 #'   larger than the marginal).
+#' @param global.cor Logical. When \code{group.by} is set and
+#'   \code{global.cor = TRUE}, show a single overall smooth line and
+#'   correlation statistics (ignoring group), rather than per-group lines
+#'   and statistics. The points are still colored by group. Default:
+#'   \code{FALSE}.
 #' @param raster Logical. If \code{TRUE}, rasterize the point layer via
 #'   \code{ggrastr::rasterise()} to reduce file size for large datasets.
 #'   Default: \code{NULL} (auto: \code{TRUE} when > 50 000 cells).
@@ -161,6 +172,8 @@ PlotScatter <- function(object,
                         smooth.size   = 1,
                         smooth.color  = "#fdc086",
                         show.se       = TRUE,
+                        se.fill       = NULL,
+                        se.alpha      = 0.2,
                         ncol          = 3,
                         palette       = "Paired",
                         palcolor      = NULL,
@@ -170,6 +183,7 @@ PlotScatter <- function(object,
                         marginal      = c("none", "density", "histogram",
                                           "boxplot", "violin", "densigram"),
                         marginal.size = 5,
+                        global.cor    = FALSE,
                         raster        = NULL,
                         raster.dpi    = 300,
                         ...) {
@@ -312,16 +326,33 @@ PlotScatter <- function(object,
 
   # ── Smooth line ──
   if (isTRUE(show.smooth)) {
-    if (!is.null(group.by)) {
-      p <- p + ggplot2::geom_smooth(
-        method = smooth.method, se = show.se, na.rm = TRUE,
-        linewidth = smooth.size
+    if (!is.null(group.by) && !isTRUE(global.cor)) {
+      # Per-group smooth lines (color follows group)
+      smooth_args <- list(
+        method    = smooth.method,
+        se        = show.se,
+        na.rm     = TRUE,
+        linewidth = smooth.size,
+        alpha     = se.alpha
       )
+      # Override SE fill with a fixed color if se.fill is specified
+      if (!is.null(se.fill)) smooth_args$fill <- se.fill
+      p <- p + do.call(ggplot2::geom_smooth, smooth_args)
     } else {
-      p <- p + ggplot2::geom_smooth(
-        method = smooth.method, se = show.se, na.rm = TRUE,
-        linewidth = smooth.size, color = smooth.color
+      # Global smooth line (single color, ignoring group)
+      smooth_args <- list(
+        method     = smooth.method,
+        se         = show.se,
+        na.rm      = TRUE,
+        linewidth  = smooth.size,
+        color      = smooth.color,
+        fill       = if (!is.null(se.fill)) se.fill else smooth.color,
+        alpha      = se.alpha,
+        inherit.aes = if (!is.null(group.by) && isTRUE(global.cor)) FALSE else TRUE,
+        mapping     = if (!is.null(group.by) && isTRUE(global.cor))
+          ggplot2::aes(x = .data[[var1]], y = .data[[var2]]) else NULL
       )
+      p <- p + do.call(ggplot2::geom_smooth, smooth_args)
     }
   }
 
@@ -339,13 +370,27 @@ PlotScatter <- function(object,
     if (!requireNamespace("ggpubr", quietly = TRUE)) {
       message("Install 'ggpubr' to display correlation statistics on the plot.")
     } else {
-      p <- p + ggpubr::stat_cor(
-        method  = method,
-        digits  = cor.digits,
-        size    = cor.size,
-        label.x.npc = "left",
-        label.y.npc = "top"
-      )
+      if (!is.null(group.by) && isTRUE(global.cor)) {
+        # Global correlation: override aes to ignore group coloring
+        p <- p + ggpubr::stat_cor(
+          mapping = ggplot2::aes(x = .data[[var1]], y = .data[[var2]]),
+          inherit.aes = FALSE,
+          method  = method,
+          digits  = cor.digits,
+          size    = cor.size,
+          color   = "black",
+          label.x.npc = "left",
+          label.y.npc = "top"
+        )
+      } else {
+        p <- p + ggpubr::stat_cor(
+          method  = method,
+          digits  = cor.digits,
+          size    = cor.size,
+          label.x.npc = "left",
+          label.y.npc = "top"
+        )
+      }
     }
   }
 
