@@ -1,7 +1,7 @@
 Type: Package
 Package: scMMR
 Title: Single-Cell Multi-Task Model in R
-Version: 0.3.0
+Version: 0.3.1
 Authors@R:
     person("Hui", "Ouyang", , "ouyanghui950319@gmail.com", role = c("aut", "cre"))
 Description: A comprehensive toolkit for single-cell RNA-seq analysis powered
@@ -45,6 +45,9 @@ Suggests:
     purrr,
     SCPA,
     CytoTRACE2,
+    monocle3,
+    igraph,
+    qs,
     pbapply,
     DoubletFinder,
     sceasy,
@@ -85,7 +88,7 @@ URL: https://hui950319.github.io/scMMR/, https://github.com/HUI950319/scMMR
 BugReports: https://github.com/HUI950319/scMMR/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate:
     'zzz.R'
     'python_env.R'
@@ -120,6 +123,7 @@ Collate:
     'pathway_analysis.R'
     'gsea_enrich.R'
     'cytotrace.R'
+    'RunMonocle3.R'
     'palette.R'
     'dynamic_plot.R'
     'dynamic_gsea.R'
