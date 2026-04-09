@@ -2,82 +2,216 @@
 % Please edit documentation in R/PlotMAP.R
 \name{PlotMAP}
 \alias{PlotMAP}
-\title{UMAP Projection Plot}
+\title{Single-Cell Atlas Projection Plot}
 \usage{
 PlotMAP(
   ref,
   query,
-  ref_emb = c("umap_1", "umap_2"),
-  query_emb = c("umap_1_pred", "umap_2_pred"),
-  color_by = "cell_type",
-  facet_by = NULL,
-  colors = NULL,
-  point.size = 0.2,
-  point.alpha = 0.1,
-  query.size = 0.1,
+  ref_emb = NULL,
+  query_emb = NULL,
+  ref_group = NULL,
+  query_group = NULL,
+  ref_reduction = NULL,
+  ref_dims = c(1, 2),
+  query_reduction = NULL,
+  query_dims = c(1, 2),
+  query_palette = "Set1",
+  query_palcolor = NULL,
+  query_color = "firebrick",
+  ref_palette = "Paired",
+  ref_palcolor = NULL,
+  ref_color = "grey70",
+  query.size = 0.8,
   query.alpha = 1,
+  stroke = 0.5,
+  stroke.color = "black",
+  point.size = NULL,
+  point.alpha = 0.4,
+  show_density = FALSE,
   density.color = "red",
-  expand_mult = 0.05
+  density_filled = FALSE,
+  density_filled_palette = "Greys",
+  density_filled_palcolor = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  legend.position = "right",
+  legend.direction = "vertical",
+  title = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  theme_use = NULL,
+  theme_args = list(),
+  aspect.ratio = 1,
+  raster = NULL,
+  raster_method = c("scattermore", "rasterise"),
+  raster.dpi = c(512, 512),
+  seed = 11
 )
 }
 \arguments{
-\item{ref}{A data.frame (or Seurat object) providing reference UMAP
-coordinates and cell-type labels.
-\itemize{
-  \item If a \strong{data.frame}: must contain columns specified by
-    \code{ref_emb} and \code{color_by}.
-  \item If a \strong{Seurat} object: columns are extracted via
-    \code{Seurat::FetchData(ref, vars = c(ref_emb, color_by))}.
-}}
+\item{ref}{A Seurat object or \code{data.frame} for reference cells.}
 
-\item{query}{A data.frame with query cell metadata, e.g.
-\code{q1@meta.data} after \code{AddMetaData(obj, pred$predictions)}.
-Must contain columns specified by \code{query_emb} (and optionally
-\code{facet_by}).}
+\item{query}{A Seurat object or \code{data.frame} for query cells.}
 
-\item{ref_emb}{Character vector of length 2: column names for reference
-UMAP axes.  Default \code{c("umap_1", "umap_2")}.}
+\item{ref_emb}{See section above. Default \code{NULL}.}
 
-\item{query_emb}{Character vector of length 2: column names for predicted
-query UMAP axes.  Default \code{c("umap_1_pred", "umap_2_pred")}.}
+\item{query_emb}{See section above. Default \code{NULL}.}
 
-\item{color_by}{Column name in \code{ref} used for colouring reference
-cells.  Default \code{"cell_type"}.}
+\item{ref_group}{Character. Column in ref metadata for colouring reference
+cells.  \code{NULL} = single colour (\code{ref_color}).}
 
-\item{facet_by}{Optional column name in \code{query} for faceting
-(e.g. \code{"group"}).  \code{NULL} = no faceting.}
+\item{query_group}{Character. Column in query metadata for colouring query
+cells.  \code{NULL} = single colour (\code{query_color}).}
 
-\item{colors}{Optional named colour vector.  If \code{NULL}, default
-ggplot2 colours are used.}
+\item{ref_reduction}{See section above. Default \code{NULL}.}
 
-\item{point.size}{Size of reference points. Default 0.2.}
+\item{ref_dims}{See section above. Default \code{c(1, 2)}.}
 
-\item{point.alpha}{Alpha of reference points. Default 0.1.}
+\item{query_reduction}{See section above. Default \code{NULL}.}
 
-\item{query.size}{Size of query points. Default 0.1.}
+\item{query_dims}{See section above. Default \code{c(1, 2)}.}
 
-\item{query.alpha}{Alpha of query points. Default 1.}
+\item{query_palette}{Character. Palette for query group colours.
+Default \code{"Set1"}.}
 
-\item{density.color}{Colour of density contour lines. Default \code{"red"}.}
+\item{query_palcolor}{Character vector. Custom query colours.
+Default \code{NULL}.}
 
-\item{expand_mult}{Fractional expansion applied to both axes so that
-density contour lines are not clipped at panel boundaries.
-Default 0.05 (5\% on each side).}
+\item{query_color}{Character. Single colour when \code{query_group = NULL}.
+Default \code{"firebrick"}.}
+
+\item{ref_palette}{Character. Palette for ref group colours.
+Default \code{"Paired"}.}
+
+\item{ref_palcolor}{Character vector. Custom ref colours. Default \code{NULL}.}
+
+\item{ref_color}{Character. Single colour when \code{ref_group = NULL}.
+Default \code{"grey70"}.}
+
+\item{query.size}{Numeric. Query point size. Default \code{0.8}.}
+
+\item{query.alpha}{Numeric. Query point alpha (0–1). Default \code{1}.}
+
+\item{stroke}{Numeric. Border stroke width around query points.
+Set \code{0} to disable. Default \code{0.5}.}
+
+\item{stroke.color}{Character. Stroke colour. Default \code{"black"}.}
+
+\item{point.size}{Numeric. Reference point size. \code{NULL} = auto.}
+
+\item{point.alpha}{Numeric. Reference point alpha. Default \code{0.4}.}
+
+\item{show_density}{Logical. Add 2-D density contour for query cells.
+Default \code{FALSE}.}
+
+\item{density.color}{Character. Contour line colour. Default \code{"red"}.}
+
+\item{density_filled}{Logical. Filled contour bands. Default \code{FALSE}.}
+
+\item{density_filled_palette}{Character. Palette for filled bands.
+Default \code{"Greys"}.}
+
+\item{density_filled_palcolor}{Character vector. Custom fill colours.
+Default \code{NULL}.}
+
+\item{xlim, ylim}{Numeric vectors of length 2 for axis limits.
+\code{NULL} = auto from combined data range.}
+
+\item{legend.position, legend.direction}{Legend position/direction.
+Defaults \code{"right"} / \code{"vertical"}.}
+
+\item{title, subtitle, xlab, ylab}{Plot labels. \code{NULL} = auto or empty.}
+
+\item{theme_use}{Theme: function, character name, or \code{theme} object.
+Default \code{NULL} → \code{UtilsR::theme_blank} if available.}
+
+\item{theme_args}{List of extra args for \code{theme_use}.}
+
+\item{aspect.ratio}{Numeric. Panel aspect ratio. Default \code{1}.}
+
+\item{raster}{Logical. Rasterise points. \code{NULL} = auto (> 100k cells).}
+
+\item{raster_method}{Character. Rasterisation backend:
+\code{"rasterise"} (default, faithful colours) or
+\code{"scattermore"} (faster, may shift colours).}
+
+\item{raster.dpi}{Numeric scalar or 2-length vector. Default \code{c(512,512)}.}
+
+\item{seed}{Integer. Random seed. Default \code{11}.}
 }
 \value{
-A ggplot object.
+A \code{ggplot} object.
 }
 \description{
-Overlay query cells (with predicted UMAP coordinates) onto the reference
-UMAP embedding.  The reference cells are shown as a coloured scatter plot;
-query cells are plotted as black points with red density contours.
+Overlay query cells onto the reference 2-D embedding (UMAP / tSNE / any
+2-D space).  Supports \strong{three coordinate input modes} for both query and
+reference — making the function independent of any specific mapping method:
+
+\describe{
+\item{\strong{Mode 1 – Seurat reduction}}{
+Pass a Seurat object and specify \code{query_reduction} / \code{ref_reduction}.
+Coordinates are read from \verb{@reductions[[name]]@cell.embeddings}.
+If omitted, the function auto-detects (prefers UMAP/tSNE).}
+\item{\strong{Mode 2 – metadata columns}}{
+Pass a Seurat object or data.frame and specify \code{query_emb} / \code{ref_emb}
+as a character vector of two column names.  Coordinates are read
+directly from \verb{@meta.data} (Seurat) or the data.frame itself.
+Useful when predicted coordinates are stored in metadata (e.g. from
+\code{DNN_predict}).}
+\item{\strong{Mode 3 – data.frame column indices}}{
+Pass a plain data.frame; columns selected by \code{query_dims} / \code{ref_dims}
+(default \code{c(1, 2)}) are used as x/y.}}
+
+Priority when multiple modes apply: \strong{\verb{*_emb} > \verb{*_reduction} > auto-detect
+reduction > \verb{*_dims} fallback}.
 }
+\section{Query coordinate specification (choose one)}{
+
+\describe{
+\item{\code{query_emb}}{Character vector of length 2: column names in
+\code{@meta.data} (Seurat) or in the data.frame to use as x/y.
+Takes priority over \code{query_reduction}.}
+\item{\code{query_reduction}}{Character. Reduction name in the Seurat object.
+\code{NULL} = auto-detect (prefers UMAP/tSNE, then last reduction).}
+\item{\code{query_dims}}{Integer vector of length 2. Dimension indices within
+the chosen reduction (Seurat) or column indices (data.frame).
+Default \code{c(1, 2)}.}
+}
+}
+
+\section{Reference coordinate specification (choose one)}{
+
+\describe{
+\item{\code{ref_emb}}{Character vector of length 2: column names to use as
+x/y.  Takes priority over \code{ref_reduction}.}
+\item{\code{ref_reduction}}{Character. Reduction name in the Seurat object.
+\code{NULL} = auto-detect.}
+\item{\code{ref_dims}}{Integer vector of length 2.  Default \code{c(1, 2)}.}
+}
+}
+
 \examples{
 \dontrun{
-ref_data <- Seurat::FetchData(seu,
-  vars = c("umap_1", "umap_2", "cell_type"))
-PlotMAP(ref = ref_data, query = q1@meta.data,
-  facet_by = "group")
+# Mode 1: Seurat + reduction (after RunKNNMap)
+q <- RunKNNMap(q, ref, ref_umap = "UMAP")
+PlotMAP(query = q, ref = ref_data,
+         query_group = "celltype", ref_group = "celltype",
+         query_reduction = "ref.embeddings")
+
+# Mode 2: Seurat + meta.data column names (after DNN_predict)
+PlotMAP(query = q1, ref = ref_data,
+         query_emb   = c("umap_1_pred", "umap_2_pred"),
+         ref_emb     = c("umap_1", "umap_2"),
+         query_group = "cell_type_pred",
+         ref_group   = "celltype")
+
+# Mode 3: plain data.frames
+PlotMAP(query = query_df, ref = ref_df,
+         query_dims  = c(1, 2),
+         ref_dims    = c(1, 2),
+         query_group = "cluster",
+         ref_group   = "celltype")
 }
 
 }

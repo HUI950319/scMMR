@@ -119,7 +119,6 @@ reference:
       - PlotRankScatter
       - PlotImportance
       - PlotMAP
-      - PlotMAP2
       - DimPlot2
       - FeaturePlot2
       - FeaturePlot3

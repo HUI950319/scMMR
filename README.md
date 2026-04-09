@@ -3,13 +3,20 @@
 <!-- badges: start -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R >= 4.0.0](https://img.shields.io/badge/R-%3E%3D%204.0.0-blue.svg)](https://cran.r-project.org/)
+[![Version](https://img.shields.io/badge/version-0.3.0-brightgreen.svg)](https://github.com/HUI950319/scMMR)
+[![pkgdown](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://hui950319.github.io/scMMR/)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 **Single-Cell Multi-Task Model in R** — A comprehensive toolkit for single-cell RNA-seq analysis powered by PyTorch multi-task deep neural networks.
 
+<p align="center">
+  <img src="man/figures/scMMR.svg" alt="scMMR overview: multi-task learning framework for single-cell analysis" width="100%"/>
+</p>
+
 ## Overview
 
-scMMR trains a shared ResNet backbone that jointly learns **cell type classification** and **embedding regression** (e.g., UMAP coordinates), producing a unified 512-dimensional cell representation. Built on top of this representation, scMMR provides:
+scMMR trains a shared ResNet backbone that jointly learns **cell type classification** and **embedding regression** (e.g., UMAP coordinates), producing a unified 512-dimensional cell representation that powers an end-to-end single-cell analysis ecosystem:
 
 - **Cell type prediction** with OOD (out-of-distribution) detection
 - **Bulk RNA-seq deconvolution** for cell type proportion estimation
@@ -62,7 +69,7 @@ library(scMMR)
 # Option A: Auto-install a conda environment (CPU)
 install_scMMR_python()
 
-# Option A: Auto-install with GPU support
+# Option A (with GPU): Auto-install with CUDA support
 install_scMMR_python(gpu = TRUE)
 
 # Option B: Use an existing conda environment
@@ -208,6 +215,19 @@ Example workflows are available in `inst/demo/`:
 - **Python** ≥ 3.8 with: torch, scanpy, anndata, numpy, pandas, scipy
 - **GPU** (optional): CUDA-compatible GPU for accelerated training
 
+## Documentation
+
+Full function reference and vignettes are available on the [pkgdown site](https://hui950319.github.io/scMMR/).
+
+## Citation
+
+If you use scMMR in your research, please cite:
+
+```
+Ouyang H. (2026). scMMR: Single-Cell Multi-Task Model in R.
+R package version 0.3.0. https://github.com/HUI950319/scMMR
+```
+
 ## License
 
-MIT
+MIT © Hui Ouyang

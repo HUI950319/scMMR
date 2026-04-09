@@ -102,7 +102,6 @@ Collate:
     'PlotImportance.R'
     'PlotRoe.R'
     'PlotMAP.R'
-    'PlotMAP2.R'
     'PlotMAPcor.R'
     'FeaturePlot2.R'
     'ExpressionStatPlot2.R'
