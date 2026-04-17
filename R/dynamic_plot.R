@@ -274,7 +274,7 @@ PlotDynamicFeatures <- function(
   stat_method <- match.arg(stat_method)
 
   # ---- Auto raster ----
-  n_cells <- ncol(srt)
+  n_cells <- base::ncol(srt)
   raster <- raster %||% (n_cells > 1e5)
   if (!is.numeric(raster.dpi) || length(raster.dpi) != 1) {
     stop("'raster.dpi' must be a numeric scalar.", call. = FALSE)
@@ -310,7 +310,7 @@ PlotDynamicFeatures <- function(
       ]
     )
   } else {
-    expr_mat <- matrix(nrow = 0, ncol = ncol(srt))
+    expr_mat <- matrix(nrow = 0, ncol = base::ncol(srt))
     colnames(expr_mat) <- colnames(srt)
   }
 
@@ -495,268 +495,206 @@ PlotDynamicFeatures <- function(
     }
   }
 
-  # --- build plot ---
-  p <- ggplot2::ggplot()
-
-  # --- resolve color palettes using palette_colors() ---
-  # point/rug colors (group.by)
+  # --- resolve color palettes ---
   if (!is.null(group.by)) {
     point_cols <- palette_colors(
-      raw_all$Group,
-      palette  = point_palette,
-      palcolor = point_palcolor
+      raw_all$Group, palette = point_palette, palcolor = point_palcolor
     )
   }
-
-  # line/ribbon colors (lineage or feature)
   if (!is.null(line_color_by)) {
     line_cols <- palette_colors(
-      fit_all[[line_color_by]],
-      palette  = line_palette,
-      palcolor = line_palcolor
+      fit_all[[line_color_by]], palette = line_palette, palcolor = line_palcolor
     )
   }
-  # default single color for line/ribbon when no multi-comparison
   default_line_col <- palette_colors(
-    "default",
-    palette  = line_palette,
-    palcolor = line_palcolor
+    "default", palette = line_palette, palcolor = line_palcolor
   )[1]
 
-  # scatter points + rug (share the same Group color scale)
-  if (!is.null(group.by)) {
-    # points colored by group
-    if (isTRUE(add_point)) {
-      .pt_layer1 <- ggplot2::geom_point(
-        data = raw_all,
-        ggplot2::aes(
-          x     = .data$Pseudotime,
-          y     = .data$Expression,
-          color = .data$Group
-        ),
-        size  = pt.size,
-        alpha = 0.6
-      )
-      p <- p + if (isTRUE(raster)) rasterise_layer(.pt_layer1, dpi = raster.dpi) else .pt_layer1
-    }
-    # rug colored by group (same color scale as points)
-    if (isTRUE(add_rug)) {
-      p <- p + ggplot2::geom_rug(
-        data = raw_all,
-        ggplot2::aes(
-          x     = .data$Pseudotime,
-          color = .data$Group
-        ),
-        alpha  = 0.5,
-        length = grid::unit(0.04, "npc"),
-        show.legend = FALSE
-      )
-    }
-    # apply palette_colors result for points + rug
-    p <- p + ggplot2::scale_color_manual(
-      values = point_cols,
-      name   = group.by
-    )
-    # start new color scale for fitted lines
-    p <- p + ggnewscale::new_scale_color()
-  } else {
-    # no group: grey points
-    if (isTRUE(add_point)) {
-      .pt_layer2 <- ggplot2::geom_point(
-        data = raw_all,
-        ggplot2::aes(
-          x = .data$Pseudotime,
-          y = .data$Expression
-        ),
-        size  = pt.size,
-        alpha = 0.4,
-        color = "grey60"
-      )
-      p <- p + if (isTRUE(raster)) rasterise_layer(.pt_layer2, dpi = raster.dpi) else .pt_layer2
-    }
-    # rug without group color
-    if (isTRUE(add_rug)) {
-      p <- p + ggplot2::geom_rug(
-        data = raw_all,
-        ggplot2::aes(x = .data$Pseudotime),
-        alpha  = 0.3,
-        length = grid::unit(0.04, "npc"),
-        show.legend = FALSE
-      )
-    }
-  }
-
-  # confidence interval ribbon
-  if (isTRUE(add_interval)) {
-    if (!is.null(line_color_by)) {
-      p <- p + ggplot2::geom_ribbon(
-        data = fit_all,
-        ggplot2::aes(
-          x     = .data$pseudotime,
-          ymin  = .data$lwr,
-          ymax  = .data$upr,
-          fill  = .data[[line_color_by]],
-          group = interaction(.data$Lineage, .data$Feature)
-        ),
-        alpha = 0.2
-      )
-    } else {
-      p <- p + ggplot2::geom_ribbon(
-        data = fit_all,
-        ggplot2::aes(
-          x    = .data$pseudotime,
-          ymin = .data$lwr,
-          ymax = .data$upr
-        ),
-        fill  = default_line_col,
-        alpha = 0.2
-      )
-    }
-  }
-
-  # fitted line
-  if (isTRUE(add_line)) {
-    if (!is.null(line_color_by)) {
-      p <- p + ggplot2::geom_line(
-        data = fit_all,
-        ggplot2::aes(
-          x     = .data$pseudotime,
-          y     = .data$fitted,
-          color = .data[[line_color_by]],
-          group = interaction(.data$Lineage, .data$Feature)
-        ),
-        linewidth = line.size
-      )
-    } else {
-      p <- p + ggplot2::geom_line(
-        data = fit_all,
-        ggplot2::aes(
-          x = .data$pseudotime,
-          y = .data$fitted
-        ),
-        color     = default_line_col,
-        linewidth = line.size
-      )
-    }
-  }
-
-  # apply line/fill palette for multi-lineage / multi-feature comparisons
-  if (!is.null(line_color_by)) {
-    p <- p + ggplot2::scale_color_manual(
-      values = line_cols,
-      name   = line_color_by
-    )
-    p <- p + ggplot2::scale_fill_manual(
-      values = line_cols,
-      name   = line_color_by
-    )
-  }
-
-  # x-axis transformation
-  x_trans <- ifelse(isTRUE(reverse), "reverse", "identity")
-  p <- p +
-    ggplot2::scale_x_continuous(trans = x_trans,
-                                expand = ggplot2::expansion(c(0.02, 0.02))) +
-    ggplot2::scale_y_continuous(expand = ggplot2::expansion(c(0.05, 0.05)))
-
-  # faceting
-  if (!is.null(facet_formula)) {
-    if (inherits(facet_formula, "formula") &&
-        length(facet_formula) == 3) {
-      # two-sided formula: Lineage ~ Feature
-      p <- p + ggplot2::facet_grid(facet_formula, scales = "free_y")
-    } else {
-      p <- p + ggplot2::facet_wrap(facet_formula, scales = "free_y",
-                                   ncol = ncol, nrow = nrow)
-    }
-  }
-
-  # --- annotate p-value and R² ---
-  # build label for each facet panel
-  stat_all$label <- vapply(seq_len(nrow(stat_all)), function(i) {
-    pv <- stat_all$pvalue[i]
-    r2 <- stat_all$R2[i]
-    pv_txt <- if (is.na(pv)) {
-      "P = NA"
-    } else if (pv < 2.2e-16) {
-      "P < 2.2e-16"
-    } else if (pv < 0.001) {
-      sprintf("P = %.2e", pv)
-    } else {
-      sprintf("P = %.4f", pv)
-    }
+  # --- stat_cor style annotation (ggpubr-compatible) ---
+  .format_cor_label <- function(pv, r2, rho, stat_method) {
+    # Format like ggpubr::stat_cor: italic R, italic p
     if (stat_method == "spearman") {
-      rho_val <- stat_all$rho[i]
-      rho_txt <- if (is.na(rho_val)) "r_s = NA" else sprintf("r_s = %.3f", rho_val)
-      paste0(pv_txt, "\n", rho_txt)
+      r_txt <- if (is.na(rho)) "NA" else sprintf("%.3f", rho)
+      p_txt <- if (is.na(pv)) "NA"
+               else if (pv < 2.2e-16) "2.2e-16"
+               else if (pv < 0.001)   sprintf("%.2e", pv)
+               else sprintf("%.3g", pv)
+      # Use rho symbol for spearman
+      paste0("italic(rho) == ", r_txt, "*\",\"~~italic(p) ",
+             if (!is.na(pv) && pv < 2.2e-16) "< " else "== ", p_txt)
     } else {
-      r2_txt <- if (is.na(r2)) "R\u00b2 = NA" else sprintf("R\u00b2 = %.3f", r2)
-      paste0(pv_txt, "\n", r2_txt)
+      r2_txt <- if (is.na(r2)) "NA" else sprintf("%.3f", r2)
+      p_txt  <- if (is.na(pv)) "NA"
+                else if (pv < 2.2e-16) "2.2e-16"
+                else if (pv < 0.001)   sprintf("%.2e", pv)
+                else sprintf("%.3g", pv)
+      paste0("italic(R)^2 == ", r2_txt, "*\",\"~~italic(p) ",
+             if (!is.na(pv) && pv < 2.2e-16) "< " else "== ", p_txt)
     }
-  }, character(1))
+  }
 
   stat_all$Feature <- factor(stat_all$Feature, levels = features)
   stat_all$Lineage <- factor(stat_all$Lineage, levels = pseudotime)
 
-  # compute per-panel label positions (top-left corner)
-  label_df <- merge(
-    stat_all,
-    do.call(rbind, lapply(split(raw_all, list(raw_all$Feature, raw_all$Lineage),
-                                drop = TRUE), function(d) {
-      data.frame(
-        Feature = d$Feature[1], Lineage = d$Lineage[1],
-        x_pos = min(d$Pseudotime, na.rm = TRUE),
-        y_pos = max(d$Expression, na.rm = TRUE),
-        stringsAsFactors = FALSE
+  # --- build per-feature plots and combine with patchwork ---
+  plot_list <- list()
+
+  for (feat in features) {
+    raw_sub  <- raw_all[raw_all$Feature == feat, , drop = FALSE]
+    fit_sub  <- fit_all[fit_all$Feature == feat, , drop = FALSE]
+    stat_sub <- stat_all[stat_all$Feature == feat, , drop = FALSE]
+
+    if (nrow(raw_sub) == 0) next
+
+    # Start ggplot with raw_sub as default data (enables p[[i]]$data access)
+    pi <- ggplot2::ggplot(data = raw_sub)
+
+    # --- Points ---
+    if (!is.null(group.by) && isTRUE(add_point)) {
+      .pt_l <- ggplot2::geom_point(
+        data = raw_sub,
+        ggplot2::aes(x = .data$Pseudotime, y = .data$Expression,
+                     color = .data$Group),
+        size = pt.size, alpha = 0.6
       )
-    })),
-    by = c("Feature", "Lineage")
-  )
+      pi <- pi + if (isTRUE(raster)) rasterise_layer(.pt_l, dpi = raster.dpi) else .pt_l
+    } else if (isTRUE(add_point)) {
+      .pt_l <- ggplot2::geom_point(
+        data = raw_sub,
+        ggplot2::aes(x = .data$Pseudotime, y = .data$Expression),
+        size = pt.size, alpha = 0.4, color = "grey60"
+      )
+      pi <- pi + if (isTRUE(raster)) rasterise_layer(.pt_l, dpi = raster.dpi) else .pt_l
+    }
 
-  # when compare_lineages: multiple lineages share panel, show combined label
-  if (isTRUE(compare_lineages) && length(pseudotime) > 1) {
-    label_df$label <- vapply(seq_len(nrow(label_df)), function(i) {
-      paste0(label_df$Lineage[i], ": ", label_df$label[i])
-    }, character(1))
-    # stack labels for same feature
-    label_df <- do.call(rbind, lapply(
-      split(label_df, label_df$Feature), function(d) {
-        d$label_combined <- paste(d$label, collapse = "\n")
-        d[1, , drop = FALSE]
+    # --- Rug ---
+    if (isTRUE(add_rug)) {
+      if (!is.null(group.by)) {
+        pi <- pi + ggplot2::geom_rug(
+          data = raw_sub,
+          ggplot2::aes(x = .data$Pseudotime, color = .data$Group),
+          alpha = 0.5, length = grid::unit(0.04, "npc"), show.legend = FALSE
+        )
+      } else {
+        pi <- pi + ggplot2::geom_rug(
+          data = raw_sub,
+          ggplot2::aes(x = .data$Pseudotime),
+          alpha = 0.3, length = grid::unit(0.04, "npc"), show.legend = FALSE
+        )
       }
-    ))
-    label_df$label <- label_df$label_combined
-    label_df$x_pos <- ave(raw_all$Pseudotime, raw_all$Feature,
-                          FUN = min)[match(label_df$Feature, raw_all$Feature)]
-    label_df$y_pos <- ave(raw_all$Expression, raw_all$Feature,
-                          FUN = function(x) max(x, na.rm = TRUE))[
-      match(label_df$Feature, raw_all$Feature)
-    ]
+    }
+
+    # --- Point color scale + new scale for lines ---
+    if (!is.null(group.by)) {
+      pi <- pi +
+        ggplot2::scale_color_manual(values = point_cols, name = group.by) +
+        ggnewscale::new_scale_color()
+    }
+
+    # --- Ribbon ---
+    if (isTRUE(add_interval)) {
+      if (!is.null(line_color_by)) {
+        pi <- pi + ggplot2::geom_ribbon(
+          data = fit_sub,
+          ggplot2::aes(x = .data$pseudotime, ymin = .data$lwr, ymax = .data$upr,
+                       fill = .data[[line_color_by]],
+                       group = interaction(.data$Lineage, .data$Feature)),
+          alpha = 0.2
+        )
+      } else {
+        pi <- pi + ggplot2::geom_ribbon(
+          data = fit_sub,
+          ggplot2::aes(x = .data$pseudotime, ymin = .data$lwr, ymax = .data$upr),
+          fill = default_line_col, alpha = 0.2
+        )
+      }
+    }
+
+    # --- Line ---
+    if (isTRUE(add_line)) {
+      if (!is.null(line_color_by)) {
+        pi <- pi + ggplot2::geom_line(
+          data = fit_sub,
+          ggplot2::aes(x = .data$pseudotime, y = .data$fitted,
+                       color = .data[[line_color_by]],
+                       group = interaction(.data$Lineage, .data$Feature)),
+          linewidth = line.size
+        )
+      } else {
+        pi <- pi + ggplot2::geom_line(
+          data = fit_sub,
+          ggplot2::aes(x = .data$pseudotime, y = .data$fitted),
+          color = default_line_col, linewidth = line.size
+        )
+      }
+    }
+
+    # --- Line/fill scale ---
+    if (!is.null(line_color_by)) {
+      pi <- pi +
+        ggplot2::scale_color_manual(values = line_cols, name = line_color_by) +
+        ggplot2::scale_fill_manual(values = line_cols, name = line_color_by)
+    }
+
+    # --- Stat annotation (ggpubr stat_cor style) ---
+    if (nrow(stat_sub) > 0) {
+      if (isTRUE(compare_lineages) && length(pseudotime) > 1) {
+        # Multiple lineages: stack labels
+        lab_lines <- vapply(seq_len(nrow(stat_sub)), function(j) {
+          paste0(stat_sub$Lineage[j], ": ",
+                 .format_cor_label(stat_sub$pvalue[j], stat_sub$R2[j],
+                                   stat_sub$rho[j], stat_method))
+        }, character(1))
+        lab_expr <- paste(lab_lines, collapse = "\n")
+        pi <- pi + ggplot2::annotate(
+          "text",
+          x = min(raw_sub$Pseudotime, na.rm = TRUE),
+          y = max(raw_sub$Expression, na.rm = TRUE),
+          label = lab_expr, hjust = 0, vjust = 1, size = 3.5,
+          color = "black"
+        )
+      } else {
+        lab_expr <- .format_cor_label(stat_sub$pvalue[1], stat_sub$R2[1],
+                                      stat_sub$rho[1], stat_method)
+        pi <- pi + ggplot2::annotate(
+          "text",
+          x = min(raw_sub$Pseudotime, na.rm = TRUE),
+          y = max(raw_sub$Expression, na.rm = TRUE),
+          label = parse(text = lab_expr), hjust = 0, vjust = 1, size = 3.5,
+          color = "black"
+        )
+      }
+    }
+
+    # --- Axes ---
+    x_trans <- ifelse(isTRUE(reverse), "reverse", "identity")
+    pi <- pi +
+      ggplot2::scale_x_continuous(trans = x_trans,
+                                  expand = ggplot2::expansion(c(0.02, 0.02))) +
+      ggplot2::scale_y_continuous(expand = ggplot2::expansion(c(0.05, 0.05)))
+
+    # --- Theme (matches PlotScatter) ---
+    pi <- pi +
+      ggplot2::labs(x = "Pseudotime", y = y_label, title = feat) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(
+        plot.title       = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+        axis.title       = ggplot2::element_text(size = 12),
+        axis.text        = ggplot2::element_text(size = 10, color = "black"),
+        strip.text       = ggplot2::element_text(size = 10),
+        panel.grid.minor = ggplot2::element_blank(),
+        legend.title     = ggplot2::element_text(face = "bold", size = 11),
+        legend.text      = ggplot2::element_text(size = 10)
+      )
+
+    if (isTRUE(flip)) pi <- pi + ggplot2::coord_flip()
+
+    plot_list[[feat]] <- pi
   }
 
-  p <- p + ggplot2::geom_text(
-    data = label_df,
-    ggplot2::aes(x = .data$x_pos, y = .data$y_pos, label = .data$label),
-    hjust = 0, vjust = 1, size = 3.2, color = "black",
-    inherit.aes = FALSE
-  )
+  # --- Combine with patchwork ---
+  if (length(plot_list) == 1) return(plot_list[[1]])
 
-  # labels and theme
-  p <- p +
-    ggplot2::labs(x = "Pseudotime", y = y_label) +
-    ggplot2::theme_bw(base_size = 12) +
-    ggplot2::theme(
-      strip.text = ggplot2::element_text(face = "bold"),
-      strip.background = ggplot2::element_rect(fill = "grey90", color = "black"),
-      panel.border = ggplot2::element_rect(color = "black", fill = NA, linewidth = 0.6),
-      panel.grid.major = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      legend.position = "right"
-    )
-
-  if (isTRUE(flip)) {
-    p <- p + ggplot2::coord_flip()
-  }
-
-  p
+  pw <- patchwork::wrap_plots(plot_list, ncol = ncol, nrow = nrow)
+  pw
 }

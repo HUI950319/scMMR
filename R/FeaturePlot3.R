@@ -498,16 +498,24 @@
       )
   }
 
-  # ---- Theme -----------------------------------------------------------------
+  # ---- Theme (aligned with PlotScatter) --------------------------------------
   theme_obj <- do.call(theme_fn, theme_args)
   p <- p + theme_obj +
     ggplot2::theme(
-      aspect.ratio = aspect.ratio,
-      axis.text.x  = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
-      strip.text.y = ggplot2::element_text(angle = 0),
+      aspect.ratio     = aspect.ratio,
+      plot.title       = ggplot2::element_text(hjust = 0.5, size = 14,
+                                               face = "bold"),
+      axis.title       = ggplot2::element_text(size = 12),
+      axis.text        = ggplot2::element_text(size = 10, color = "black"),
+      axis.text.x      = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1),
+      strip.text       = ggplot2::element_text(size = 10),
+      strip.text.y     = ggplot2::element_text(angle = 0),
+      panel.grid.minor = ggplot2::element_blank(),
       panel.grid.major.y = ggplot2::element_line(
         color = "grey", linetype = 2, linewidth = 0.3
       ),
+      legend.title     = ggplot2::element_text(face = "bold", size = 11),
+      legend.text      = ggplot2::element_text(size = 10),
       legend.position  = legend.position,
       legend.direction = legend.direction
     )

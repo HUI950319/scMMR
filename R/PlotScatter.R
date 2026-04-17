@@ -188,6 +188,29 @@ PlotScatter <- function(object,
                         raster.dpi    = 300,
                         ...) {
 
+  # ── Multi-var2 dispatch: wrap_plots when length(var2) > 1 ──
+  if (length(var2) > 1) {
+    p_list <- lapply(var2, function(v) {
+      PlotScatter(
+        object = object, var1 = var1, var2 = v,
+        group.by = group.by, split.by = split.by, cells = cells,
+        assay = assay, layer = layer, method = method,
+        smooth.method = smooth.method, show.cor = show.cor,
+        show.smooth = show.smooth, show.rug = show.rug,
+        cor.digits = cor.digits, cor.size = cor.size,
+        point.size = point.size, point.alpha = point.alpha,
+        smooth.size = smooth.size, smooth.color = smooth.color,
+        show.se = show.se, se.fill = se.fill, se.alpha = se.alpha,
+        ncol = ncol, palette = palette, palcolor = palcolor,
+        point.color = point.color, rug.color = rug.color,
+        title = NULL, marginal = marginal, marginal.size = marginal.size,
+        global.cor = global.cor, raster = raster, raster.dpi = raster.dpi,
+        ...
+      )
+    })
+    return(patchwork::wrap_plots(p_list, ncol = ncol))
+  }
+
   # ── Input validation ──
   method   <- match.arg(method)
   marginal <- match.arg(marginal)
@@ -370,12 +393,15 @@ PlotScatter <- function(object,
     if (!requireNamespace("ggpubr", quietly = TRUE)) {
       message("Install 'ggpubr' to display correlation statistics on the plot.")
     } else {
+      # Use rho for spearman, R for pearson
+      coef_name <- if (method == "spearman") "rho" else "R"
+
       if (!is.null(group.by) && isTRUE(global.cor)) {
-        # Global correlation: override aes to ignore group coloring
         p <- p + ggpubr::stat_cor(
           mapping = ggplot2::aes(x = .data[[var1]], y = .data[[var2]]),
           inherit.aes = FALSE,
           method  = method,
+          cor.coef.name = coef_name,
           digits  = cor.digits,
           size    = cor.size,
           color   = "black",
@@ -385,6 +411,7 @@ PlotScatter <- function(object,
       } else {
         p <- p + ggpubr::stat_cor(
           method  = method,
+          cor.coef.name = coef_name,
           digits  = cor.digits,
           size    = cor.size,
           label.x.npc = "left",
