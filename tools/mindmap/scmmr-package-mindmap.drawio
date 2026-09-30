@@ -1,0 +1,726 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-09-30T00:00:00.000Z" version="29.3.6" pages="3">
+  <diagram id="scmmr-p1" name="01 功能模块总览">
+    <mxGraphModel dx="2400" dy="1700" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1700" background="#F8FAFD" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1-background" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#F8FAFD;strokeColor=none;locked=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="0" y="0" width="2400" height="1700" />
+        </mxCell>
+        <mxCell id="p1-edge-16" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#5C6D83;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-module-7" target="p1-detail-7">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-15" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#5C6D83;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-7">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-14" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B34232;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-module-6" target="p1-detail-6">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-13" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B34232;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-6">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-12" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#117DA4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-module-5" target="p1-detail-5">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-11" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#117DA4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-5">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-10" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B23F76;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-module-4" target="p1-detail-4">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-9" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B23F76;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-4">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-8" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#8054AA;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-module-3" target="p1-detail-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-7" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#8054AA;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-6" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B07A14;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-module-2" target="p1-detail-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-5" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#B07A14;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-4" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#178064;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-module-1" target="p1-detail-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-3" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#178064;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-2" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#2563A6;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-module-0" target="p1-detail-0">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-edge-1" value="" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;endArrow=none;strokeWidth=3;strokeColor=#2563A6;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="p1-hub" target="p1-module-0">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p1-eyebrow" value="SCMMR / R PACKAGE" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=20;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="36" width="1200" height="35" />
+        </mxCell>
+        <mxCell id="p1-heading" value="scMMR 功能模块总览" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=48;fontColor=#18334D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="82" width="1660" height="68" />
+        </mxCell>
+        <mxCell id="p1-subtitle" value="以单细胞多任务 DNN 为核心，连接质量控制、反卷积、通路与轨迹分析" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="72" y="159" width="2000" height="58" />
+        </mxCell>
+        <mxCell id="p1-version" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;v0.3.1 · 54 个导出函数&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=15;fillColor=#18334D;strokeColor=none;fontColor=#FFFFFF;align=center;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1770" y="43" width="560" height="60" />
+        </mxCell>
+        <mxCell id="p1-page" value="01 / 03" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=21;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="2190" y="133" width="140" height="40" />
+        </mxCell>
+        <mxCell id="p1-footer-rule" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#DCE5EF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1580" width="2260" height="2" />
+        </mxCell>
+        <mxCell id="p1-footer" value="来源：DESCRIPTION · NAMESPACE · R/ · man/；按当前本地源码整理 | 2026-09-30 | 源码基线：449a53d" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=19;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1598" width="2260" height="32" />
+        </mxCell>
+        <mxCell id="p1-footer2" value="矩形和连线均为原生可编辑对象；第 1 页看模块，第 2 页查接口，第 3 页看输入、处理和输出。" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1640" width="2260" height="28" />
+        </mxCell>
+        <mxCell id="p1-hub" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:49px;font-weight:700;margin-bottom:10px&quot;&gt;scMMR&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:28px;margin-top:5px&quot;&gt;单细胞分析&lt;br&gt;多任务深度学习&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=25;fillColor=#18334D;strokeColor=#E1EAF4;strokeWidth=14;align=center;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1005" y="735" width="390" height="250" />
+        </mxCell>
+        <mxCell id="p1-module-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;01 环境、质控与预处理&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;5 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#2563A6;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="655" y="289.0" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;配置 Python，标记双细胞、校正背景 RNA，运行 Seurat 流程&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;use_scMMR_python()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;ComputeDoublets() · StandardPipeline()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EEF4FC;strokeColor=#2563A6;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="245.0" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;02 多任务 DNN 与归因&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;5 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#178064;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="655" y="581.5" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;联合细胞类型分类和嵌入回归；评估嵌入与基因贡献&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;DNN_train() · DNN_predict()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;EvaluateEmbedding()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#ECF7F2;strokeColor=#178064;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="537.5" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;03 反卷积与细胞组成&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;9 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#B07A14;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="655" y="874.0" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;单细胞参考生成伪 bulk；估计细胞比例并展示组成变化&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;DNN_deconv_train()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;DNN_deconv_predict() · RankPercent()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBF5E9;strokeColor=#B07A14;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="830.0" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;04 基因集评分与富集&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;9 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#8054AA;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="655" y="1166.5" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;AUCell / UCell / Seurat 评分；GSEA / SCPA 与核心基因交集&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;ComputeModuleScore()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;RunPathwayAnalysis() · RunGseaEnrich()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#F4EFFA;strokeColor=#8054AA;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1122.5" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-4" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;05 差异、扰动与相关&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;9 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#B23F76;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1475" y="289.0" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-4" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;差异表达、转录扰动排序和调控因子探索&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;RunDE() · RankPerturbation()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;RunCorrelation() · FindRegulonDrivers()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBEFF5;strokeColor=#B23F76;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1785" y="245.0" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-5" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;06 轨迹与分化潜能&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;6 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#117DA4;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1475" y="581.5" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-5" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;Monocle3 拟时序、动态特征、轨迹富集与 CytoTRACE2&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;RunMonocle3() · RunCytoTRACE2()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;RunTraceGene() · RunTraceGSEA()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EDF7FB;strokeColor=#117DA4;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1785" y="537.5" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-6" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;07 图谱、表达与注释&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;7 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#B34232;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1475" y="874.0" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-6" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;降维空间、表达分布、参考图谱投影及元数据注释&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;DimPlot2() · FeaturePlot2()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;PlotMAP() · PlotAnnotation()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBF0ED;strokeColor=#B34232;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1785" y="830.0" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-module-7" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:24px;font-weight:700;margin-bottom:10px&quot;&gt;08 配色与大规模绘图&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;4 个导出项&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=18;fillColor=#5C6D83;strokeColor=none;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1475" y="1166.5" width="270" height="160" />
+        </mxCell>
+        <mxCell id="p1-detail-7" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:27px;font-weight:700;margin-bottom:10px&quot;&gt;命名颜色映射与 ggplot 图层栅格化&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;palette_colors() · show_palettes()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:22px;margin-top:5px&quot;&gt;rasterise_layer() · geom_point_rast()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EFF3F7;strokeColor=#5C6D83;strokeWidth=1.5;align=left;spacing=24;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1785" y="1122.5" width="545" height="248" />
+        </mxCell>
+        <mxCell id="p1-note" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;阅读提示&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;54 个导出函数 + ribo.genes 数据对象；分析分支按输入对象选择，并非必须依次执行。&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;fillColor=#EDF2F8;strokeColor=none;align=left;spacingLeft=22;spacingRight=20;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1480" width="2260" height="85" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="scmmr-p2" name="02 函数与数据索引">
+    <mxGraphModel dx="2400" dy="1700" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1700" background="#F8FAFD" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p2-background" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#F8FAFD;strokeColor=none;locked=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="0" y="0" width="2400" height="1700" />
+        </mxCell>
+        <mxCell id="p2-eyebrow" value="SCMMR / R PACKAGE" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=20;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="36" width="1200" height="35" />
+        </mxCell>
+        <mxCell id="p2-heading" value="scMMR 函数与数据索引" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=48;fontColor=#18334D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="82" width="1660" height="68" />
+        </mxCell>
+        <mxCell id="p2-subtitle" value="精确保留接口大小写；按功能归类，每个当前导出项仅在本页列出一次。" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="72" y="159" width="2000" height="58" />
+        </mxCell>
+        <mxCell id="p2-version" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;v0.3.1 · 54 个导出函数&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=15;fillColor=#18334D;strokeColor=none;fontColor=#FFFFFF;align=center;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1770" y="43" width="560" height="60" />
+        </mxCell>
+        <mxCell id="p2-page" value="02 / 03" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=21;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="2190" y="133" width="140" height="40" />
+        </mxCell>
+        <mxCell id="p2-footer-rule" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#DCE5EF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1580" width="2260" height="2" />
+        </mxCell>
+        <mxCell id="p2-footer" value="来源：DESCRIPTION · NAMESPACE · R/ · man/；按当前本地源码整理 | 2026-09-30 | 源码基线：449a53d" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=19;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1598" width="2260" height="32" />
+        </mxCell>
+        <mxCell id="p2-footer2" value="矩形和连线均为原生可编辑对象；第 1 页看模块，第 2 页查接口，第 3 页看输入、处理和输出。" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1640" width="2260" height="28" />
+        </mxCell>
+        <mxCell id="p2-card-0" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#EEF4FC;strokeColor=#2563A6;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70.0" y="240" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-0-title" value="01 环境、质控与预处理 / 5" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#2563A6;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="254" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-0-r0-n" value="use_scMMR_python()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="use_scMMR_python" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="314" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-0-r0-d" value="选择 Python 解释器或环境" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="342" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-0-r1-n" value="install_scMMR_python()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="install_scMMR_python" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="366" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-0-r1-d" value="安装 Python 分析依赖" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="394" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-0-r2-n" value="ComputeDoublets()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="ComputeDoublets" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="418" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-0-r2-d" value="使用 DoubletFinder 标记双细胞" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="446" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-0-r3-n" value="ComputeAmbientRNA()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="ComputeAmbientRNA" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="470" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-0-r3-d" value="使用 decontX 估计并校正背景 RNA" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="498" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-0-r4-n" value="StandardPipeline()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="StandardPipeline" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="522" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-0-r4-d" value="标准化、PCA、可选 Harmony 与聚类" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="550" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-1" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#ECF7F2;strokeColor=#178064;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="641.0" y="240" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-1-title" value="02 多任务 DNN 与归因 / 5" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#178064;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="254" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-1-r0-n" value="DNN_train()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="DNN_train" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="314" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-1-r0-d" value="训练细胞分类与嵌入回归模型" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="342" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-1-r1-n" value="DNN_predict()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="DNN_predict" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="366" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-1-r1-d" value="预测细胞类型及可选 IG 归因" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="394" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-1-r2-n" value="EvaluateEmbedding()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="EvaluateEmbedding" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="418" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-1-r2-d" value="评估 DNN 嵌入质量" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="446" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-1-r3-n" value="PlotEmbeddingEval()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotEmbeddingEval" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="470" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-1-r3-d" value="展示嵌入评估结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="498" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-1-r4-n" value="PlotImportance()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotImportance" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="522" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-1-r4-d" value="绘制重要性棒棒糖图或条形图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="550" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#FBF5E9;strokeColor=#B07A14;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1212.0" y="240" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-2-title" value="03 反卷积与细胞组成 / 9" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#B07A14;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="254" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-2-r0-n" value="DNN_deconv_train()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="DNN_deconv_train" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="314" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r0-d" value="训练伪 bulk 反卷积模型" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="342" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r1-n" value="DNN_deconv_predict()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="DNN_deconv_predict" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="366" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r1-d" value="预测 bulk RNA-seq 细胞类型比例" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="394" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r2-n" value="RankPercent()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RankPercent" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="418" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r2-d" value="基于 KNN 邻域检验差异丰度" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="446" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r3-n" value="PlotPercent()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotPercent" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="470" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r3-d" value="展示差异丰度结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="498" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r4-n" value="PlotRoe()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotRoe" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="522" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r4-d" value="展示细胞类型观察 / 期望比" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="550" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r5-n" value="PlotAlluvia()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotAlluvia" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="574" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r5-d" value="展示细胞组成桑基图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="602" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r6-n" value="PlotAlluvia2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotAlluvia2" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="626" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r6-d" value="展示有间隙的组成冲积图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="654" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r7-n" value="PlotArea()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotArea" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="678" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r7-d" value="展示细胞组成面积 / 冲积图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="706" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-2-r8-n" value="PlotPropCorrelation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotPropCorrelation" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="730" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-2-r8-d" value="展示细胞比例与基因表达相关" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="758" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#F4EFFA;strokeColor=#8054AA;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1783.0" y="240" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-3-title" value="04 基因集评分与富集 / 9" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#8054AA;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="254" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-3-r0-n" value="read_gmt()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="read_gmt" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="314" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r0-d" value="读取 GMT 基因集" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="342" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r1-n" value="parse_gene_sets()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="parse_gene_sets" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="366" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r1-d" value="统一解析基因集输入" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="394" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r2-n" value="ComputeModuleScore()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="ComputeModuleScore" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="418" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r2-d" value="计算每个细胞的基因集评分" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="446" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r3-n" value="RunPathwayAnalysis()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunPathwayAnalysis" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="470" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r3-d" value="按细胞类型执行 GSEA 或 SCPA" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="498" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r4-n" value="RunGsea()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunGsea" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="522" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r4-d" value="对差异分析排序结果执行 GSEA" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="550" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r5-n" value="RunGseaEnrich()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunGseaEnrich" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="574" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r5-d" value="基于 compareCluster 做富集与 GSEA" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="602" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r6-n" value="CrossEnrichOverlap()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="CrossEnrichOverlap" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="626" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r6-d" value="比较两组富集结果的核心基因交集" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="654" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r7-n" value="PlotGsea()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotGsea" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="678" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r7-d" value="展示 GSEA 结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="706" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-3-r8-n" value="PlotPathwayBubble()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotPathwayBubble" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="730" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-3-r8-d" value="绘制通路富集气泡图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="758" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#FBEFF5;strokeColor=#B23F76;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70.0" y="825" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-4-title" value="05 差异、扰动与相关 / 9" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#B23F76;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="839" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-4-r0-n" value="RunDE()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunDE" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="899" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r0-d" value="计算条件间差异表达" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="927" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r1-n" value="PlotDE()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotDE" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="951" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r1-d" value="展示差异表达结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="979" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r2-n" value="RunCorrelation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunCorrelation" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1003" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r2-d" value="对一个变量与多个特征做相关排序" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1031" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r3-n" value="PlotCorrelation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotCorrelation" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1055" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r3-d" value="绘制相关火山图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1083" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r4-n" value="RankPerturbation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RankPerturbation" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1107" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r4-d" value="按转录扰动强度排序细胞类型" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1135" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r5-n" value="PlotPerturbation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotPerturbation" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1159" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r5-d" value="展示扰动排序与检验结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1187" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r6-n" value="FindRegulonDrivers()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="FindRegulonDrivers" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1211" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r6-d" value="寻找候选通路上游调控因子" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1239" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r7-n" value="PlotRankScatter()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotRankScatter" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1263" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r7-d" value="展示特征评分与排名" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1291" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-4-r8-n" value="PlotScatter()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotScatter" kind="function">
+          <mxGeometry as="geometry" x="90.0" y="1315" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-4-r8-d" value="绘制散点相关图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="90.0" y="1343" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#EDF7FB;strokeColor=#117DA4;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="641.0" y="825" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-5-title" value="06 轨迹与分化潜能 / 6" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#117DA4;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="839" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-5-r0-n" value="RunMonocle3()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunMonocle3" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="899" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r0-d" value="在 Seurat 对象上推断 Monocle3 轨迹" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="927" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5-r1-n" value="RunCytoTRACE2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunCytoTRACE2" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="951" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r1-d" value="预测细胞分化潜能" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="979" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5-r2-n" value="PlotCytoTRACE2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotCytoTRACE2" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="1003" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r2-d" value="展示 CytoTRACE2 潜能评分" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="1031" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5-r3-n" value="RunTraceGene()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunTraceGene" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="1055" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r3-d" value="识别拟时序相关基因" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="1083" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5-r4-n" value="RunTraceGSEA()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="RunTraceGSEA" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="1107" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r4-d" value="执行轨迹相关 GSEA" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="1135" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-5-r5-n" value="PlotDynamicFeatures()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotDynamicFeatures" kind="function">
+          <mxGeometry as="geometry" x="661.0" y="1159" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-5-r5-d" value="展示拟时序中的动态特征" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="661.0" y="1187" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#FBF0ED;strokeColor=#B34232;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1212.0" y="825" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-6-title" value="07 图谱、表达与注释 / 7" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#B34232;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="839" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-6-r0-n" value="DimPlot2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="DimPlot2" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="899" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r0-d" value="增强型二维降维分组图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="927" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r1-n" value="FeaturePlot2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="FeaturePlot2" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="951" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r1-d" value="降维空间中的特征表达图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="979" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r2-n" value="FeaturePlot3()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="FeaturePlot3" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="1003" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r2-d" value="Seurat 特征表达分布图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="1031" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r3-n" value="ExpressionStatPlot2()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="ExpressionStatPlot2" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="1055" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r3-d" value="小提琴、箱线、条形与点图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="1083" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r4-n" value="PlotAnnotation()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotAnnotation" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="1107" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r4-d" value="绘制单细胞元数据注释热图" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="1135" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r5-n" value="PlotMAP()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotMAP" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="1159" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r5-d" value="展示单细胞参考图谱投影" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="1187" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-6-r6-n" value="PlotMAPcor()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="PlotMAPcor" kind="function">
+          <mxGeometry as="geometry" x="1232.0" y="1211" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-6-r6-d" value="比较查询与参考细胞类型相似度" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1232.0" y="1239" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-7" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=6;fillColor=#EFF3F7;strokeColor=#5C6D83;strokeWidth=1.3;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1783.0" y="825" width="547.0" height="550" />
+        </mxCell>
+        <mxCell id="p2-card-7-title" value="08 配色与大规模绘图 / 4" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#5C6D83;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="839" width="507.0" height="42" />
+        </mxCell>
+        <mxCell id="p2-card-7-r0-n" value="palette_colors()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="palette_colors" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="899" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-7-r0-d" value="生成命名颜色向量" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="927" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-7-r1-n" value="show_palettes()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="show_palettes" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="951" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-7-r1-d" value="查看内置调色板" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="979" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-7-r2-n" value="rasterise_layer()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="rasterise_layer" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="1003" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-7-r2-d" value="栅格化指定 ggplot 图层" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="1031" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-card-7-r3-n" value="geom_point_rast()" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;fontFamily=Consolas;fontSize=21;fontColor=#18334D;spacing=0;" vertex="1" parent="1" symbol="geom_point_rast" kind="function">
+          <mxGeometry as="geometry" x="1803.0" y="1055" width="507.0" height="27" />
+        </mxCell>
+        <mxCell id="p2-card-7-r3-d" value="绘制栅格化散点图层" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1803.0" y="1083" width="507.0" height="22" />
+        </mxCell>
+        <mxCell id="p2-data-appendix" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;另有内置数据对象&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:19px;margin-top:5px&quot;&gt;ribo.genes：人类核糖体基因符号集合&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;fillColor=#EDF2F8;strokeColor=none;align=left;spacingLeft=22;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1397" width="2260" height="162" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="scmmr-p3" name="03 分析流程与对象流">
+    <mxGraphModel dx="2400" dy="1700" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1700" background="#F8FAFD" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p3-background" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#F8FAFD;strokeColor=none;locked=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="0" y="0" width="2400" height="1700" />
+        </mxCell>
+        <mxCell id="p3-edge-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#117DA4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-5-2" target="p3-flow-5-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#117DA4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-5-1" target="p3-flow-5-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#117DA4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-5-0" target="p3-flow-5-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B23F76;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-4-2" target="p3-flow-4-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B23F76;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-4-1" target="p3-flow-4-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B23F76;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-4-0" target="p3-flow-4-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#8054AA;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-3-2" target="p3-flow-3-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#8054AA;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-3-1" target="p3-flow-3-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#8054AA;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-3-0" target="p3-flow-3-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B07A14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-2-2" target="p3-flow-2-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B07A14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-2-1" target="p3-flow-2-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#B07A14;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-2-0" target="p3-flow-2-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#178064;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-1-2" target="p3-flow-1-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#178064;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-1-1" target="p3-flow-1-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#178064;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-1-0" target="p3-flow-1-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#2563A6;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-0-2" target="p3-flow-0-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#2563A6;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-0-1" target="p3-flow-0-2">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-edge-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#2563A6;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3-flow-0-0" target="p3-flow-0-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="p3-eyebrow" value="SCMMR / R PACKAGE" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=20;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="36" width="1200" height="35" />
+        </mxCell>
+        <mxCell id="p3-heading" value="scMMR 分析流程与对象流" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=48;fontColor=#18334D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="82" width="1660" height="68" />
+        </mxCell>
+        <mxCell id="p3-subtitle" value="按任务阅读各条链路：输入 → 公共入口 → 返回对象 → 展示或下游使用。" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=25;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="72" y="159" width="2000" height="58" />
+        </mxCell>
+        <mxCell id="p3-version" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#FFFFFF&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;v0.3.1 · 54 个导出函数&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=15;fillColor=#18334D;strokeColor=none;fontColor=#FFFFFF;align=center;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1770" y="43" width="560" height="60" />
+        </mxCell>
+        <mxCell id="p3-page" value="03 / 03" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=21;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="2190" y="133" width="140" height="40" />
+        </mxCell>
+        <mxCell id="p3-footer-rule" value="" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;fillColor=#DCE5EF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1580" width="2260" height="2" />
+        </mxCell>
+        <mxCell id="p3-footer" value="来源：DESCRIPTION · NAMESPACE · R/ · man/；按当前本地源码整理 | 2026-09-30 | 源码基线：449a53d" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=19;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1598" width="2260" height="32" />
+        </mxCell>
+        <mxCell id="p3-footer2" value="矩形和连线均为原生可编辑对象；第 1 页看模块，第 2 页查接口，第 3 页看输入、处理和输出。" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#60758D;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1640" width="2260" height="28" />
+        </mxCell>
+        <mxCell id="p3-column-0" value="输入与任务" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=26;fontColor=#60758D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="82" y="238" width="406" height="40" />
+        </mxCell>
+        <mxCell id="p3-column-1" value="处理入口" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=26;fontColor=#60758D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="552" y="238" width="536" height="40" />
+        </mxCell>
+        <mxCell id="p3-column-2" value="中间对象 / 结果" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=26;fontColor=#60758D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1152" y="238" width="536" height="40" />
+        </mxCell>
+        <mxCell id="p3-column-3" value="图形与后续使用" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;text;fillColor=none;strokeColor=none;align=left;verticalAlign=middle;fontSize=26;fontColor=#60758D;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1752" y="238" width="566" height="40" />
+        </mxCell>
+        <mxCell id="p3-flow-0-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;准备分析对象&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;Seurat 对象&lt;br&gt;按需配置 Python 环境&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EEF4FC;strokeColor=#2563A6;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="299" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-0-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;ComputeDoublets() / ComputeAmbientRNA()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;随后按需运行 StandardPipeline()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#2563A6;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="299" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-0-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;Seurat 对象&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;双细胞标记 / 校正 assay&lt;br&gt;PCA、UMAP、聚类及可选 Harmony&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EEF4FC;strokeColor=#2563A6;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="299" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-0-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;DimPlot2() / FeaturePlot2()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;ExpressionStatPlot2()：表达分布&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EEF4FC;strokeColor=#2563A6;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="299" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-1-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;分类、嵌入与归因&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;带标签的单细胞参考&lt;br&gt;+ 待预测查询细胞&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#ECF7F2;strokeColor=#178064;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="487" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-1-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;DNN_train() → DNN_predict()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;训练保存 .pt；预测通过 model_path 读取&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#178064;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="487" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-1-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;模型 .pt → 预测列表&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;predictions；可选 shared_embedding&lt;br&gt;imp_global / imp_per_class&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#ECF7F2;strokeColor=#178064;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="487" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-1-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;归因 / 投影 / 嵌入评估&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;提取对应字段用于 PlotImportance()&lt;br&gt;PlotMAP() 或 EvaluateEmbedding()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#ECF7F2;strokeColor=#178064;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="487" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-2-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;bulk 反卷积&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;单细胞参考&lt;br&gt;+ bulk 表达矩阵&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBF5E9;strokeColor=#B07A14;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="675" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-2-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;DNN_deconv_train()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;保存 .pt → DNN_deconv_predict()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#B07A14;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="675" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-2-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;细胞比例结果&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;默认返回 sample_id + 各细胞比例&lt;br&gt;adaptive 模式返回带 proportions 的列表&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBF5E9;strokeColor=#B07A14;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="675" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-2-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;PlotPropCorrelation()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;比例与表达关系；按绘图输入整理&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBF5E9;strokeColor=#B07A14;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="675" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-3-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;差异与基因集&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;Seurat 表达与分组&lt;br&gt;+ 基因集 list / GMT&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#F4EFFA;strokeColor=#8054AA;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="863" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-3-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;RunDE() → RunGsea()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;或 RunPathwayAnalysis()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#8054AA;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="863" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-3-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;差异与通路结果&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;DE 表、GSEA 列表&lt;br&gt;或 Celltype × Pathway 标准表&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#F4EFFA;strokeColor=#8054AA;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="863" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-3-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;PlotDE() / PlotGsea()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;PlotPathwayBubble()：通路结果&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#F4EFFA;strokeColor=#8054AA;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="863" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-4-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;轨迹与动态变化&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;Seurat 对象&lt;br&gt;+ 根节点 / 拟时序设置&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBEFF5;strokeColor=#B23F76;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1051" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-4-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;RunMonocle3() → RunTraceGene()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;轨迹富集分支：RunTraceGSEA()&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#B23F76;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="1051" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-4-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;Seurat 元数据 + 结果表&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;Monocle3 拟时序&lt;br&gt;基因动态统计与通路结果&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBEFF5;strokeColor=#B23F76;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="1051" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-4-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;PlotDynamicFeatures()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;PlotPathwayBubble()：轨迹富集&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FBEFF5;strokeColor=#B23F76;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="1051" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-5-0" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;扰动与差异丰度&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;细胞表达 / 嵌入&lt;br&gt;+ 条件与细胞类型&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EDF7FB;strokeColor=#117DA4;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1239" width="430" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-5-1" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;RankPerturbation() / RankPercent()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;两类独立分析分支&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#117DA4;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="540" y="1239" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-5-2" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;排序与检验结果&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;转录分布差异 / KNN 邻域丰度&lt;br&gt;对应的效应量与 p 值&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EDF7FB;strokeColor=#117DA4;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1140" y="1239" width="560" height="162" />
+        </mxCell>
+        <mxCell id="p3-flow-5-3" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:25px;font-weight:700;margin-bottom:10px&quot;&gt;PlotPerturbation() / PlotPercent()&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;查看扰动强度或差异丰度&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;arcSize=10;fillColor=#EDF7FB;strokeColor=#117DA4;strokeWidth=1.4;align=left;spacing=18;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1740" y="1239" width="590" height="162" />
+        </mxCell>
+        <mxCell id="p3-note" value="&lt;div style=&quot;font-family:Microsoft YaHei,Arial;line-height:1.35;color:#18334D&quot;&gt;&lt;div style=&quot;font-size:23px;font-weight:700;margin-bottom:10px&quot;&gt;阅读提示&lt;/div&gt;&lt;div style=&quot;font-family:Microsoft YaHei,Arial;font-size:21px;margin-top:5px&quot;&gt;DNN_train / DNN_predict 为分类与嵌入回归；bulk 反卷积使用独立的 DNN_deconv_* 模型。Python 经 reticulate 连接。&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fontFamily=Microsoft YaHei;overflow=hidden;rounded=1;fillColor=#EDF2F8;strokeColor=none;align=left;spacingLeft=22;spacingRight=20;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="1480" width="2260" height="85" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
