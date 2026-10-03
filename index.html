@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Single-Cell Multi-Task Model in R • scMMR</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Single-Cell Multi-Task Model in R">
 <meta name="description" content="A comprehensive toolkit for single-cell RNA-seq analysis powered by PyTorch multi-task deep neural networks. Provides joint cell type classification and embedding regression, bulk RNA-seq deconvolution with cell type proportion estimation, and gene importance attribution via Integrated Gradients. Includes pathway enrichment analysis (GSEA, SCPA), perturbation ranking with distribution-distance metrics (Wasserstein, MMD), pseudotime trajectory analysis, cellular potency prediction (CytoTRACE 2), quality control (doublet detection), and a rich visualization suite. Supports Seurat objects, h5ad, and matrix inputs with optional GPU (CUDA) acceleration.">
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">scMMR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,10 +76,12 @@
 <!-- badges: start -->
 
 <p><strong>Single-Cell Multi-Task Model in R</strong> — A comprehensive toolkit for single-cell RNA-seq analysis powered by PyTorch multi-task deep neural networks.</p>
+<p align="center">
+<img src="reference/figures/scMMR.svg" alt="scMMR overview: multi-task learning framework for single-cell analysis" width="100%"></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>scMMR trains a shared ResNet backbone that jointly learns <strong>cell type classification</strong> and <strong>embedding regression</strong> (e.g., UMAP coordinates), producing a unified 512-dimensional cell representation. Built on top of this representation, scMMR provides:</p>
+<p>scMMR trains a shared ResNet backbone that jointly learns <strong>cell type classification</strong> and <strong>embedding regression</strong> (e.g., UMAP coordinates), producing a unified 512-dimensional cell representation that powers an end-to-end single-cell analysis ecosystem:</p>
 <ul>
 <li>
 <strong>Cell type prediction</strong> with OOD (out-of-distribution) detection</li>
@@ -100,9 +102,112 @@
 </ul>
 </div>
 <div class="section level2">
+<h2 id="six-modules">Six Modules<a class="anchor" aria-label="anchor" href="#six-modules"></a>
+</h2>
+<p>Around a shared ResNet backbone and a 512-d embedding, scMMR organizes its functionality into <strong>six modules</strong> that cover the main tasks of single-cell analysis. Modules 1–3 hang directly off the multi-task heads; Modules 4–5 operate on the frozen 512-d embedding; Module 6 reuses the backbone with a dedicated decoder head.</p>
+<div class="section level3">
+<h3 id="module-1--dnn-cell-type-annotation">Module 1 — DNN Cell Type Annotation<a class="anchor" aria-label="anchor" href="#module-1--dnn-cell-type-annotation"></a>
+</h3>
+<p>Reference-based cell type prediction driven by the <strong>classification head</strong> <code>Linear(512, 256) → SELU → Dropout(0.1) → Linear(256, K)</code>. Trained with cross-entropy + label smoothing (ε = 0.1), calibrated via <strong>temperature scaling</strong>, and equipped with <strong>OOD detection</strong> (max softmax probability below threshold → <em>Unknown</em>). In the reference parathyroid atlas K = 16 cell types. &gt; <strong>Key functions:</strong> <code><a href="reference/DNN_train.html">DNN_train()</a></code>, <code><a href="reference/DNN_predict.html">DNN_predict()</a></code>, <code><a href="reference/PlotAlluvia.html">PlotAlluvia()</a></code>, <code><a href="reference/PlotAnnotation.html">PlotAnnotation()</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="module-2--dnn-projection--plotmap">Module 2 — DNN Projection &amp; PlotMAP<a class="anchor" aria-label="anchor" href="#module-2--dnn-projection--plotmap"></a>
+</h3>
+<p>Reference projection that maps query cells onto the reference UMAP (or any 2-D embedding) without re-integrating the data. A <strong>regression head</strong> is trained with MSE on z-scored UMAP coordinates, and at inference time <code><a href="reference/DNN_predict.html">DNN_predict()</a></code> uses a <strong>kNN-softmax</strong> (k = 30, τ = 10) over L2-normalized 512-d embeddings of the reference, yielding projected coordinates plus a per-cell confidence score (which <code><a href="reference/PlotMAP.html">PlotMAP()</a></code> then visualizes). Stratified subsampling caps the reference at 1,000 cells per type / 20,000 total. &gt; <strong>Key functions:</strong> <code><a href="reference/DNN_predict.html">DNN_predict()</a></code>, <code><a href="reference/PlotMAP.html">PlotMAP()</a></code>, <code><a href="reference/EvaluateEmbedding.html">EvaluateEmbedding()</a></code>, <code><a href="reference/DimPlot2.html">DimPlot2()</a></code>, <code><a href="reference/FeaturePlot2.html">FeaturePlot2()</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="module-3--ig-interpretability">Module 3 — IG Interpretability<a class="anchor" aria-label="anchor" href="#module-3--ig-interpretability"></a>
+</h3>
+<p>Gene-level attribution via <strong>Integrated Gradients</strong> (Sundararajan 2017) with an all-zero baseline and <code>n = 50</code> integration steps, batched at 200 cells per pass. Attributions are lifted to higher layers through bundled databases: <strong>Gene → Pathway (GMT, 16 databases) → Regulon (SCENIC)</strong>. Pathway scoring aggregates <code>|IG|</code> through a binary gene×pathway mask normalized by pathway size (min 5 overlapping genes). Works in both global and per-cell-type modes. &gt; <strong>Key functions:</strong> <code>DNN_predict(explain = TRUE)</code>, <code><a href="reference/PlotImportance.html">PlotImportance()</a></code>, <code><a href="reference/RunPathwayAnalysis.html">RunPathwayAnalysis()</a></code>, <code><a href="reference/PlotPathwayBubble.html">PlotPathwayBubble()</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="module-4--rankpercent-differential-abundance">Module 4 — RankPercent (differential abundance)<a class="anchor" aria-label="anchor" href="#module-4--rankpercent-differential-abundance"></a>
+</h3>
+<p>Differential cell-type abundance in the shared embedding space, inspired by <strong>miloR</strong> (Dann 2022). Steps: (1) build a kNN graph (k = 30) on the 512-d embedding via <code>FNN</code>; (2) sample neighborhoods at proportion 0.2; (3) count cells per type × condition; (4) apply <strong>Fisher’s exact test</strong> per type; (5) correct p-values with Benjamini–Hochberg FDR. Requires ≥ 10 cells per type. Output: <strong>log-FC + adjusted p-value</strong> per cell type. &gt; <strong>Key functions:</strong> <code><a href="reference/RankPercent.html">RankPercent()</a></code>, <code><a href="reference/PlotPercent.html">PlotPercent()</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="module-5--rankperturbation-expression-perturbation">Module 5 — RankPerturbation (expression perturbation)<a class="anchor" aria-label="anchor" href="#module-5--rankperturbation-expression-perturbation"></a>
+</h3>
+<p>Condition-level perturbation ranking, inspired by <strong>Augur</strong> (Skinnider 2021). For each cell type, scMMR extracts the first 20 PCs of the 512-d embedding and computes a distribution distance between the two conditions — default <strong>Sliced Wasserstein Distance</strong> (L = 50 projections), with <strong>MMD / Energy distance / AUC</strong> as alternatives. Significance is assessed via <strong>1,000 label-permutation tests</strong> + BH FDR (min 5 cells per type). Output: ranked cell types with a normalized perturbation score. &gt; <strong>Key functions:</strong> <code><a href="reference/RankPerturbation.html">RankPerturbation()</a></code>, <code><a href="reference/PlotPerturbation.html">PlotPerturbation()</a></code>, <code><a href="reference/PlotRankScatter.html">PlotRankScatter()</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="module-6--dnn-bulk-deconvolution">Module 6 — DNN Bulk Deconvolution<a class="anchor" aria-label="anchor" href="#module-6--dnn-bulk-deconvolution"></a>
+</h3>
+<p>Cell-type proportion estimation from bulk RNA-seq, inspired by <strong>TAPE</strong> (Chen 2022). Reuses the same ResNet backbone but switches the input to <code>log1p(CPM)</code> for continuous bulk expression. The training set is <strong>5,000 pseudo-bulks</strong> generated by sampling proportions from <code>Dirichlet(α = 1)</code> and aggregating 500 cells per sample from the single-cell reference. A <strong>proportion head</strong> is followed by a 5-layer linear <strong>decoder</strong> <code>K → 64 → 128 → 256 → 512 → n_genes</code> whose weight product gives an interpretable signature matrix. Training loss: <code>L_prop + 0.1·L_recon</code> with an <strong>adaptive fine-tuning</strong> stage on the target bulk. &gt; <strong>Key functions:</strong> <code><a href="reference/DNN_deconv_train.html">DNN_deconv_train()</a></code>, <code><a href="reference/DNN_deconv_predict.html">DNN_deconv_predict()</a></code>, <code><a href="reference/PlotPropCorrelation.html">PlotPropCorrelation()</a></code></p>
+<table class="table">
+<colgroup>
+<col width="3%">
+<col width="9%">
+<col width="12%">
+<col width="18%">
+<col width="29%">
+<col width="26%">
+</colgroup>
+<thead><tr>
+<th>#</th>
+<th>Module</th>
+<th>Core task</th>
+<th>Head / Source</th>
+<th>Algorithm (key params)</th>
+<th>Representative output</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Cell Type Annotation</td>
+<td>Cell type prediction</td>
+<td>Classification head</td>
+<td>CE + label smoothing (ε = 0.1), temperature scaling, OOD threshold</td>
+<td>Labels + calibrated probs, Unknown flag</td>
+</tr>
+<tr>
+<td>2</td>
+<td>DNN Projection &amp; PlotMAP</td>
+<td>Reference UMAP projection</td>
+<td>Regression head</td>
+<td>MSE on z-UMAP + kNN-softmax (k = 30, τ = 10) on L2-norm 512-d</td>
+<td>2-D projected coords + confidence</td>
+</tr>
+<tr>
+<td>3</td>
+<td>IG Interpretability</td>
+<td>Gene / pathway / regulon attribution</td>
+<td>IG on backbone</td>
+<td>Integrated Gradients (n = 50, x′ = 0), GMT + SCENIC</td>
+<td>Top genes, pathway scores, regulon drivers</td>
+</tr>
+<tr>
+<td>4</td>
+<td>RankPercent</td>
+<td>Differential abundance</td>
+<td>512-d embedding (kNN)</td>
+<td>kNN (k = 30) + Fisher exact + BH FDR (inspired by miloR)</td>
+<td>log-FC + p_adj per cell type</td>
+</tr>
+<tr>
+<td>5</td>
+<td>RankPerturbation</td>
+<td>Expression perturbation ranking</td>
+<td>512-d embedding (distance)</td>
+<td>SWD (L = 50) / MMD / Energy / AUC + 1,000 permutations (inspired by Augur)</td>
+<td>Ranked cell types + perturbation score</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Bulk Deconvolution</td>
+<td>Bulk cell-type proportions</td>
+<td>Deconvolution head + decoder</td>
+<td>Dirichlet(α = 1) pseudo-bulk (N = 5,000) + TAPE decoder + adaptive stage</td>
+<td>Proportion matrix (samples × types), sigmatrix</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
 <h2 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
 </h2>
-<p>scMMR was benchmarked against 11 cell type annotation methods across 7 datasets (4 public pancreas + 3 parathyroid datasets), evaluating annotation quality, cross-dataset generalization, scalability, and robustness.</p>
+<p>scMMR was benchmarked against 11 other cell type annotation methods (12 methods in total) across 7 datasets (4 public pancreas + 3 parathyroid datasets), evaluating annotation quality, cross-dataset generalization, scalability, and robustness.</p>
 <p align="center">
 <img src="reference/figures/Figure3B.png" alt="Figure 3B: Benchmark" width="100%"></p>
 <p><strong>Figure 3B.</strong> Comprehensive benchmark of 12 cell type annotation methods. scMMR ranks 1st overall (scIB-style weighted score: 40% Annotation + 25% Generalization + 15% Scalability + 10% Robustness + 10% Usability). Scalability metrics are based on 100K cells with literature-validated estimates (Abdelaal 2019, Huang &amp; Zhang 2021, scaLR 2025).</p>
@@ -110,13 +215,17 @@
 <div class="section level2">
 <h2 id="architecture">Architecture<a class="anchor" aria-label="anchor" href="#architecture"></a>
 </h2>
-<pre><code>Binary Input (gene × cell)
-  ↓ InputBlock (BatchNorm → Dropout → Linear 512 → SELU)
-  ↓ ResNetBlock ×4 (512-dim with skip connections)
-  ↓ Shared 512-dim embedding
-  ├→ ClassificationHead → K cell types (with label smoothing)
-  └→ RegressionHead → D embedding dims (e.g., UMAP)</code></pre>
-<p>Multi-task loss is balanced dynamically via <strong>GradNorm</strong>.</p>
+<p>scMMR’s backbone follows a multi-task residual design inspired by <strong>scMMT</strong> (Chen et al.):</p>
+<pre><code>Binary Input (cells × 6000 HVGs, non-zero → 1)
+  ↓ InputBlock      : BatchNorm → Dropout(0.25) → Linear(6000, 512) → SELU
+  ↓ 4 × ResNetBlock : Dropout(0.1) → Linear(512, 512) → SELU + skip connection
+  ↓ ResNetLastBlock : (no skip) → 512-d Shared Embedding
+  ├→ Classification head : Linear(512,256) → SELU → Drop(0.1) → Linear(256, K)
+  │                        CE + label smoothing (ε = 0.1) + temperature scaling
+  └→ Regression head     : Linear(512,256) → SELU → Drop(0.1) → Linear(256, D)
+                           MSE on z-scored UMAP (D = 2 by default)</code></pre>
+<p><strong>Training &amp; optimization.</strong> Adam (lr = 1 × 10⁻³) + CosineAnnealingWarmRestarts (T₀ = 10); batch size 256; early stopping patience = 10. The two-task loss <code>L_total = w_cls · L_cls + w_reg · L_reg</code> is rebalanced on-the-fly by <strong>GradNorm</strong> (Chen 2018, α = 0.15), so classification and regression converge at comparable rates without manual tuning.</p>
+<p><strong>Backend.</strong> PyTorch under the hood (<code>inst/python/</code>) called from R through <strong>reticulate</strong>, with automatic CUDA detection for GPU acceleration.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -138,7 +247,7 @@
 <span><span class="co"># Option A: Auto-install a conda environment (CPU)</span></span>
 <span><span class="fu"><a href="reference/install_scMMR_python.html">install_scMMR_python</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Option A: Auto-install with GPU support</span></span>
+<span><span class="co"># Option A (with GPU): Auto-install with CUDA support</span></span>
 <span><span class="fu"><a href="reference/install_scMMR_python.html">install_scMMR_python</a></span><span class="op">(</span>gpu <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Option B: Use an existing conda environment</span></span>
@@ -148,16 +257,17 @@
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="section level3">
-<h3 id="train-a-model">Train a model<a class="anchor" aria-label="anchor" href="#train-a-model"></a>
-</h3>
+<p>The following snippets walk through all <strong>six modules</strong> in order. Load the package and initialize the Python environment once at the top:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hui950319.github.io/scMMR/">scMMR</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/use_scMMR_python.html">use_scMMR_python</a></span><span class="op">(</span>condaenv <span class="op">=</span> <span class="st">"scMMR"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Train on a Seurat object or h5ad file</span></span>
+<span><span class="fu"><a href="reference/use_scMMR_python.html">use_scMMR_python</a></span><span class="op">(</span>condaenv <span class="op">=</span> <span class="st">"scMMR"</span><span class="op">)</span>  <span class="co"># replace with your own conda env name</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="train-the-multi-task-dnn-backbone">Train the multi-task DNN backbone<a class="anchor" aria-label="anchor" href="#train-the-multi-task-dnn-backbone"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Train once — the same model powers Modules 1–3</span></span>
 <span><span class="fu"><a href="reference/DNN_train.html">DNN_train</a></span><span class="op">(</span></span>
-<span>  input         <span class="op">=</span> <span class="va">seurat_ref</span>,        <span class="co"># or "reference.h5ad"</span></span>
+<span>  input         <span class="op">=</span> <span class="va">seurat_ref</span>,        <span class="co"># Seurat object or "reference.h5ad"</span></span>
 <span>  label_column  <span class="op">=</span> <span class="st">"cell_type"</span>,</span>
 <span>  embedding_key <span class="op">=</span> <span class="st">"umap"</span>,            <span class="co"># key in obsm / reduction</span></span>
 <span>  save_path     <span class="op">=</span> <span class="st">"model.pt"</span>,</span>
@@ -167,75 +277,93 @@
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="predict-cell-types">Predict cell types<a class="anchor" aria-label="anchor" href="#predict-cell-types"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/DNN_predict.html">DNN_predict</a></span><span class="op">(</span></span>
-<span>  query      <span class="op">=</span> <span class="va">seurat_query</span>,         <span class="co"># or "query.h5ad"</span></span>
-<span>  model_path <span class="op">=</span> <span class="st">"model.pt"</span>,</span>
-<span>  explain    <span class="op">=</span> <span class="cn">TRUE</span>,                 <span class="co"># compute gene importance</span></span>
-<span>  pathway_gmt <span class="op">=</span> <span class="st">"reactome.gmt"</span>      <span class="co"># pathway-level scoring</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Access results</span></span>
-<span><span class="va">result</span><span class="op">$</span><span class="va">predictions</span>    <span class="co"># cell type predictions with confidence</span></span>
-<span><span class="va">result</span><span class="op">$</span><span class="va">importance</span>     <span class="co"># gene importance rankings</span></span>
-<span><span class="va">result</span><span class="op">$</span><span class="va">pathway_scores</span> <span class="co"># pathway-level importance scores</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="bulk-deconvolution">Bulk deconvolution<a class="anchor" aria-label="anchor" href="#bulk-deconvolution"></a>
+<h3 id="module-1--dnn-cell-type-annotation-1">Module 1 — DNN Cell Type Annotation<a class="anchor" aria-label="anchor" href="#module-1--dnn-cell-type-annotation-1"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Train deconvolution model from single-cell reference</span></span>
+<code class="sourceCode R"><span><span class="co"># Reference-based cell type prediction with OOD detection</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/DNN_predict.html">DNN_predict</a></span><span class="op">(</span></span>
+<span>  query      <span class="op">=</span> <span class="va">seurat_query</span>,         <span class="co"># or "query.h5ad"</span></span>
+<span>  model_path <span class="op">=</span> <span class="st">"model.pt"</span>,</span>
+<span>  explain    <span class="op">=</span> <span class="cn">TRUE</span>                  <span class="co"># also fills Module 3 outputs</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">predictions</span>    <span class="co"># cell type labels + confidence + OOD flags</span></span>
+<span></span>
+<span><span class="co"># Visualize label flow between reference and query</span></span>
+<span><span class="fu"><a href="reference/PlotAlluvia.html">PlotAlluvia</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">predictions</span>, from <span class="op">=</span> <span class="st">"ref_label"</span>, to <span class="op">=</span> <span class="st">"pred_label"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="module-2--dnn-projection--plotmap-1">Module 2 — DNN Projection &amp; PlotMAP<a class="anchor" aria-label="anchor" href="#module-2--dnn-projection--plotmap-1"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Query cells projected onto the reference UMAP (regression head)</span></span>
+<span><span class="va">proj_umap</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">$</span><span class="va">embedding</span>        <span class="co"># n_cells × D coordinates</span></span>
+<span><span class="fu"><a href="reference/PlotMAP.html">PlotMAP</a></span><span class="op">(</span><span class="va">proj_umap</span>, labels <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">predictions</span><span class="op">$</span><span class="va">pred_label</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Evaluate projection quality against ground truth (optional)</span></span>
+<span><span class="fu"><a href="reference/EvaluateEmbedding.html">EvaluateEmbedding</a></span><span class="op">(</span><span class="va">proj_umap</span>, labels <span class="op">=</span> <span class="va">seurat_query</span><span class="op">$</span><span class="va">cell_type</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="module-3--ig-interpretability-1">Module 3 — IG Interpretability<a class="anchor" aria-label="anchor" href="#module-3--ig-interpretability-1"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Per-cell-type gene importance from Integrated Gradients</span></span>
+<span><span class="fu"><a href="reference/PlotImportance.html">PlotImportance</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">importance</span>, top_n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Lift gene attributions to pathway-level scores</span></span>
+<span><span class="va">pa_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunPathwayAnalysis.html">RunPathwayAnalysis</a></span><span class="op">(</span></span>
+<span>  <span class="va">seurat_obj</span>,</span>
+<span>  group_by  <span class="op">=</span> <span class="st">"cell_type"</span>,</span>
+<span>  split_by  <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span>  gene_sets <span class="op">=</span> <span class="st">"hallmark"</span>,</span>
+<span>  method    <span class="op">=</span> <span class="st">"gsea"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/PlotPathwayBubble.html">PlotPathwayBubble</a></span><span class="op">(</span><span class="va">pa_result</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="module-4--rankpercent-differential-abundance-1">Module 4 — RankPercent (differential abundance)<a class="anchor" aria-label="anchor" href="#module-4--rankpercent-differential-abundance-1"></a>
+</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># KNN-based log-FC of cell-type proportions across conditions</span></span>
+<span><span class="va">da</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RankPercent.html">RankPercent</a></span><span class="op">(</span></span>
+<span>  <span class="va">seurat_obj</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="st">"cell_type"</span>,</span>
+<span>  split_by <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span>  ref      <span class="op">=</span> <span class="st">"control"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/PlotPercent.html">PlotPercent</a></span><span class="op">(</span><span class="va">da</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="module-5--rankperturbation-expression-perturbation-1">Module 5 — RankPerturbation (expression perturbation)<a class="anchor" aria-label="anchor" href="#module-5--rankperturbation-expression-perturbation-1"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Rank cell types by embedding-space perturbation between conditions</span></span>
+<span><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RankPerturbation.html">RankPerturbation</a></span><span class="op">(</span></span>
+<span>  embedding <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">embedding</span>,</span>
+<span>  group_col <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span>  ref_group <span class="op">=</span> <span class="st">"control"</span>,</span>
+<span>  metrics   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wasserstein"</span>, <span class="st">"mmd"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/PlotPerturbation.html">PlotPerturbation</a></span><span class="op">(</span><span class="va">ranks</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/PlotRankScatter.html">PlotRankScatter</a></span><span class="op">(</span><span class="va">ranks</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="module-6--dnn-bulk-deconvolution-1">Module 6 — DNN Bulk Deconvolution<a class="anchor" aria-label="anchor" href="#module-6--dnn-bulk-deconvolution-1"></a>
+</h3>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Train a dedicated deconvolution head from the single-cell reference</span></span>
 <span><span class="fu"><a href="reference/DNN_deconv_train.html">DNN_deconv_train</a></span><span class="op">(</span></span>
 <span>  input        <span class="op">=</span> <span class="va">seurat_ref</span>,</span>
 <span>  label_column <span class="op">=</span> <span class="st">"cell_type"</span>,</span>
 <span>  save_path    <span class="op">=</span> <span class="st">"deconv_model.pt"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Estimate cell type proportions from bulk RNA-seq</span></span>
+<span><span class="co"># Estimate cell-type proportions from bulk RNA-seq</span></span>
 <span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/DNN_deconv_predict.html">DNN_deconv_predict</a></span><span class="op">(</span></span>
 <span>  bulk_input <span class="op">=</span> <span class="st">"bulk_expression.csv"</span>,</span>
 <span>  model_path <span class="op">=</span> <span class="st">"deconv_model.pt"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="pathway-analysis">Pathway analysis<a class="anchor" aria-label="anchor" href="#pathway-analysis"></a>
-</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># GSEA across cell types</span></span>
-<span><span class="va">pa_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunPathwayAnalysis.html">RunPathwayAnalysis</a></span><span class="op">(</span></span>
-<span>  <span class="va">seurat_obj</span>,</span>
-<span>  group_by    <span class="op">=</span> <span class="st">"cell_type"</span>,</span>
-<span>  split_by    <span class="op">=</span> <span class="st">"condition"</span>,</span>
-<span>  gene_sets   <span class="op">=</span> <span class="st">"hallmark"</span>,</span>
-<span>  method      <span class="op">=</span> <span class="st">"gsea"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/PlotPathwayBubble.html">PlotPathwayBubble</a></span><span class="op">(</span><span class="va">pa_result</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Gene module scoring</span></span>
-<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ComputeModuleScore.html">ComputeModuleScore</a></span><span class="op">(</span></span>
-<span>  <span class="va">seurat_obj</span>,</span>
-<span>  gene_sets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/gmt/h.all.v2022.1.Hs.symbols.gmt"</span>, package <span class="op">=</span> <span class="st">"scMMR"</span><span class="op">)</span>,</span>
-<span>  method    <span class="op">=</span> <span class="st">"AUCell"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="perturbation-ranking">Perturbation ranking<a class="anchor" aria-label="anchor" href="#perturbation-ranking"></a>
-</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Rank conditions by embedding-space perturbation</span></span>
-<span><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RankPerturbation.html">RankPerturbation</a></span><span class="op">(</span></span>
-<span>  embedding  <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">embedding</span>,</span>
-<span>  group_col  <span class="op">=</span> <span class="st">"condition"</span>,</span>
-<span>  ref_group  <span class="op">=</span> <span class="st">"control"</span>,</span>
-<span>  metrics    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wasserstein"</span>, <span class="st">"mmd"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/PlotPerturbation.html">PlotPerturbation</a></span><span class="op">(</span><span class="va">ranks</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Differential abundance testing</span></span>
-<span><span class="va">da</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RankPercent.html">RankPercent</a></span><span class="op">(</span><span class="va">seurat_obj</span>, group_by <span class="op">=</span> <span class="st">"cell_type"</span>, split_by <span class="op">=</span> <span class="st">"condition"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/PlotPercent.html">PlotPercent</a></span><span class="op">(</span><span class="va">da</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/PlotPropCorrelation.html">PlotPropCorrelation</a></span><span class="op">(</span><span class="va">props</span>, truth <span class="op">=</span> <span class="va">ground_truth_props</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -243,53 +371,53 @@
 </h2>
 <p>scMMR ships with 16 GMT files in <code>inst/extdata/gmt/</code>:</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Database</th>
 <th>Human</th>
 <th>Mouse</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Hallmark (MSigDB)</td>
 <td><code>h.all.v2022.1.Hs.symbols.gmt</code></td>
 <td>—</td>
 </tr>
-<tr class="even">
+<tr>
 <td>KEGG Legacy</td>
 <td><code>c2.cp.kegg.v2022.1.Hs.symbols.gmt</code></td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Reactome</td>
 <td><code>reactome.gmt</code></td>
 <td><code>m_reactome.gmt</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>GO Biological Process</td>
 <td><code>GO_bp.gmt</code></td>
 <td><code>m_GO_bp.gmt</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Transcription Factors</td>
 <td><code>TF.gmt</code></td>
 <td><code>m_TF.gmt</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>Immune Signatures</td>
 <td><code>immune.gmt</code></td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>CollecTRI Regulons</td>
 <td><code>collectri.human.gmt</code></td>
 <td>—</td>
 </tr>
-<tr class="even">
+<tr>
 <td>PROGENy Signaling</td>
 <td><code>progeny.human.top500.gmt</code></td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Proliferation</td>
 <td><code>proliferation.combined.gmt</code></td>
 <td>—</td>
@@ -305,60 +433,60 @@
 <col width="47%">
 <col width="52%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Category</th>
 <th>Functions</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>Training &amp; Prediction</strong></td>
 <td>
 <code><a href="reference/DNN_train.html">DNN_train()</a></code>, <code><a href="reference/DNN_predict.html">DNN_predict()</a></code>, <code><a href="reference/DNN_deconv_train.html">DNN_deconv_train()</a></code>, <code><a href="reference/DNN_deconv_predict.html">DNN_deconv_predict()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Pathway Analysis</strong></td>
 <td>
 <code><a href="reference/RunPathwayAnalysis.html">RunPathwayAnalysis()</a></code>, <code><a href="reference/RunGseaEnrich.html">RunGseaEnrich()</a></code>, <code><a href="reference/RunGsea.html">RunGsea()</a></code>, <code><a href="reference/RunTraceGSEA.html">RunTraceGSEA()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Gene Set Scoring</strong></td>
 <td>
 <code><a href="reference/ComputeModuleScore.html">ComputeModuleScore()</a></code>, <code><a href="reference/read_gmt.html">read_gmt()</a></code>, <code><a href="reference/parse_gene_sets.html">parse_gene_sets()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Ranking</strong></td>
 <td>
 <code><a href="reference/RankPerturbation.html">RankPerturbation()</a></code>, <code><a href="reference/RankPercent.html">RankPercent()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Trajectory</strong></td>
 <td>
 <code><a href="reference/RunCytoTRACE2.html">RunCytoTRACE2()</a></code>, <code><a href="reference/RunTraceGene.html">RunTraceGene()</a></code>, <code><a href="reference/PlotDynamicFeatures.html">PlotDynamicFeatures()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Differential Expression</strong></td>
 <td>
 <code><a href="reference/RunDE.html">RunDE()</a></code>, <code><a href="reference/RunCorrelation.html">RunCorrelation()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Quality Control</strong></td>
 <td>
 <code><a href="reference/ComputeDoublets.html">ComputeDoublets()</a></code>, <code><a href="reference/ComputeAmbientRNA.html">ComputeAmbientRNA()</a></code>, <code><a href="reference/StandardPipeline.html">StandardPipeline()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Embedding Evaluation</strong></td>
 <td>
 <code><a href="reference/EvaluateEmbedding.html">EvaluateEmbedding()</a></code>, <code><a href="reference/PlotEmbeddingEval.html">PlotEmbeddingEval()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Visualization</strong></td>
 <td>
 <code><a href="reference/PlotPathwayBubble.html">PlotPathwayBubble()</a></code>, <code><a href="reference/PlotAlluvia.html">PlotAlluvia()</a></code>, <code><a href="reference/PlotImportance.html">PlotImportance()</a></code>, <code><a href="reference/PlotPerturbation.html">PlotPerturbation()</a></code>, <code><a href="reference/PlotPercent.html">PlotPercent()</a></code>, <code><a href="reference/PlotRankScatter.html">PlotRankScatter()</a></code>, <code><a href="reference/PlotGsea.html">PlotGsea()</a></code>, <code><a href="reference/PlotDE.html">PlotDE()</a></code>, <code><a href="reference/PlotCytoTRACE2.html">PlotCytoTRACE2()</a></code>, <code><a href="reference/PlotScatter.html">PlotScatter()</a></code>, <code><a href="reference/PlotMAP.html">PlotMAP()</a></code>
@@ -401,9 +529,21 @@
 </ul>
 </div>
 <div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p>Full function reference and vignettes are available on the <a href="https://hui950319.github.io/scMMR/">pkgdown site</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use scMMR in your research, please cite:</p>
+<pre><code>Ouyang H. (2026). scMMR: Single-Cell Multi-Task Model in R.
+R package version 0.3.0. https://github.com/HUI950319/scMMR</code></pre>
+</div>
+<div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>MIT</p>
+<p>MIT © Hui Ouyang</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -443,6 +583,9 @@
 <ul class="list-unstyled">
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
 <li><a href="https://cran.r-project.org/" class="external-link"><img src="https://img.shields.io/badge/R-%3E%3D%204.0.0-blue.svg" alt="R &gt;= 4.0.0"></a></li>
+<li><a href="https://github.com/HUI950319/scMMR" class="external-link"><img src="https://img.shields.io/badge/version-0.3.0-brightgreen.svg" alt="Version"></a></li>
+<li><a href="https://hui950319.github.io/scMMR/"><img src="https://img.shields.io/badge/docs-pkgdown-blue.svg" alt="pkgdown"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
 
@@ -455,7 +598,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

@@ -14,6 +14,7 @@ Gene sets can be provided in three formats:
 ### 1. Named List
 
 ``` r
+
 gene_sets <- list(
   "Hallmark_TNFA"   = c("JUNB", "CXCL2", "ATF3", "NFKBIA", "TNFAIP3"),
   "Hallmark_HYPOXIA" = c("VEGFA", "SLC2A1", "ALDOA", "ENO1", "LDHA")
@@ -23,6 +24,7 @@ gene_sets <- list(
 ### 2. Data Frame (term-gene pairs)
 
 ``` r
+
 gene_sets_df <- data.frame(
   term = c(rep("TNFA_SIGNALING", 5), rep("HYPOXIA", 5)),
   gene = c("JUNB", "CXCL2", "ATF3", "NFKBIA", "TNFAIP3",
@@ -33,6 +35,7 @@ gene_sets_df <- data.frame(
 ### 3. GMT File Path
 
 ``` r
+
 gmt_path <- system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
                          package = "scMMR")
 ```
@@ -45,6 +48,7 @@ Area Under the recovery Curve – ranks genes by expression and computes
 the AUC of gene set members in the top-ranked genes:
 
 ``` r
+
 scores <- ComputeModuleScore(
   object    = expression_matrix,  # genes x cells
   gene.sets = gene_sets,
@@ -59,6 +63,7 @@ Computes the average expression of gene set genes minus the average of
 control gene sets:
 
 ``` r
+
 scores <- ComputeModuleScore(
   object    = expression_matrix,
   gene.sets = gene_sets,
@@ -74,6 +79,7 @@ Mann-Whitney U statistic-based scoring, robust to library size
 differences:
 
 ``` r
+
 scores <- ComputeModuleScore(
   object    = expression_matrix,
   gene.sets = gene_sets,
@@ -86,6 +92,7 @@ scores <- ComputeModuleScore(
 The Seurat method wraps the default and stores results directly:
 
 ``` r
+
 library(Seurat)
 
 # Store as a new assay (recommended for multi-pathway scoring)
@@ -117,6 +124,7 @@ head(seu@meta.data[, grep("Score_", colnames(seu@meta.data))])
 ### Read and Parse GMT
 
 ``` r
+
 # Read GMT file
 gs <- read_gmt(system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
                             package = "scMMR"))
@@ -132,6 +140,7 @@ gs4 <- parse_gene_sets(gene_sets_df)               # Data frame
 ### Filter by Gene Set Size
 
 ``` r
+
 # Keep only gene sets with 15-500 genes
 gs_filtered <- gs[sapply(gs, length) >= 15 & sapply(gs, length) <= 500]
 ```

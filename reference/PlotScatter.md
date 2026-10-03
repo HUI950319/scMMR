@@ -29,6 +29,8 @@ PlotScatter(
   smooth.size = 1,
   smooth.color = "#fdc086",
   show.se = TRUE,
+  se.fill = NULL,
+  se.alpha = 0.2,
   ncol = 3,
   palette = "Paired",
   palcolor = NULL,
@@ -37,6 +39,7 @@ PlotScatter(
   title = NULL,
   marginal = c("none", "density", "histogram", "boxplot", "violin", "densigram"),
   marginal.size = 5,
+  global.cor = FALSE,
   raster = NULL,
   raster.dpi = 300,
   ...
@@ -136,6 +139,18 @@ PlotScatter(
 
   Logical. Show confidence interval around smooth line. Default: `TRUE`.
 
+- se.fill:
+
+  Character. Fill color for the confidence interval ribbon when
+  `group.by = NULL`. Default: `NULL` (follows `smooth.color`). When
+  `group.by` is set, the fill follows group colors by default; set this
+  to override with a fixed color.
+
+- se.alpha:
+
+  Numeric. Transparency of the confidence interval ribbon (0–1).
+  Default: `0.2`.
+
 - ncol:
 
   Integer. Number of columns for faceting when `split.by` is set.
@@ -176,6 +191,13 @@ PlotScatter(
   Numeric. Relative size of marginal plots compared to the main scatter
   panel. Default: 5 (i.e. the main panel is 5 times larger than the
   marginal).
+
+- global.cor:
+
+  Logical. When `group.by` is set and `global.cor = TRUE`, show a single
+  overall smooth line and correlation statistics (ignoring group),
+  rather than per-group lines and statistics. The points are still
+  colored by group. Default: `FALSE`.
 
 - raster:
 

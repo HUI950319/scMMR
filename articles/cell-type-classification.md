@@ -31,6 +31,7 @@ The training function accepts either an h5ad file path or a Seurat
 object:
 
 ``` r
+
 library(scMMR)
 use_scMMR_python(condaenv = "/path/to/conda/env")
 
@@ -61,6 +62,7 @@ train_result <- DNN_train(
 ### Training Output
 
 ``` r
+
 # Trained model artifacts
 train_result$model_dir    # Path to saved model.pt + var_genes.json
 train_result$history      # Training curves (loss, accuracy, RMSE per epoch)
@@ -70,6 +72,7 @@ train_result$best_val_acc # Best validation accuracy
 ## Prediction
 
 ``` r
+
 result <- DNN_predict(
   input         = seurat_query,
   model_dir     = train_result$model_dir,
@@ -96,6 +99,7 @@ result <- DNN_predict(
 ## Merge Predictions into Seurat
 
 ``` r
+
 library(Seurat)
 
 # Add predictions
@@ -114,6 +118,7 @@ seu[["dnn"]] <- CreateDimReducObject(emb, key = "DNN_")
 Overlay query predictions on a reference UMAP:
 
 ``` r
+
 ref_umap <- qs::qread(system.file("extdata", "ref_umap.qs", package = "scMMR"))
 
 PlotMAP(
@@ -128,6 +133,7 @@ PlotMAP(
 ### Cell Type Composition (PlotAlluvia / PlotSankey)
 
 ``` r
+
 # Stacked area + bar chart
 PlotAlluvia(seu, by = "group", fill = "cell_type_pred")
 
@@ -138,6 +144,7 @@ PlotSankey(seu, by = "group", fill = "cell_type_pred")
 ### Gene Importance (PlotImportance)
 
 ``` r
+
 # Global gene importance (top 30 genes)
 PlotImportance(result$imp_global, top_k = 30, display = "lollipop")
 
@@ -148,6 +155,7 @@ PlotImportance(result$imp_per_class, top_k = 15, display = "bar")
 ### Annotation Summary (PlotAnnotation)
 
 ``` r
+
 PlotAnnotation(
   seu,
   which = c("cell_type_pred", "group", "confidence"),
@@ -161,6 +169,7 @@ Out-of-distribution cells are flagged when prediction confidence falls
 below the threshold:
 
 ``` r
+
 table(seu$is_ood)
 # FALSE  TRUE
 # 4800    200

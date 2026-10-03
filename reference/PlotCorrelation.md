@@ -14,18 +14,23 @@ selected genes are labeled with `ggrepel`.
 ``` r
 PlotCorrelation(
   data,
+  name.col = NULL,
+  score.col = NULL,
+  p.col = NULL,
   use.padj = TRUE,
   p.cutoff = 0.05,
   cor.cutoff = 0,
   label = "top",
-  topn = 10L,
+  topn = 5L,
   col.pos = "#E64B35",
   col.neg = "#4DBBD5",
   col.ns = "grey70",
-  size.by = c("none", "cor", "pvalue"),
+  size.by = "none",
   point.size = 2.5,
   size.range = c(0.5, 5),
+  alpha.by = "none",
   point.alpha = 0.7,
+  alpha.range = c(0.1, 1),
   label.size = 3.5,
   label.color = "black",
   box.padding = 0.5,
@@ -52,10 +57,28 @@ PlotCorrelation(
   case-insensitive. An optional grouping column (`group`/
   `lineage`/`Lineage`) enables faceting.
 
+- name.col:
+
+  Character. Column name to use as the label/name (e.g. gene or pathway
+  names). Default: `NULL` (auto-detect from
+  `gene`/`pathway`/`name`/`feature`, case-insensitive).
+
+- score.col:
+
+  Character. Column name to use as the score (y-axis). Default: `NULL`
+  (auto-detect from `score`/`rho`/ `NES`).
+
+- p.col:
+
+  Character. Column name to use as the p-value (x-axis). Default: `NULL`
+  (auto-detect from `padj`/`padjust`/ `pvalue`/`PValue`). Overrides
+  `use.padj` when set.
+
 - use.padj:
 
   Logical. Use adjusted p-value (`padj` or `padjust`) instead of raw
-  `pvalue` for the x-axis and significance threshold. Default: `TRUE`.
+  `pvalue` for the x-axis and significance threshold. Ignored when
+  `p.col` is specified. Default: `TRUE`.
 
 - p.cutoff:
 
@@ -71,8 +94,8 @@ PlotCorrelation(
 
   Character or character vector controlling which genes to label.
 
-  - `"top"` (default) — label `topn` genes with largest absolute
-    correlation among significant hits.
+  - `"top"` (default) — label `topn` positive and `topn` negative genes
+    among significant hits.
 
   - `"sig"` — label all significant genes.
 
@@ -84,8 +107,8 @@ PlotCorrelation(
 
 - topn:
 
-  Integer. Number of top genes to label when `label = "top"`. Default:
-  10.
+  Integer. Number of top genes to label per direction (positive and
+  negative) when `label = "top"`. Default: 5.
 
 - col.pos:
 
@@ -103,27 +126,34 @@ PlotCorrelation(
 
 - size.by:
 
-  Character. Variable to map to point size.
-
-  - `"none"` (default) — all points use `point.size`.
-
-  - `"cor"` — size mapped to absolute correlation value.
-
-  - `"pvalue"` — size mapped to \\-\log\_{10}(p)\\.
+  Character. Variable to map to point size. Built-in shortcuts: `"none"`
+  (default, fixed size), `"cor"` (absolute correlation), `"pvalue"`
+  (\\-\log\_{10}(p)\\). Or pass any column name in `data`.
 
 - point.size:
 
-  Numeric. Fixed point size when `size.by = "none"`, ignored otherwise.
-  Default: 2.5.
+  Numeric. Fixed point size when `size.by = "none"`. Default: 2.5.
 
 - size.range:
 
   Numeric vector of length 2. Range of point sizes when `size.by` is not
   `"none"`. Default: `c(0.5, 5)`.
 
+- alpha.by:
+
+  Character. Variable to map to point transparency. Built-in shortcuts:
+  `"none"` (default, fixed alpha), `"cor"` (absolute correlation),
+  `"pvalue"` (\\-\log\_{10}(p)\\). Or pass any column name in `data`.
+
 - point.alpha:
 
-  Numeric. Point transparency. Default: 0.7.
+  Numeric. Fixed point transparency when `alpha.by = "none"`. Default:
+  0.7.
+
+- alpha.range:
+
+  Numeric vector of length 2. Range of alpha values when `alpha.by` is
+  not `"none"`. Default: `c(0.1, 1)`.
 
 - label.size:
 
@@ -135,8 +165,7 @@ PlotCorrelation(
 
 - box.padding:
 
-  Numeric. Padding around label boxes (passed to
-  `ggrepel::geom_text_repel`). Default: 0.5.
+  Numeric. Padding around label boxes. Default: 0.5.
 
 - max.overlaps:
 
@@ -144,8 +173,7 @@ PlotCorrelation(
 
 - title:
 
-  Character. Plot title. Default: `NULL` (auto-generated from the
-  `target` attribute).
+  Character. Plot title. Default: `NULL` (auto).
 
 - xlab:
 
@@ -153,13 +181,11 @@ PlotCorrelation(
 
 - ylab:
 
-  Character. Y-axis label. Default: `NULL` (auto: `"Correlation"` or
-  `"NES"` depending on input).
+  Character. Y-axis label. Default: `NULL` (auto).
 
 - ncol:
 
-  Integer. Number of columns when a `group` column is present and
-  faceting is used. Default: 3.
+  Integer. Number of facet columns. Default: 3.
 
 ## Value
 
@@ -175,31 +201,27 @@ A `ggplot` object.
 
 ``` r
 if (FALSE) { # \dontrun{
-# --- RunCorrelation output ---
 res <- RunCorrelation(seu, target = "PTH")
-PlotCorrelation(res)
-PlotCorrelation(res, label = "top", topn = 15)
-PlotCorrelation(res, label = c("GCM2", "CASR", "VDR"))
+PlotCorrelation(res)                              # top 5 pos + 5 neg
+PlotCorrelation(res, topn = 10)                   # top 10 pos + 10 neg
+PlotCorrelation(res, label = c("GCM2", "CASR"))   # specific genes
 
-# Map point size to |correlation|
-PlotCorrelation(res, size.by = "cor")
+# Custom score and p-value columns
+PlotCorrelation(res, score.col = "prop_cor", p.col = "prop_padj")
 
-# Map point size to -log10(p)
-PlotCorrelation(res, size.by = "pvalue", size.range = c(1, 6))
+# Map size and alpha to custom columns
+PlotCorrelation(res, size.by = "prop_cor", alpha.by = "de_abs_logFC")
 
-# Per-group (RunCorrelation)
+# Per-group
 res <- RunCorrelation(seu, target = "PTH", group.by = "celltype")
-PlotCorrelation(res, size.by = "cor")
+PlotCorrelation(res, size.by = "cor", alpha.by = "cor")
 
-# --- RunTraceGene output (rho + padjust + lineage) ---
+# RunTraceGene output
 tg <- RunTraceGene(seu, lineages = c("Lineage1", "Lineage2"))
-PlotCorrelation(tg)                   # faceted by lineage
-PlotCorrelation(tg, size.by = "cor")  # size = |rho|
+PlotCorrelation(tg, size.by = "cor")
 
-# --- RunTraceGSEA output (Score/NES + AdjPValue + Lineage) ---
-gsea <- RunTraceGSEA(seu, lineages = c("Lineage1", "Lineage2"),
-                     gene.sets = gmt)
-PlotCorrelation(gsea)                 # ylab auto = "NES"
-PlotCorrelation(gsea, size.by = "pvalue")
+# RunTraceGSEA output
+gsea <- RunTraceGSEA(seu, lineages = c("Lineage1"), gene.sets = gmt)
+PlotCorrelation(gsea, size.by = "pvalue", alpha.by = "pvalue")
 } # }
 ```

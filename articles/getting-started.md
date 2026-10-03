@@ -17,6 +17,7 @@ analysis and cellular potency prediction - A rich visualization suite
 ### Step 1: Install scMMR from GitHub
 
 ``` r
+
 if (!requireNamespace("devtools", quietly = TRUE))
   install.packages("devtools")
 devtools::install_github("HUI950319/scMMR")
@@ -30,6 +31,7 @@ environment or point to an existing one.
 **Option A: Automatic installation** (creates a new conda environment):
 
 ``` r
+
 library(scMMR)
 install_scMMR_python(envname = "scMMR-env", method = "conda")
 ```
@@ -40,6 +42,7 @@ This installs: `torch`, `scanpy`, `anndata`, `numpy`, `pandas`, `scipy`,
 **Option B: Use an existing conda environment**:
 
 ``` r
+
 library(scMMR)
 use_scMMR_python(condaenv = "/path/to/your/conda/env")
 ```
@@ -47,6 +50,7 @@ use_scMMR_python(condaenv = "/path/to/your/conda/env")
 ### Step 3: Verify Setup
 
 ``` r
+
 library(scMMR)
 use_scMMR_python(condaenv = "/path/to/your/conda/env")
 
@@ -61,6 +65,7 @@ Here is a minimal example using the bundled test data and pre-trained
 model:
 
 ``` r
+
 library(scMMR)
 library(Seurat)
 

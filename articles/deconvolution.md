@@ -25,6 +25,7 @@ mixtures
 ## Step 1: Train on scRNA-seq Reference
 
 ``` r
+
 library(scMMR)
 use_scMMR_python(condaenv = "/path/to/conda/env")
 
@@ -56,6 +57,7 @@ train_result <- DNN_deconv_train(
 ### Training Output
 
 ``` r
+
 train_result$model_dir   # Path to model.pt + var_genes.json + cell_types.json
 train_result$history      # Training/validation loss curves
 train_result$cell_types   # Character vector of cell types
@@ -66,6 +68,7 @@ train_result$cell_types   # Character vector of cell types
 ### Standard Prediction
 
 ``` r
+
 # From bulk expression matrix (genes x samples)
 proportions <- DNN_deconv_predict(
   input     = bulk_matrix,
@@ -85,6 +88,7 @@ Adaptive mode iteratively refines predictions by extracting
 cell-type-specific gene expression profiles (GEP):
 
 ``` r
+
 result <- DNN_deconv_predict(
   input         = bulk_matrix,
   model_dir     = train_result$model_dir,
@@ -112,6 +116,7 @@ result$sigmatrix    # Estimated cell-type-specific GEP matrix
 ### Correlation with Ground Truth
 
 ``` r
+
 # If true proportions are known (e.g., from pseudo-bulk testing)
 cor_results <- sapply(colnames(proportions), function(ct) {
   cor(proportions[[ct]], true_proportions[[ct]], method = "pearson")
@@ -126,6 +131,7 @@ rmse_results <- sapply(colnames(proportions), function(ct) {
 ### Visualization
 
 ``` r
+
 library(ggplot2)
 
 # Scatter: predicted vs true proportions

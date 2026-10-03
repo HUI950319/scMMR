@@ -13,6 +13,7 @@ Seurat’s `FindMarkers` to run DE across all cell types between two
 conditions:
 
 ``` r
+
 library(scMMR)
 library(Seurat)
 
@@ -30,6 +31,7 @@ de_results <- RunDE(
 ### Output
 
 ``` r
+
 head(de_results)
 #>   gene    avg_log2FC  p_val_adj  pct.1  pct.2  cell_type
 #> 1 CXCL2   2.15        1.2e-15    0.82   0.15   T_cell
@@ -53,6 +55,7 @@ Shows top genes per cell type with size = -log10(p-value) and color =
 logFC:
 
 ``` r
+
 PlotDE(de_results, type = "dot", top_n = 5)
 
 PlotDE(de_results, type = "dot", top_n = 10,
@@ -64,6 +67,7 @@ PlotDE(de_results, type = "dot", top_n = 10,
 Per-cell-type volcano plots:
 
 ``` r
+
 PlotDE(de_results, type = "volcano",
        logfc.cutoff = 1.0, pval.cutoff = 0.05,
        label = TRUE)
@@ -74,6 +78,7 @@ PlotDE(de_results, type = "volcano",
 Perform GSEA using the logFC rankings from DE:
 
 ``` r
+
 gsea_results <- RunGsea(
   de_results   = de_results,
   gene.sets    = read_gmt(system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
@@ -86,6 +91,7 @@ gsea_results <- RunGsea(
 ### Visualize GSEA Results
 
 ``` r
+
 # Bubble plot (cell type x pathway)
 PlotGsea(gsea_results, top.n = 8)
 
@@ -100,6 +106,7 @@ PlotGsea(gsea_results, top.n = 10, facet_by = "sign")
 Correlate gene expression or pathway scores with DNN embedding axes:
 
 ``` r
+
 cor_results <- RunCorrelation(
   seurat_obj = seu,
   features   = c("CXCL2", "JUNB", "IL7R", "GZMB"),
@@ -113,6 +120,7 @@ cor_results <- RunCorrelation(
 Volcano-style plot of correlations:
 
 ``` r
+
 PlotCorrelation(cor_results, p.cutoff = 0.05, cor.cutoff = 0.3,
                 label = TRUE, label.n = 10)
 ```
@@ -123,6 +131,7 @@ Correlate embedding dimensions with cell type proportions or module
 scores:
 
 ``` r
+
 PlotPropCorrelation(
   seu,
   emb.cols  = paste0("DNN_", 1:10),
@@ -134,6 +143,7 @@ PlotPropCorrelation(
 ## Complete Workflow Example
 
 ``` r
+
 # 1. DE analysis
 de <- RunDE(seu, celltype.col = "cell_type",
             ident.1 = "Treatment", ident.2 = "Control")

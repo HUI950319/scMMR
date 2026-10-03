@@ -4,8 +4,7 @@ Visualize cell groups on a 2-dimensional reduction plot (UMAP, t-SNE,
 etc.). Supports Seurat objects and plain data.frames. Provides label,
 highlight, density, mark, and raster layers with flexible theming.
 
-Ported from `scop::CellDimPlot` with code optimizations. Uses `UtilsR`
-theme / grob utilities and
+Uses `UtilsR` theme / grob utilities and
 [`scMMR::palette_colors`](https://hui950319.github.io/scMMR/reference/palette_colors.md)
 for color mapping.
 

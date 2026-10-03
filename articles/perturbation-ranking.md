@@ -22,6 +22,7 @@ each cell type. Values \> 1 indicate enrichment, \< 1 indicates
 depletion.
 
 ``` r
+
 # Basic O/E heatmap
 PlotRoe(seu, by = "group", fill = "cell_type")
 
@@ -47,6 +48,7 @@ roe_data$pval_matrix  # P-value matrix
 ### Alluvial / Sankey Diagrams
 
 ``` r
+
 # Stacked area chart showing composition across groups
 PlotAlluvia(seu, by = "group", fill = "cell_type")
 
@@ -60,17 +62,18 @@ PlotSankey(seu, by = "group", fill = "cell_type",
 RankPerturbation measures how much each cell type’s embedding
 distribution shifts between conditions using five distance metrics:
 
-| Metric               | Description                             | Best for                   |
-|----------------------|-----------------------------------------|----------------------------|
-| `wasserstein`        | Earth mover’s distance (1D projections) | General use                |
-| `sliced_wasserstein` | Multi-dimensional Wasserstein           | High-dim embeddings        |
-| `mmd`                | Maximum Mean Discrepancy (RBF kernel)   | Non-linear shifts          |
-| `energy`             | Energy distance (non-parametric)        | Heavy-tailed distributions |
-| `auc`                | Classifier-based AUC (LDA)              | Separability measure       |
+| Metric | Description | Best for |
+|----|----|----|
+| `wasserstein` | Earth mover’s distance (1D projections) | General use |
+| `sliced_wasserstein` | Multi-dimensional Wasserstein | High-dim embeddings |
+| `mmd` | Maximum Mean Discrepancy (RBF kernel) | Non-linear shifts |
+| `energy` | Energy distance (non-parametric) | Heavy-tailed distributions |
+| `auc` | Classifier-based AUC (LDA) | Separability measure |
 
 ### Basic Usage
 
 ``` r
+
 # Run perturbation ranking
 perturb <- RankPerturbation(
   embedding    = result$shared_embedding,  # n_cells x 512
@@ -90,6 +93,7 @@ perturb <- RankPerturbation(
 ### Output
 
 ``` r
+
 head(perturb$results)
 #>   cell_type   score   p_value  p_adjust  rank
 #> 1 T_cell      0.85    0.001    0.008     1
@@ -100,6 +104,7 @@ head(perturb$results)
 ### Visualize Rankings
 
 ``` r
+
 # Lollipop chart (default)
 PlotPerturbation(perturb, top_k = 10, display = "lollipop")
 
@@ -117,6 +122,7 @@ type proportions differ between conditions.
 ### Basic Usage
 
 ``` r
+
 da <- RankPercent(
   embedding          = result$shared_embedding,
   cell_meta          = seu@meta.data,
@@ -135,6 +141,7 @@ da <- RankPercent(
 ### Output
 
 ``` r
+
 head(da$results)
 #>   cell_type   logFC    p_value  p_adjust  sig
 #> 1 T_cell      1.25     0.001    0.008     TRUE
@@ -145,6 +152,7 @@ head(da$results)
 ### Visualize Differential Abundance
 
 ``` r
+
 # Beeswarm plot (miloR style)
 PlotPercent(da, fdr_threshold = 0.1)
 
@@ -157,6 +165,7 @@ PlotPercent(da, fdr_threshold = 0.05, show_boxplot = TRUE)
 Use both methods together for a comprehensive view:
 
 ``` r
+
 # 1. Which cell types change their internal state? (RankPerturbation)
 perturb <- RankPerturbation(embedding, cell_meta, ...)
 

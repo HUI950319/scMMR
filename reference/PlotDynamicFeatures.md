@@ -28,6 +28,7 @@ PlotDynamicFeatures(
   bspline_knot = 3,
   family = NULL,
   exp_method = c("log1p", "raw", "zscore"),
+  stat_method = c("fit", "spearman"),
   lib_normalize = (layer == "counts"),
   add_point = TRUE,
   add_line = TRUE,
@@ -45,6 +46,8 @@ PlotDynamicFeatures(
   nrow = NULL,
   reverse = FALSE,
   flip = FALSE,
+  raster = NULL,
+  raster.dpi = 300,
   seed = 11,
   ...
 )
@@ -109,6 +112,15 @@ PlotDynamicFeatures(
 
   Character, one of `"log1p"`, `"raw"`, or `"zscore"`. Transformation
   applied to expression values before plotting. Default `"log1p"`.
+
+- stat_method:
+
+  Character. Method for computing the annotation statistics displayed on
+  each panel. `"fit"` (default) shows the p-value and R-squared from the
+  fitted curve. `"spearman"` shows the Spearman correlation coefficient
+  (rho) and FDR-adjusted p-value, matching
+  [`RunTraceGene`](https://hui950319.github.io/scMMR/reference/RunTraceGene.md)
+  output.
 
 - lib_normalize:
 
@@ -185,6 +197,17 @@ PlotDynamicFeatures(
 - flip:
 
   Logical. Flip x and y axes. Default `FALSE`.
+
+- raster:
+
+  Logical or `NULL`. Whether to rasterise scatter points via
+  [`rasterise_layer`](https://hui950319.github.io/scMMR/reference/rasterise_layer.md).
+  When `NULL` (default), rasterisation is enabled automatically if the
+  number of cells exceeds 100 000. Set `TRUE` / `FALSE` to override.
+
+- raster.dpi:
+
+  Numeric. DPI for rasterised points. Default 300.
 
 - seed:
 

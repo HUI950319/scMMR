@@ -18,8 +18,8 @@
   significance testing via chi-squared residuals or Fisher’s exact test.
 - [`PlotRoe()`](https://hui950319.github.io/scMMR/reference/PlotRoe.md)
   gains `return.data` to export the O/E matrix and p-value matrix.
-- [`PlotSankey()`](https://hui950319.github.io/scMMR/reference/PlotSankey.md)
-  for Sankey/alluvial flow diagrams with aligned parameters to
+- `PlotSankey()` for Sankey/alluvial flow diagrams with aligned
+  parameters to
   [`PlotAlluvia()`](https://hui950319.github.io/scMMR/reference/PlotAlluvia.md).
 - Added pkgdown website with 8 tutorial articles covering all major
   workflows.

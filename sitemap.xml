@@ -28,7 +28,9 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/FeaturePlot3.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/FindRegulonDrivers.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotAlluvia.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/PlotAlluvia2.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotAnnotation.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/PlotArea.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotCorrelation.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotCytoTRACE2.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotDE.html</loc></url>
@@ -37,14 +39,13 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotGsea.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotImportance.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotMAP.html</loc></url>
-<url><loc>https://hui950319.github.io/scMMR/reference/PlotMAP2.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/PlotMAPcor.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPathwayBubble.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPercent.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPerturbation.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotPropCorrelation.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotRankScatter.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotRoe.html</loc></url>
-<url><loc>https://hui950319.github.io/scMMR/reference/PlotSankey.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/PlotScatter.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RankPercent.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RankPerturbation.html</loc></url>
@@ -53,6 +54,7 @@
 <url><loc>https://hui950319.github.io/scMMR/reference/RunDE.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RunGsea.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RunGseaEnrich.html</loc></url>
+<url><loc>https://hui950319.github.io/scMMR/reference/RunMonocle3.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RunPathwayAnalysis.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RunTraceGSEA.html</loc></url>
 <url><loc>https://hui950319.github.io/scMMR/reference/RunTraceGene.html</loc></url>

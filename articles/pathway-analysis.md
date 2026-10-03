@@ -19,6 +19,7 @@ interface.
 ### Basic Usage
 
 ``` r
+
 library(scMMR)
 library(Seurat)
 
@@ -48,6 +49,7 @@ gsea_results <- RunPathwayAnalysis(
 ### GSEA Output
 
 ``` r
+
 head(gsea_results)
 #>   Celltype                Pathway   NES     PValue   p.adjust Sign
 #> 1 T_cell   Tnfa Signaling Via Nfkb  2.31  0.0001   0.003     Up
@@ -62,6 +64,7 @@ between two conditions. It is particularly powerful for detecting
 coordinated changes that may not show up in individual gene-level tests.
 
 ``` r
+
 scpa_results <- RunPathwayAnalysis(
   seurat_obj   = seu,
   gene.sets    = gene_sets,
@@ -77,6 +80,7 @@ scpa_results <- RunPathwayAnalysis(
 ### SCPA Output
 
 ``` r
+
 head(scpa_results)
 #>   Celltype          Pathway   FC     PValue  qvalue  Sign
 #> 1 T_cell   Tnfa Signaling    3.21  0.001    0.02    Up
@@ -86,6 +90,7 @@ head(scpa_results)
 ## Visualization with PlotPathwayBubble
 
 ``` r
+
 # Default bubble plot
 PlotPathwayBubble(gsea_results)
 
@@ -106,6 +111,7 @@ For more control, you can first run differential expression, then
 perform GSEA on the results:
 
 ``` r
+
 # Step 1: Differential expression
 de_results <- RunDE(
   seurat_obj   = seu,
@@ -131,6 +137,7 @@ PlotGsea(gsea_on_de, top.n = 8, facet_by = "celltype")
 Find shared genes between TF regulons and enriched pathways:
 
 ``` r
+
 overlap <- CrossEnrichOverlap(
   tf_results      = gsea_tf_results,
   pathway_results = gsea_pathway_results,
@@ -142,6 +149,7 @@ overlap <- CrossEnrichOverlap(
 ## Using Different GMT Databases
 
 ``` r
+
 # Hallmark pathways (50 sets, broad biological processes)
 gs_hallmark <- read_gmt(system.file("extdata/gmt/h.all.v2022.1.Hs.symbols.gmt",
                                      package = "scMMR"))
@@ -161,13 +169,13 @@ gs_collectri <- read_gmt(system.file("extdata/gmt/collectri.human.gmt",
 
 ## GSEA vs SCPA: When to Use Which?
 
-| Feature          | GSEA                               | SCPA                                              |
-|------------------|------------------------------------|---------------------------------------------------|
-| Statistical test | Kolmogorov-Smirnov on ranked genes | Multivariate distribution test                    |
-| Input            | Ranked gene list (logFC)           | Expression matrix per condition                   |
-| Detects          | Coordinate up/down-regulation      | Distribution shifts (mean, variance, correlation) |
-| Speed            | Fast                               | Moderate                                          |
-| Best for         | Classic pathway enrichment         | Subtle regulatory changes                         |
+| Feature | GSEA | SCPA |
+|----|----|----|
+| Statistical test | Kolmogorov-Smirnov on ranked genes | Multivariate distribution test |
+| Input | Ranked gene list (logFC) | Expression matrix per condition |
+| Detects | Coordinate up/down-regulation | Distribution shifts (mean, variance, correlation) |
+| Speed | Fast | Moderate |
+| Best for | Classic pathway enrichment | Subtle regulatory changes |
 
 ## Tips
 

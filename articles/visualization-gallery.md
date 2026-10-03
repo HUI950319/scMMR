@@ -16,6 +16,7 @@ Observed/Expected ratio heatmap highlighting cell type enrichment per
 group.
 
 ``` r
+
 # Numeric values
 PlotRoe(seu, by = "group", fill = "cell_type")
 
@@ -40,6 +41,7 @@ PlotRoe(seu, by = "group", fill = "cell_type",
 Cell type composition as stacked areas and bar charts across groups.
 
 ``` r
+
 PlotAlluvia(seu, by = "group", fill = "cell_type")
 
 # Customize
@@ -56,6 +58,7 @@ PlotAlluvia(seu, by = "group", fill = "cell_type",
 Alluvial-style Sankey diagram for cell transitions.
 
 ``` r
+
 PlotSankey(seu, by = "group", fill = "cell_type")
 
 PlotSankey(seu, by = "group", fill = "cell_type",
@@ -74,6 +77,7 @@ PlotSankey(seu, by = "group", fill = "cell_type",
 Overlay query predictions on reference UMAP background.
 
 ``` r
+
 PlotMAP(
   ref       = ref_umap_df,
   query_meta = seu@meta.data,
@@ -91,6 +95,7 @@ PlotMAP(
 Flexible scatter plot for embeddings or feature-feature comparisons.
 
 ``` r
+
 PlotScatter(seu, reduction = "umap", color.by = "cell_type")
 
 PlotScatter(seu, features = c("gene_A", "gene_B"),
@@ -105,6 +110,7 @@ PlotScatter(seu, features = c("gene_A", "gene_B"),
 Summary heatmap with automatic color coding for metadata columns.
 
 ``` r
+
 PlotAnnotation(seu, which = c("cell_type", "group", "confidence"))
 ```
 
@@ -120,6 +126,7 @@ PlotAnnotation(seu, which = c("cell_type", "group", "confidence"))
 Lollipop or bar chart of gene importance from Integrated Gradients.
 
 ``` r
+
 # Global importance
 PlotImportance(result$imp_global, top_k = 30, display = "lollipop")
 
@@ -136,6 +143,7 @@ Generic scatter for visualizing feature scores (gene importance, module
 scores, pathway NES).
 
 ``` r
+
 PlotRankScatter(scores_df, x_label = "Gene", y_label = "Importance",
                 highlight = top_genes, label.top_k = 10)
 ```
@@ -152,6 +160,7 @@ PlotRankScatter(scores_df, x_label = "Gene", y_label = "Importance",
 Ranked chart of perturbation scores with significance markers.
 
 ``` r
+
 PlotPerturbation(perturb_result, top_k = 10, display = "lollipop")
 PlotPerturbation(perturb_result, display = "bar", sig_threshold = 0.05)
 ```
@@ -164,6 +173,7 @@ PlotPerturbation(perturb_result, display = "bar", sig_threshold = 0.05)
 miloR-style beeswarm plot of per-neighborhood logFC.
 
 ``` r
+
 PlotPercent(da_result, fdr_threshold = 0.1)
 PlotPercent(da_result, show_boxplot = TRUE, point_size = 1.5)
 ```
@@ -178,6 +188,7 @@ PlotPercent(da_result, show_boxplot = TRUE, point_size = 1.5)
 ### PlotDE – DE Dot Plot / Volcano
 
 ``` r
+
 # Dot plot
 PlotDE(de_results, type = "dot", top_n = 8)
 
@@ -191,6 +202,7 @@ PlotDE(de_results, type = "volcano", logfc.cutoff = 1, label = TRUE)
 ### PlotGsea – GSEA Bubble Plot
 
 ``` r
+
 PlotGsea(gsea_results, top.n = 10)
 PlotGsea(gsea_results, facet_by = "sign", order_by = "NES")
 ```
@@ -205,6 +217,7 @@ PlotGsea(gsea_results, facet_by = "sign", order_by = "NES")
 ### PlotPathwayBubble – Pathway Enrichment Bubble
 
 ``` r
+
 PlotPathwayBubble(pathway_results, top.n = 10)
 
 PlotPathwayBubble(pathway_results, top.n = 15,
@@ -223,6 +236,7 @@ PlotPathwayBubble(pathway_results, top.n = 15,
 Volcano-style plot: -log10(p) vs correlation coefficient.
 
 ``` r
+
 PlotCorrelation(cor_results, p.cutoff = 0.05, cor.cutoff = 0.3,
                 label = TRUE, label.n = 10)
 ```
@@ -233,6 +247,7 @@ PlotCorrelation(cor_results, p.cutoff = 0.05, cor.cutoff = 0.3,
 ### PlotPropCorrelation – Proportion Correlation Heatmap
 
 ``` r
+
 PlotPropCorrelation(seu, emb.cols = paste0("DNN_", 1:10),
                      prop.data = proportions, method = "spearman")
 ```
@@ -249,6 +264,7 @@ PlotPropCorrelation(seu, emb.cols = paste0("DNN_", 1:10),
 Violin + box + jitter plot of CytoTRACE2 scores grouped by cell type.
 
 ``` r
+
 PlotCytoTRACE2(seu, group.by = "cell_type",
                score = "CytoTRACE2_Score", order = TRUE)
 ```
@@ -258,6 +274,7 @@ PlotCytoTRACE2(seu, group.by = "cell_type",
 ### PlotDynamicFeatures – Feature Dynamics Along Pseudotime
 
 ``` r
+
 PlotDynamicFeatures(seu, features = c("gene_A", "gene_B"),
                      pseudotime_col = "pseudotime",
                      method = "loess")
@@ -275,6 +292,7 @@ PlotDynamicFeatures(seu, features = c("gene_A", "gene_B"),
 Five-panel diagnostic plot for DNN embedding quality.
 
 ``` r
+
 eval_result <- EvaluateEmbedding(embedding, seurat_obj = seu)
 
 # All plots
@@ -296,6 +314,7 @@ PlotEmbeddingEval(eval_result, which = "silhouette")
 ### palette_colors – Generate Color Vectors
 
 ``` r
+
 # Automatic palette for a character vector
 cols <- palette_colors(cell_types)
 
@@ -309,6 +328,7 @@ cols <- palette_colors(n = 100, type = "continuous", palette = "RdYlBu")
 ### show_palettes – Display Available Palettes
 
 ``` r
+
 # Show all discrete palettes
 show_palettes(type = "discrete")
 

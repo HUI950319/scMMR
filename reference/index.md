@@ -84,6 +84,8 @@ Pseudotime trajectory and cellular potency inference.
   : Find Pseudotime-Associated Genes Along Trajectories
 - [`RunTraceGSEA()`](https://hui950319.github.io/scMMR/reference/RunTraceGSEA.md)
   : Run Trajectory GSEA Along Pseudotime
+- [`RunMonocle3()`](https://hui950319.github.io/scMMR/reference/RunMonocle3.md)
+  : Run Monocle3 trajectory inference on a Seurat object
 
 ## Embedding Evaluation
 
@@ -114,9 +116,11 @@ Publication-ready plots for single-cell analysis results.
 
 - [`PlotRoe()`](https://hui950319.github.io/scMMR/reference/PlotRoe.md)
   : O/E Ratio Heatmap for Cell Type Composition
-- [`PlotSankey()`](https://hui950319.github.io/scMMR/reference/PlotSankey.md)
-  : Sankey Plot for Cell Population Composition
 - [`PlotAlluvia()`](https://hui950319.github.io/scMMR/reference/PlotAlluvia.md)
+  : Sankey Plot for Cell Population Composition
+- [`PlotAlluvia2()`](https://hui950319.github.io/scMMR/reference/PlotAlluvia2.md)
+  : Alluvial Plot with Gaps Between Cell Types
+- [`PlotArea()`](https://hui950319.github.io/scMMR/reference/PlotArea.md)
   : Alluvial Plot for Cell Population Composition
 - [`PlotAnnotation()`](https://hui950319.github.io/scMMR/reference/PlotAnnotation.md)
   : Annotation Heatmap for Single-Cell Metadata
@@ -131,9 +135,9 @@ Publication-ready plots for single-cell analysis results.
 - [`PlotImportance()`](https://hui950319.github.io/scMMR/reference/PlotImportance.md)
   : Importance Plot (Lollipop / Bar)
 - [`PlotMAP()`](https://hui950319.github.io/scMMR/reference/PlotMAP.md)
-  : UMAP Projection Plot
-- [`PlotMAP2()`](https://hui950319.github.io/scMMR/reference/PlotMAP2.md)
   : Single-Cell Atlas Projection Plot
+- [`PlotMAPcor()`](https://hui950319.github.io/scMMR/reference/PlotMAPcor.md)
+  : Cell Type Correlation Heatmap
 - [`DimPlot2()`](https://hui950319.github.io/scMMR/reference/DimPlot2.md)
   : Enhanced 2D Dimensional Reduction Plot
 - [`FeaturePlot2()`](https://hui950319.github.io/scMMR/reference/FeaturePlot2.md)

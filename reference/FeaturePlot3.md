@@ -2,8 +2,8 @@
 
 Generates violin, box, bar, dot, or column plots for one or more
 features (genes or metadata numeric columns) stratified by a grouping
-variable. Full feature parity with `scop::FeatureStatPlot` with
-optimised parameter names consistent with `DimPlot2` / `FeaturePlot2`.
+variable. Parameter names are consistent with `DimPlot2` /
+`FeaturePlot2`.
 
 ## Usage
 
