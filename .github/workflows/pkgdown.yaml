@@ -39,5 +39,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           clean: false
+          git-config-name: HUI950319
+          git-config-email: ouyanghui950319@gmail.com
           branch: gh-pages
           folder: docs

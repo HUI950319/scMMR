@@ -89,6 +89,7 @@ reference:
       - RunCytoTRACE2
       - RunTraceGene
       - RunTraceGSEA
+      - RunMonocle3
 
   - title: Embedding Evaluation
     desc: Evaluate DNN embedding quality vs PCA.
@@ -110,8 +111,9 @@ reference:
     desc: Publication-ready plots for single-cell analysis results.
     contents:
       - PlotRoe
-      - PlotSankey
       - PlotAlluvia
+      - PlotAlluvia2
+      - PlotArea
       - PlotAnnotation
       - PlotScatter
       - PlotCorrelation
@@ -119,6 +121,7 @@ reference:
       - PlotRankScatter
       - PlotImportance
       - PlotMAP
+      - PlotMAPcor
       - DimPlot2
       - FeaturePlot2
       - FeaturePlot3
