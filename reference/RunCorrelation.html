@@ -164,7 +164,7 @@ computation (via <code>pbapply::pblapply</code>). Only used when
       Kendall tau).</p></dd>
 
     <dt>pvalue</dt>
-<dd><p>Raw p-value from <code><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test()</a></code>.</p></dd>
+<dd><p>Raw two-sided p-value; rank tests use asymptotic inference.</p></dd>
 
     <dt>padj</dt>
 <dd><p>Adjusted p-value.</p></dd>
@@ -197,7 +197,10 @@ or a <strong>data.frame</strong>.</p>
 </ul><p><strong>data.frame input:</strong></p><ul><li><p><code>target</code> and <code>features</code> must be column names.</p></li>
 <li><p>When <code>group.by</code> is set, data is split by that column
     and correlations are computed per group.</p></li>
-</ul></div>
+</ul><p>Each correlation uses only pairs with finite values. Spearman ranks are
+computed within those pairs. Rank-test p-values use the asymptotic
+<code>cor.test(..., exact = FALSE)</code> convention; Kendall tests account for ties.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

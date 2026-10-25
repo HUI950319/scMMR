@@ -105,8 +105,7 @@ A data.frame with columns:
 
 - pvalue:
 
-  Raw p-value from
-  [`cor.test()`](https://rdrr.io/r/stats/cor.test.html).
+  Raw two-sided p-value; rank tests use asymptotic inference.
 
 - padj:
 
@@ -152,6 +151,11 @@ The first argument `object` can be either a **Seurat object** or a
 
 - When `group.by` is set, data is split by that column and correlations
   are computed per group.
+
+Each correlation uses only pairs with finite values. Spearman ranks are
+computed within those pairs. Rank-test p-values use the asymptotic
+`cor.test(..., exact = FALSE)` convention; Kendall tests account for
+ties.
 
 ## Examples
 
