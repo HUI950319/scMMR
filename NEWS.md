@@ -1,3 +1,8 @@
+# scMMR 0.3.1
+
+* Fix `RunCorrelation()` method dispatch, pairwise missing-value handling,
+  tie-aware Kendall inference, gene expression filtering, and numeric groups.
+
 # scMMR 0.2.0
 
 ## Breaking Changes

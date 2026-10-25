@@ -1111,6 +1111,9 @@ RankPercent <- function(embedding,
 #'   \item When \code{group.by} is set, data is split by that column
 #'     and correlations are computed per group.
 #' }
+#' Each correlation uses only pairs with finite values. Spearman ranks are
+#' computed within those pairs. Rank-test p-values use the asymptotic
+#' \code{cor.test(..., exact = FALSE)} convention; Kendall tests account for ties.
 #'
 #' @param object A Seurat object or a data.frame.
 #' @param target Character. Name of the target variable (gene or column).
@@ -1146,7 +1149,7 @@ RankPercent <- function(embedding,
 #'     \item{gene}{Feature name.}
 #'     \item{score}{Correlation coefficient (Spearman rho, Pearson r, or
 #'       Kendall tau).}
-#'     \item{pvalue}{Raw p-value from \code{cor.test()}.}
+#'     \item{pvalue}{Raw two-sided p-value; rank tests use asymptotic inference.}
 #'     \item{padj}{Adjusted p-value.}
 #'     \item{abs_score}{Absolute value of \code{score}, for ranking.}
 #'     \item{n_cells}{Number of cells / observations used.}
@@ -1310,7 +1313,7 @@ RunCorrelation <- function(object,
     gene_features <- intersect(features, gene_vars)
     if (length(gene_features) > 0 && min.pct > 0) {
       n_total <- length(cells)
-      pct <- Matrix::colSums(
+      pct <- Matrix::rowSums(
         expr_mat[gene_features, cells, drop = FALSE] > 0
       ) / n_total
       drop <- names(pct)[pct < min.pct]
@@ -1327,18 +1330,10 @@ RunCorrelation <- function(object,
   }
 
   # ── Vectorized correlation computation ────────────────────────────────────
-  # For Pearson / Spearman: t = r * sqrt(n-2) / sqrt(1 - r^2), p = 2*pt(...)
-  # For Kendall: normal approx z = tau / sqrt(2*(2n+5) / (9*n*(n-1)))
-  .cor_pvalue <- function(r, n, method) {
-    if (method %in% c("pearson", "spearman")) {
-      t_stat <- r * sqrt(n - 2) / sqrt(pmax(1 - r^2, .Machine$double.eps))
-      2 * stats::pt(-abs(t_stat), df = n - 2)
-    } else {
-      # Kendall normal approximation (valid for n >= 10)
-      sigma <- sqrt(2 * (2 * n + 5) / (9 * n * (n - 1)))
-      z <- r / pmax(sigma, .Machine$double.eps)
-      2 * stats::pnorm(-abs(z))
-    }
+  # Pearson and asymptotic Spearman tests use the t distribution.
+  .cor_pvalue <- function(r, n) {
+    t_stat <- r * sqrt(n - 2) / sqrt(pmax(1 - r^2, .Machine$double.eps))
+    2 * stats::pt(-abs(t_stat), df = n - 2)
   }
 
   .cor_one_group <- function(df_sub, grp_label = NULL) {
@@ -1360,20 +1355,33 @@ RunCorrelation <- function(object,
 
     target_clean <- target_vec[ok_target]
     mat <- as.matrix(df_sub[ok_target, feat_use, drop = FALSE])
-    n_obs <- nrow(mat)
-
-    # Rank transform for Spearman
-    if (method == "spearman") {
-      target_clean <- rank(target_clean)
-      mat <- apply(mat, 2, rank)
-    }
-
-    # Vectorized cor() — one call for all features
-    rho <- as.numeric(stats::cor(target_clean, mat, use = "pairwise.complete.obs"))
-    names(rho) <- feat_use
+    mat[!is.finite(mat)] <- NA_real_
 
     # Per-feature n (pairwise complete observations)
-    n_per <- colSums(is.finite(mat))
+    n_per <- colSums(!is.na(mat))
+
+    if (method == "kendall") {
+      # cor.test supplies both tau and the tie-corrected null variance.
+      tests <- lapply(seq_along(feat_use), function(j) {
+        ok <- !is.na(mat[, j])
+        if (n_per[j] < max(3L, min.cells) ||
+            length(unique(target_clean[ok])) < 2L ||
+            length(unique(mat[ok, j])) < 2L) return(NULL)
+        stats::cor.test(target_clean[ok], mat[ok, j],
+                        method = "kendall", exact = FALSE)
+      })
+      rho <- vapply(tests, function(test) {
+        if (is.null(test)) NA_real_ else unname(test$estimate)
+      }, numeric(1))
+      kendall_p <- vapply(tests, function(test) {
+        if (is.null(test)) NA_real_ else test$p.value
+      }, numeric(1))
+    } else {
+      # cor() ranks each complete pair for Spearman, preserving missing values.
+      rho <- as.numeric(stats::cor(target_clean, mat, method = method,
+                                   use = "pairwise.complete.obs"))
+    }
+    names(rho) <- feat_use
 
     # Filter: enough observations & valid correlation
     keep <- !is.na(rho) & n_per >= max(3L, min.cells)
@@ -1383,8 +1391,7 @@ RunCorrelation <- function(object,
     n_k     <- n_per[keep]
     feat_k  <- feat_use[keep]
 
-    pval <- .cor_pvalue(rho_k, n_k,
-                        ifelse(method == "spearman", "pearson", method))
+    pval <- if (method == "kendall") kendall_p[keep] else .cor_pvalue(rho_k, n_k)
 
     res <- data.frame(
       gene    = feat_k,
@@ -1403,7 +1410,7 @@ RunCorrelation <- function(object,
                          length(features), " features ...")
     result <- .cor_one_group(dat)
   } else {
-    groups <- unique(dat[[group.by]])
+    groups <- unique(as.character(dat[[group.by]]))
     groups <- groups[!is.na(groups)]
     if (verbose) message("  Computing correlation for ",
                          length(features), " features x ",

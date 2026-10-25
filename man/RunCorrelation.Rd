@@ -68,7 +68,7 @@ A data.frame with columns:
     \item{gene}{Feature name.}
     \item{score}{Correlation coefficient (Spearman rho, Pearson r, or
       Kendall tau).}
-    \item{pvalue}{Raw p-value from \code{cor.test()}.}
+    \item{pvalue}{Raw two-sided p-value; rank tests use asymptotic inference.}
     \item{padj}{Adjusted p-value.}
     \item{abs_score}{Absolute value of \code{score}, for ranking.}
     \item{n_cells}{Number of cells / observations used.}
@@ -105,6 +105,9 @@ or a \strong{data.frame}.
   \item When \code{group.by} is set, data is split by that column
     and correlations are computed per group.
 }
+Each correlation uses only pairs with finite values. Spearman ranks are
+computed within those pairs. Rank-test p-values use the asymptotic
+\code{cor.test(..., exact = FALSE)} convention; Kendall tests account for ties.
 }
 \examples{
 \dontrun{
